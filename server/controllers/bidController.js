@@ -1,5 +1,5 @@
 // controllers/bidController.js
-import { createBid, getBidsForProject, getBidsForFreelancer, updateBidStatus } from '../models/bidModel.js';
+import { createBid, getBidsForProject, getBidsForFreelancer, updateBidStatus, checkBidExists } from '../models/bidModel.js';
 
 export const createBidController = async (req, res) => {
   try {
@@ -34,6 +34,16 @@ export const updateBidStatusController = async (req, res) => {
     const { status } = req.body;
     const updatedBid = await updateBidStatus(req.params.bid_id, status);
     res.json({ message: 'Статус отклика обновлен', updatedBid });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const checkBidExistsController = async (req, res) => {
+  try {
+    const { freelance_id, project_id } = req.query;
+    const exists = await checkBidExists(freelance_id, project_id);
+    res.json({ exists });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

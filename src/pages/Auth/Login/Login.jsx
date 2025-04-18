@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import '../../../styles/global.css'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 👈 импорт навигации
+import '../../../styles/global.css';
 import './login.css';
 
 const Login = () => {
-  // Состояния для хранения значений формы и ошибок
+  const navigate = useNavigate(); // 👈 создаём navigate
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // состояние для показа/скрытия пароля
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-  // Обработчик формы авторизации
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Проверка на пустые поля
     if (!username || !password) {
       setError('Пожалуйста, заполните все поля.');
       return;
@@ -29,22 +29,26 @@ const Login = () => {
       });
 
       const data = await response.json();
+      console.log("Ответ от сервера:", data); // Выводим весь объект данных
 
       if (response.ok && data.token) {
         // Сохраняем токен и данные пользователя в localStorage
         localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user)); // Добавляем данные пользователя
-        window.location.href = '/main'; // Перенаправление на главную
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        // Выводим в консоль информацию о пользователе, токене и роли
+        console.log("Username:", data.user.name);
+        console.log("Token:", data.token);
+        console.log("Role:", data.user.role);
+
+        navigate('/home'); // 👈 перенаправление после успешного входа
       } else {
-        // Показать кастомное уведомление об ошибке
         const errorAlert = document.getElementById("errorAlert");
-        errorAlert.textContent = "Неправильные данные. Пожалуйста, проверьте логин и пароль."; // Сообщение ошибки
+        errorAlert.textContent = "Неправильные данные. Пожалуйста, проверьте логин и пароль.";
+        errorAlert.classList.add("show");
 
-        errorAlert.classList.add("show"); // Показываем ошибку
-
-        // Скрыть ошибку через 3 секунды
         setTimeout(() => {
-          errorAlert.classList.remove("show"); // Скрываем ошибку
+          errorAlert.classList.remove("show");
         }, 3000);
       }
     } catch (error) {
@@ -53,7 +57,6 @@ const Login = () => {
     }
   };
 
-  // Обработчик клика для показа/скрытия пароля
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -97,7 +100,6 @@ const Login = () => {
         Нет аккаунта? <a href="/register">Регистрация</a>
       </p>
 
-      {/* Кастомное уведомление об ошибке */}
       <div id="errorAlert" className="error-alert">
         Неправильные данные. Пожалуйста, проверьте логин и пароль.
       </div>

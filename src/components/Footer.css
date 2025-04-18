@@ -1,0 +1,37 @@
+/* Footer.css */
+#main-footer {
+    height: 80px;
+    background-color: #0b6623;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: fixed; /* Закрепляем футер внизу */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+footer a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+}

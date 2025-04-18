@@ -1,0 +1,84 @@
+/* Основной контейнер с проектами */
+.job-list {
+    display: grid;
+    grid-template-columns: 1fr; /* Одна колонка на всю ширину */
+    gap: 20px; /* Промежутки между карточками */
+    padding: 20px;
+    margin: 0 auto; /* Центрируем контейнер */
+    width: 100%; /* Контейнер теперь занимает всю ширину */
+    max-width: 1200px; /* Максимальная ширина контейнера для центрирования */
+  }
+  
+  /* Стиль для каждой карточки проекта */
+  .job-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для карточки */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e1e1e1; /* Граница для выделения карточки */
+    width: 100%; /* Растягиваем карточку на всю ширину */
+  }
+  
+  /* При наведении карточка слегка поднимется */
+  .job-card:hover {
+    transform: translateY(-5px); /* Плавный подъем карточки при наведении */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Увеличение тени при наведении */
+  }
+  
+  /* Контейнер с текстовой информацией */
+  .job-card .info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    text-align: left;
+  }
+  
+  /* Заголовок карточки */
+  .job-card h3 {
+    font-weight: bold;
+    color: #333;
+    line-height: 1.4;
+    height: 40px; 
+    overflow: hidden; 
+  }
+  
+  /* Описание карточки */
+  .job-card p {
+    font-size: 14px;
+    margin: 0 0 10px;
+    color: #555;
+    flex-grow: 1;
+    height: 40px; 
+    overflow: hidden; 
+    line-height: 1.5;
+  }
+  
+  /* Стиль для блоков с ценой и временем */
+  .job-card .details {
+    font-size: 14px;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #dbdbdb;
+  }
+  
+  /* Добавляем адаптивность */
+  @media (max-width: 1200px) {
+    .job-list {
+      grid-template-columns: 1fr; /* Количество колонок уменьшается на экранах меньше 1200px */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .job-list {
+      grid-template-columns: 1fr; /* На экранах с шириной меньше 768px карточки будут в 1 колонке */
+    }
+  }
+  

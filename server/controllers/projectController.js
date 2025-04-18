@@ -3,10 +3,18 @@ import { createProject, getAllProjects, getProjectsByUserId, getProjectById } fr
 
 export const createProjectController = async (req, res) => {
   try {
-    const { title, description, status, media, client_id } = req.body;
+    const body = Object.fromEntries(Object.entries(req.body));
+    const { title, description, status, client_id } = body;  
+    const media = req.file ? req.file.path : null; 
+    
+    if (!title || !description || !status || !client_id) {
+      return res.status(400).json({ error: 'Все поля обязательны' });
+    }
+
     const project = await createProject(title, description, status, media, client_id);
     res.status(201).json({ message: 'Проект создан', project });
   } catch (err) {
+    console.error('Error creating project:', err.message);
     res.status(500).json({ error: err.message });
   }
 };

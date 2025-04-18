@@ -56,3 +56,10 @@ export const updateBidStatus = async (bid_id, status) => {
   const result = await pool.query(query, values); // Используем пул для запроса
   return result.rows[0];  // Возвращаем обновлённый отклик
 };
+
+// Проверка на отклик
+export const checkBidExists = async (freelance_id, project_id) => {
+  const query = 'SELECT 1 FROM bids WHERE freelance_id = $1 AND project_id = $2 LIMIT 1';
+  const result = await pool.query(query, [freelance_id, project_id]);
+  return result.rowCount > 0;
+};

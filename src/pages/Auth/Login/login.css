@@ -37,9 +37,9 @@
     transition: opacity 0.5s ease, max-height 0.5s ease;
     background-color: red;
     color: white;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   #errorAlert.show {
@@ -74,7 +74,7 @@
   }
   
   .no-account {
-    margin-top: 10px;
+    margin-top: 15px;
   }
   
   h2 {

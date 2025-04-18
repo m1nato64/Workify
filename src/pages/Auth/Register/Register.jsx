@@ -80,7 +80,7 @@ const Register = () => {
         </select>
 
         {role === 'Freelancer' && (
-          <div className="skills-container">
+          <div className="skills-container visible">
             <label htmlFor="skills">Навыки:</label>
             <input
               type="text"

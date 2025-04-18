@@ -2,17 +2,16 @@
 import { pool } from './database.js';
 
 // Создание проекта
-export const createProject = async (title, description, status, media, client_id) => {
+export const createProject = async (title, description, status, client_id, media) => {
   try {
     const result = await pool.query(
-      `INSERT INTO projects (title, description, status, media, client_id) 
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [title, description, status, media, client_id]
+      'INSERT INTO projects (title, description, status, media, client_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, description, status, client_id, media]
     );
     return result.rows[0];
   } catch (err) {
-    console.error("Ошибка при создании проекта:", err);
-    throw err;
+    console.error('Error inserting project into DB:', err.message);  // Логируем ошибку
+    throw err;  // Пробрасываем ошибку дальше
   }
 };
 
