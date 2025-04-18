@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 👈 импорт навигации
+import { useNavigate } from 'react-router-dom'; 
 import '../../../styles/global.css';
 import './login.css';
 
 const Login = () => {
-  const navigate = useNavigate(); // 👈 создаём navigate
-
+  const navigate = useNavigate(); 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -29,14 +28,11 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log("Ответ от сервера:", data); // Выводим весь объект данных
 
       if (response.ok && data.token) {
-        // Сохраняем токен и данные пользователя в localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
-        // Выводим в консоль информацию о пользователе, токене и роли
         console.log("Username:", data.user.name);
         console.log("Token:", data.token);
         console.log("Role:", data.user.role);

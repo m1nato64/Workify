@@ -7,7 +7,7 @@ import JobList from '../../components/JobList';
 
 const Home = () => {
   const [role, setRole] = useState(null);
-  const [clientId, setClientId] = useState(null); // нужно для клиента
+  const [clientId, setClientId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Home = () => {
       navigate('/login');
     } else {
       setRole(user.role);
-      setClientId(user.id); // Сохраняем id клиента
+      setClientId(user.id); 
     }
   }, [navigate]);
 

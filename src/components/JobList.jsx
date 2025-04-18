@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Toast from './Toast'; 
+import Toast from './Toast';
 import './JobList.css';
 
 const JobList = () => {
@@ -68,28 +68,34 @@ const JobList = () => {
   };
 
   return (
-    <div className="job-list">
-      <h2>Доступные проекты</h2>
+    <div className="job-page">
+      <div className="job-wrapper">
+        <h2 className="job-title">Доступные проекты</h2>
 
-      {toastMessage && (
-        <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
-      )}
+        {toastMessage && (
+          <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
+        )}
 
-      {projects.map(project => (
-        <div key={project.id} className="job-card">
-          <div className="info">
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <div className="details">
-              <span>{project.status}</span>
-              <span>{new Date(project.created_at).toLocaleDateString()}</span>
+        <div className="job-list">
+          {projects.map((project) => (
+            <div key={project.id} className="job-card">
+              <div className="info">
+                <h3 className="job-title">{project.title}</h3>
+                <p className="job-description">{project.description}</p>
+                <div className="details">
+                  <span className="status">{project.status}</span>
+                  <span className="date">
+                    {new Date(project.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <button className="apply-button" onClick={() => handleApply(project.id)}>
+                  Откликнуться
+                </button>
+              </div>
             </div>
-            <button className="apply-button" onClick={() => handleApply(project.id)}>
-              Откликнуться
-            </button>
-          </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };

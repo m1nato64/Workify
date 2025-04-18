@@ -16,7 +16,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Адрес вашего фронтенда
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  
+}));
 app.use(express.json());
 
 // Маршруты для работы с проектами
@@ -30,7 +35,7 @@ app.use('/api/upload', uploadRoutes);
 
 // 404 fallback
 app.use((req, res) => {
-  res.status(404).json({ error: 'Маршрут не найден' });
+  res.status(404).json({ error: 'Маршрут не найден!' });
 });
 
 app.listen(PORT, () => {

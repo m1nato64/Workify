@@ -50,11 +50,10 @@ export const updateBidStatus = async (bid_id, status) => {
   if (!validStatuses.includes(status)) {
     throw new Error('Invalid bid status');
   }
-
   const query = 'UPDATE bids SET status = $1 WHERE id = $2 RETURNING *';
   const values = [status, bid_id];
-  const result = await pool.query(query, values); // Используем пул для запроса
-  return result.rows[0];  // Возвращаем обновлённый отклик
+  const result = await pool.query(query, values); 
+  return result.rows[0];  
 };
 
 // Проверка на отклик

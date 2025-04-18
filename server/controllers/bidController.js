@@ -22,9 +22,14 @@ export const getBidsForProjectController = async (req, res) => {
 
 export const getBidsForFreelancerController = async (req, res) => {
   try {
-    const bids = await getBidsForFreelancer(req.params.freelance_id);
+    const { freelancer_id } = req.params;
+    const bids = await getBidsForFreelancer(freelancer_id);
+    if (bids.length === 0) {
+      return res.status(404).json({ message: 'Нет откликов для данного фрилансера.' });
+    }
     res.json(bids);
   } catch (err) {
+    console.error('Error fetching bids:', err);
     res.status(500).json({ error: err.message });
   }
 };

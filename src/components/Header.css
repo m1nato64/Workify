@@ -3,11 +3,13 @@
     background-color: #0b6623;
     color: #fff;
     padding: 20px;
-    position: fixed; /* Закрепляем хедер в верхней части */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10; /* Делаем хедер поверх контента */
+    z-index: 10;
+    box-sizing: border-box;
+    height: 80px;  
 }
 
 .logo-name {
@@ -20,9 +22,11 @@
     align-items: center;
 }
 
-.logo {
+.logo a {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
 .logo img {
@@ -35,6 +39,7 @@ nav {
     flex-direction: row-reverse;
     align-items: center;
     gap: 20px;
+    padding-right: 65px;
 }
 
 nav a {
@@ -65,7 +70,6 @@ nav .dropdown-content {
     background-color: #ffffff;
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-
 }
 
 nav .dropdown-content a {
@@ -76,10 +80,8 @@ nav .dropdown-content a {
     margin-bottom: 10px;
 }
 
-
 nav .dropdown:hover .dropdown-content {
     display: block;
-
 }
 
 header .header-icons {
@@ -108,20 +110,20 @@ header .header-icons .icon-user:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     z-index: 1000;
-  }
-  
-  .profile-menu a {
+}
+
+.profile-menu a {
     display: block;
     color: #333;
     padding: 8px 12px;
     text-decoration: none;
-  }
-  
-  .profile-menu a:hover {
+}
+
+.profile-menu a:hover {
     background-color: #f0f0f0;
-  }
-  
-  .profile-menu button {
+}
+
+.profile-menu button {
     display: block;
     background-color: #ff4d4d;
     color: white;
@@ -131,12 +133,75 @@ header .header-icons .icon-user:hover {
     cursor: pointer;
     width: 100%;
     margin-top: 8px;
-  }
-  
-  .profile-menu button:hover {
+}
+
+.profile-menu button:hover {
     background-color: #ff3333;
-  }
-  
-  .header-icons {
-    position: relative; /* Для позиционирования выпадающего меню */
-  }
+}
+
+.header-icons {
+    position: relative; 
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    #main-header {
+        padding: 10px; 
+        height: 60px; 
+    }
+
+    .logo-name {
+        font-size: 18px; 
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center; 
+    }
+
+    nav a {
+        font-size: 14px;
+    }
+
+    .header-icons {
+        gap: 10px;
+        justify-content: center; 
+    }
+
+    .header-icons .icon-bell,
+    .header-icons .icon-user {
+        font-size: 20px; 
+    }
+
+    .profile-menu {
+        top: 60px;
+        right: 0;
+        width: 100%;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        width: 30px; 
+    }
+
+    .header-icons {
+        gap: 8px;
+    }
+
+    .header-icons .icon-bell,
+    .header-icons .icon-user {
+        font-size: 18px; 
+    }
+}
