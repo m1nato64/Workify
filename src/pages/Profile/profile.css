@@ -1,0 +1,25 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .profile-content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 2rem;
+  }
+  
+  .profile-content h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .profile-content p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+  

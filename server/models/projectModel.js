@@ -10,7 +10,7 @@ export const createProject = async (title, description, status, client_id, media
     );
     return result.rows[0];
   } catch (err) {
-    console.error('Error inserting project into DB:', err.message);  // Логируем ошибку
+    console.error('Ошибка при создании проекта:', err.message);  // Логируем ошибку
     throw err;  // Пробрасываем ошибку дальше
   }
 };
@@ -46,4 +46,32 @@ export const getProjectById = async (id) => {
     console.error("Ошибка при получении проекта:", err);
     throw err;
   }
+};
+
+// Обновление статуса проекта
+export const updateProjectStatus = async (projectId, status) => {
+  try {
+    const query = 'UPDATE projects SET status = $1 WHERE id = $2 RETURNING *';
+    const values = [status, projectId];
+    const result = await pool.query(query, values);
+    return result.rows[0]; 
+  } catch (err) {
+    console.error('Ошибка при обновлении статуса проекта:', err.message);
+    throw err;
+  }
+};
+
+// Тогл на принятие откликов
+export const toggleBids = async (projectId, accepting) => {
+  const query = 'UPDATE projects SET accepting_bids = $1 WHERE id = $2 RETURNING *';
+  const values = [accepting, projectId];
+  const result = await pool.query(query, values);
+  return result.rows[0];
+};
+
+// Удаление проекта
+export const deleteProject = async (projectId) => {
+  const query = 'DELETE FROM projects WHERE id = $1 RETURNING *';
+  const result = await pool.query(query, [projectId]);
+  return result.rows[0];
 };

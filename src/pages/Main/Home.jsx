@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import Header from '../../components/Header'; 
-import Footer from '../../components/Footer'; 
-import AddOrderCard from '../../components/AddOrderCard';
-import JobList from '../../components/JobList';
+import Header from '../../components/common/Header'; 
+import Footer from '../../components/common/Footer'; 
+import AddOrderCard from '../../components/cards/AddOrderCard';
+import JobList from '../../components/cards/JobList';
 
 const Home = () => {
   const [role, setRole] = useState(null);

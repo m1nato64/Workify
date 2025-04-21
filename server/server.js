@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:5173', // Адрес вашего фронтенда
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   

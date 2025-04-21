@@ -25,7 +25,7 @@ main {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 1000px; /* Делаем карточки гибкими, с учетом отступа */
+    width: 100%; /* Делаем карточки гибкими, с учетом отступа */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные анимации */
 }
 
@@ -60,9 +60,9 @@ main {
     color: #fff;
 }
 
-/* Статус "completed" */
-.status.completed {
-    background-color: #90be6d;
+/* Статус "accepted" */
+.status.accepted {
+    background-color: #66b42a;
     color: #fff;
 }
 
@@ -91,28 +91,21 @@ main {
 }
 
 .no-bids {
-    padding: 20px;
-    text-align: center;
-    color: #555;
-    font-style: italic;
-    font-size: 16px;
+    padding: 5px;
+    color: #333;
   }
   
-/* Адаптивность для устройств с шириной экрана менее 768px */
 @media screen and (max-width: 768px) {
-    /* Карточка отклика */
     .bid-item {
-        width: 100%; /* Карточка занимает всю ширину на маленьких экранах */
-        margin-bottom: 20px; /* Добавляем отступ между карточками */
+        width: 100%; 
+        margin-bottom: 20px; 
     }
 
-    /* Контейнер для списка откликов */
     .bid-list {
-        padding: 10px; /* Уменьшаем отступы для мобильных */
+        padding: 10px; 
     }
 
-    /* Основной контейнер */
     main {
-        padding: 10px; /* Уменьшаем отступы для мобильных */
+        padding: 10px;
     }
 }

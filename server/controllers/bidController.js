@@ -1,5 +1,6 @@
 // controllers/bidController.js
 import { createBid, getBidsForProject, getBidsForFreelancer, updateBidStatus, checkBidExists } from '../models/bidModel.js';
+import { updateProjectStatus } from '../models/projectModel.js'; 
 
 export const createBidController = async (req, res) => {
   try {
@@ -13,7 +14,7 @@ export const createBidController = async (req, res) => {
 
 export const getBidsForProjectController = async (req, res) => {
   try {
-    const bids = await getBidsForProject(req.params.project_id); // Здесь мы получаем отклики для проекта
+    const bids = await getBidsForProject(req.params.project_id); 
     res.json(bids);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -25,7 +26,7 @@ export const getBidsForFreelancerController = async (req, res) => {
     const { freelancer_id } = req.params;
     const bids = await getBidsForFreelancer(freelancer_id);
     if (bids.length === 0) {
-      return res.status(404).json({ message: 'Нет откликов для данного фрилансера.' });
+      return res.status(200).json([]); // просто возвращаем пустой массив
     }
     res.json(bids);
   } catch (err) {
@@ -37,9 +38,17 @@ export const getBidsForFreelancerController = async (req, res) => {
 export const updateBidStatusController = async (req, res) => {
   try {
     const { status } = req.body;
-    const updatedBid = await updateBidStatus(req.params.bid_id, status);
+    const bidId = req.params.bid_id;
+
+    const updatedBid = await updateBidStatus(bidId, status);
+    if (status === 'accepted') {
+      const projectId = updatedBid.project_id;
+      await updateProjectStatus(projectId, 'in_progress'); 
+    }
+
     res.json({ message: 'Статус отклика обновлен', updatedBid });
   } catch (err) {
+    console.error('Ошибка при обновлении статуса:', err.message);
     res.status(500).json({ error: err.message });
   }
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import { getToken, getUserFromStorage } from '../../services/authServiceClient';
+import Header from '../../components/common/Header';
+import Footer from '../../components/common/Footer';
+import { getToken, getUserFromStorage } from '../../services/api/authServiceClient';
 import './responses.css';
 
 const Responses = () => {

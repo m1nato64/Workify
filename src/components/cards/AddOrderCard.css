@@ -1,0 +1,94 @@
+.add-order-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1); /* Уменьшили тень */
+    padding: 30px;
+    margin: 40px auto;
+    max-width: 1000px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr; /* Один столбец на больших экранах */
+    grid-gap: 20px; /* Пространство между элементами */
+  }
+  
+  .add-order-card h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    grid-column: span 1; /* Заголовок будет на весь первый столбец */
+  }
+  
+  .add-order-card form {
+    display: grid;
+    grid-template-columns: 1fr; /* Один столбец на больших экранах */
+    gap: 15px;
+    grid-column: span 1; /* Форма будет на весь доступный столбец */
+  }
+  
+  .add-order-card input[type="text"],
+  .add-order-card textarea {
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .add-order-card textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .add-order-card button[type="submit"] {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-order-card button[type="submit"]:hover {
+    background-color: #4CAF50;
+  }
+  
+  .add-order-card input[type="file"] {
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .add-order-card input[type="file"]:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .add-order-card {
+      padding: 20px;
+    }
+  
+    .add-order-card form {
+      max-width: 90%; 
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .add-order-card {
+      padding: 15px;
+    }
+  
+    .add-order-card form {
+      max-width: 85%; 
+    }
+  }
+  

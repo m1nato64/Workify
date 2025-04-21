@@ -7,6 +7,7 @@ const Register = () => {
   const [role, setRole] = useState('Freelancer');
   const [skills, setSkills] = useState([]);
   const [skillsInput, setSkillsInput] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -24,7 +25,7 @@ const Register = () => {
 
       if (response.ok) {
         alert('Регистрация успешна!');
-        window.location.href = '/login'; // Перенаправление на вход
+        window.location.href = '/login'; 
       } else {
         alert('Ошибка: ' + data.error);
       }
@@ -46,6 +47,10 @@ const Register = () => {
     setSkills(newSkills);
   };
 
+  const togglePassword = () => {
+    setShowPassword(!showPassword); 
+  };
+
   return (
     <div className="container">
       <h2>Регистрация</h2>
@@ -60,13 +65,23 @@ const Register = () => {
         />
 
         <label htmlFor="password">Пароль:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="password-container">
+          <input
+            type={showPassword ? 'text' : 'password'} 
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            id="togglePassword"
+            aria-label="Показать пароль"
+            onClick={togglePassword}
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </button>
+        </div>
 
         <label htmlFor="role">Роль:</label>
         <select

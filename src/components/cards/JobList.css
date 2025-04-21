@@ -1,0 +1,107 @@
+/* Основной контейнер страницы с проектами */
+.job-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+  padding-top: 80px;  
+  box-sizing: border-box;
+}
+
+/* Обёртка всего блока с заголовком и заказами */
+.job-wrapper {
+  margin: 20px auto 20px auto;
+  width: 100%;
+  max-width: 1040px;
+  padding: 0 20px;
+  background-color: transparent;
+  flex-grow: 1; 
+}
+
+
+/* Список карточек */
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Карточка проекта */
+.job-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e1e1e1;
+  width: 1000px;
+  height: 250px;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.job-card .info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  text-align: left;
+}
+
+.job-card h3 {
+  font-weight: bold;
+  color: #333;
+  line-height: 1.4;
+  max-height: 50px;
+  overflow: hidden;
+  font-size: 18px;
+}
+
+.job-card p {
+  font-size: 15px;
+  margin: 10px 0;
+  color: #555;
+  flex-grow: 1;
+  max-height: 80px;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.job-card .details {
+  font-size: 14px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid #dbdbdb;
+  align-items: baseline;
+}
+
+/* Добавляем адаптивность */
+@media (max-width: 1200px) {
+  .job-list {
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 768px) {
+  .job-list {
+    grid-template-columns: 1fr; 
+  }
+}
+
+@media (max-width: 768px) {
+  .job-wrapper {
+    padding: 0 10px;
+  }
+
+  .job-card {
+    width: 100%;
+  }
+}

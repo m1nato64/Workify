@@ -1,0 +1,55 @@
+#main-footer {
+    height: 80px;
+    background-color: #0b6623;
+    color: #fff;
+    padding: 0 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 5;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%; /* ➕ Занимает всю высоту футера */
+    padding: 0 10px;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+  
+  footer a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  /* ✅ Адаптивность */
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      justify-content: flex-start; /* ⬆️ Поднимаем контент вверх */
+      align-items: center;
+      padding-top: 25px;
+    }
+  
+    footer p,
+    footer a {
+      font-size: 13px;
+    }
+  }
+  

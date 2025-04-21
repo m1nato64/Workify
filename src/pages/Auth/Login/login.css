@@ -59,8 +59,8 @@
   
   #togglePassword {
     position: absolute;
-    top: 46%;
-    right: 10px;
+    top: 38%;
+    right: 5px;
     transform: translate(0, -70%) translateX(15px);
     background: none;
     border: none;
