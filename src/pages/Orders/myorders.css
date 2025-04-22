@@ -43,7 +43,6 @@ main {
     line-height: 1.5;
 }
 
-
 .project-file a:hover {
     background-color: #45a049;
 }
@@ -55,7 +54,6 @@ main {
     font-style: italic;
     font-size: 16px;
 }
-
 
 /* Основные стили для модального окна */
 .modal {
@@ -179,17 +177,17 @@ main {
 @media screen and (max-width: 768px) {
     /* Карточка заказа */
     .order-item {
-        width: 100%; /* Карточка занимает всю ширину на маленьких экранах */
-        margin-bottom: 20px; /* Добавляем отступ между карточками */
+        width: 100%; 
+        margin-bottom: 20px; 
     }
 
     /* Контейнер для списка заказов */
     .order-list {
-        padding: 10px; /* Уменьшаем отступы для мобильных */
+        padding: 10px; 
     }
 
     /* Основной контейнер */
     main {
-        padding: 10px; /* Уменьшаем отступы для мобильных */
+        padding: 10px; 
     }
 }

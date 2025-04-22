@@ -51,7 +51,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-form {
+.register-form .had-acc {
   display: flex;
   flex-direction: column;
   height: 100%; /* Занимает все доступное пространство */

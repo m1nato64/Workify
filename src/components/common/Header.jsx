@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Для маршрутизации
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 import './Header.css';
 import logo from '../../assets/images/logo.png';
+import { getUserFromStorage } from '../../services/api/authServiceClient'; 
 
-const Header = ({ role }) => {
+const Header = () => {
   const [isProfileMenuVisible, setIsProfileMenuVisible] = useState(false);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const currentUser = getUserFromStorage(); 
+    if (currentUser) {
+      setRole(currentUser.role); 
+    }
+  }, []); 
 
   const toggleProfileMenu = () => {
     setIsProfileMenuVisible(!isProfileMenuVisible);

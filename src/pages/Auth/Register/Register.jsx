@@ -54,7 +54,7 @@ const Register = () => {
   return (
     <div className="container">
       <h2>Регистрация</h2>
-      <form onSubmit={handleRegister}>
+      <form className='register-form' onSubmit={handleRegister}>
         <label htmlFor="name">Логин:</label>
         <input
           type="text"

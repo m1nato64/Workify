@@ -33,10 +33,6 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
 
-        console.log("Username:", data.user.name);
-        console.log("Token:", data.token);
-        console.log("Role:", data.user.role);
-
         navigate('/home'); // 👈 перенаправление после успешного входа
       } else {
         const errorAlert = document.getElementById("errorAlert");

@@ -1,25 +1,106 @@
 .profile-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .profile-content {
-    flex: 1;
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    margin-top: 2rem;
-  }
-  
-  .profile-content h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .profile-content p {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.profile-content {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+}
+
+.profile-content h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+.profile-content p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #444;
+}
+
+.profile-avatar {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ccc;
+  margin-bottom: 15px;
+}
+
+
+.profile-avatar button {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.profile-avatar button:hover {
+  background-color: #45a049;
+}
+
+.profile-skills {
+  margin-top: 20px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skill-badge {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 15px;
+  margin: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-rating {
+  margin-top: 20px;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  font-size: 24px;
+  color: #ddd; 
+  margin-right: 5px;
+}
+
+.star.filled {
+  color: #ffd700; 
+}
+
+.star.half {
+  background: linear-gradient(to right, #ffd700 50%, #ddd 50%); 
+  background-clip: text;
+  color: transparent;
+}
+
+.star:hover {
+  color: #f39c12;
+  cursor: default; 
+}

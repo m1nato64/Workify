@@ -87,7 +87,7 @@ const Responses = () => {
                     </a>
                   </div>
                 )}
-                <p><strong>Статус:</strong> <span className={`status ${bid.status}`}>{bid.status}</span></p>
+                <p><strong>Статус отклика:</strong> <span className={`status ${bid.status}`}>{bid.status}</span></p>
               </div>
             ))}
           </div>

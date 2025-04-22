@@ -1,18 +1,18 @@
 // server/routes/uploadRoutes.js
 import express from 'express';
-import multer from 'multer';
+import upload from '../middlewares/upload.js'; // Импортируем middleware
 
 const router = express.Router();
 
-// Настройка multer
-const upload = multer({ dest: 'uploads/' });
+router.post('/', upload.single('avatar'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'Файл не был загружен' });
+  }
 
-router.post('/', upload.single('media'), (req, res) => {
-  const data = Object.fromEntries(Object.entries(req.body));
-  console.log('Request Body:', data);
-  console.log('Uploaded File:', req.file);
+  const fileUrl = `/uploads/${req.file.filename}`;
+  console.log('Загружен файл:', req.file.filename);
 
-  res.json({ message: 'Upload successful' });
+  res.json({ message: 'Файл успешно загружен', url: fileUrl });
 });
 
 export default router;

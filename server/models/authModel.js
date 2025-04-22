@@ -1,3 +1,4 @@
+//server/models/authModel.js
 import { pool } from './database.js' // Подключаем пул для работы с БД
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -43,7 +44,13 @@ export const loginUser = async (name, password) => {
       { expiresIn: "1h" }
     );
 
-    return { token, user: { id: user.id, name: user.name, role: user.role } };
+    return { token, user: { 
+      id: user.id, 
+      name: user.name, 
+      role: user.role, 
+      rating: user.rating, 
+      skills: user.skills,
+      avatar: user.avatar } };
   } catch (err) {
     console.error("Ошибка при авторизации:", err);
     throw err;
