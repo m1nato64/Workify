@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 /uploads/*
-!/uploads/
+!.gitkeep
 dist
 dist-ssr
 *.local
