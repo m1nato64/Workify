@@ -12,6 +12,7 @@ import messageRoutes from './routes/messageRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import path from 'path';
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
