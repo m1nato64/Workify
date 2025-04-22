@@ -40,6 +40,7 @@ npm install
 ### 3. Настройка окружения
 Создайте файл ```.env``` в корне проекта и добавьте необходимые переменные окружения для вашего сервера. 
 ```ini
+VITE_API_URL=http://localhost:3000
 PORT=3000
 DATABASE_URL=postgres://username:password@localhost:5432/database_name
 SECRET_KEY=your_secret_key
