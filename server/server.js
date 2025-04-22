@@ -10,9 +10,12 @@ import bidRoutes from './routes/bidRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import { fileURLToPath } from 'url';
 import path from 'path';
+import { dirname } from 'path';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
