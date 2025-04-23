@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../../services/context/userContext'; // Импортируем контекст
+import { useUser } from '../../../services/context/userContext';
+import Toast from '../Toast'; // импорт тоста
+import './general.css';
 
 const GeneralSettings = () => {
-  const { user, updateUser } = useUser(); // Используем контекст для получения и обновления пользователя
+  const { user, updateUser } = useUser();
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState(null);
   const [error, setError] = useState('');
@@ -27,8 +29,7 @@ const GeneralSettings = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        updateUser({ ...user, name }); // Обновляем имя в контексте
+        updateUser({ ...user, name });
         setSuccessMessage('Имя пользователя успешно обновлено');
       } else {
         const data = await response.json();
@@ -53,7 +54,7 @@ const GeneralSettings = () => {
 
       if (response.ok) {
         const data = await response.json();
-        updateUser({ ...user, avatar: data.avatar }); // Обновляем аватар в контексте
+        updateUser({ ...user, avatar: data.avatar });
         setSuccessMessage('Аватар успешно обновлен');
       } else {
         const data = await response.json();
@@ -66,31 +67,46 @@ const GeneralSettings = () => {
 
   return (
     <div className="general-settings-container">
-      <h2>Настройки аккаунта</h2>
-      {error && <div className="error-message">{error}</div>}
-      {successMessage && <div className="success-message">{successMessage}</div>}
+      <h2 className="general-settings-title">Настройки аккаунта</h2>
 
-      <form onSubmit={handleNameChange}>
-        <label>
+      {error && (
+        <Toast message={error} type="error" onClose={() => setError('')} />
+      )}
+      {successMessage && (
+        <Toast
+          message={successMessage}
+          type="success"
+          onClose={() => setSuccessMessage('')}
+        />
+      )}
+
+      <form className="general-settings-form" onSubmit={handleNameChange}>
+        <label className="general-settings-label">
           Имя:
           <input
             type="text"
+            className="general-settings-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </label>
-        <button type="submit">Изменить имя</button>
+        <button type="submit" className="general-settings-btn">
+          Изменить имя
+        </button>
       </form>
 
-      <form onSubmit={handleAvatarChange}>
-        <label>
+      <form className="general-settings-form" onSubmit={handleAvatarChange}>
+        <label className="general-settings-label">
           Изменить аватар:
           <input
             type="file"
+            className="general-settings-input-file"
             onChange={(e) => setAvatar(e.target.files[0])}
           />
         </label>
-        <button type="submit">Обновить аватар</button>
+        <button type="submit" className="general-settings-btn">
+          Обновить аватар
+        </button>
       </form>
     </div>
   );

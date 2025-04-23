@@ -1,5 +1,5 @@
 //controllers/projectController.js
-import { createProject,  getAllProjects, getProjectsByUserId, getProjectById, deleteProject, toggleBids } from '../models/projectModel.js';
+import { createProject,  getAllProjects, getProjectsByUserId, getProjectById, deleteProject, toggleBids, updateProject } from '../models/projectModel.js';
 import { getBidsForProject } from '../models/bidModel.js';
 
 export const createProjectController = async (req, res) => {
@@ -77,6 +77,29 @@ export const deleteProjectController = async (req, res) => {
     }
     res.json({ message: 'Проект удален', deletedProject });
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updateProjectController = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const body = Object.fromEntries(Object.entries(req.body)); 
+    const { title, description, status } = body; 
+    const media = req.file ? req.file.path : null; 
+
+    if (!title || !description || !status) {
+      return res.status(400).json({ error: 'Все поля обязательны' });
+    }
+
+    const updatedProject = await updateProject(projectId, title, description, status, media);
+    if (!updatedProject) {
+      return res.status(404).json({ error: 'Проект не найден' });
+    }
+
+    res.json({ message: 'Проект обновлен', updatedProject });
+  } catch (err) {
+    console.error('Error updating project:', err.message);
     res.status(500).json({ error: err.message });
   }
 };

@@ -75,3 +75,20 @@ export const deleteProject = async (projectId) => {
   const result = await pool.query(query, [projectId]);
   return result.rows[0];
 };
+
+// Обновление данных проекта
+export const updateProject = async (projectId, title, description, status, media) => {
+  try {
+    const query = `
+      UPDATE projects 
+      SET title = $1, description = $2, status = $3, media = $4 
+      WHERE id = $5 
+      RETURNING *`;
+    const values = [title, description, status, media, projectId];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (err) {
+    console.error('Ошибка при обновлении проекта:', err.message);
+    throw err;
+  }
+};

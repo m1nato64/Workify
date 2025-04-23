@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import Header from '../../components/common/Header'; 
-import Footer from '../../components/common/Footer'; 
+import Header from '../../components/common/Header-Footer/Header'; 
+import Footer from '../../components/common/Header-Footer/Footer'; 
 import AddOrderCard from '../../components/cards/AddOrderCard';
 import JobList from '../../components/cards/JobList';
 

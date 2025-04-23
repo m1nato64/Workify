@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
 import './Header.css';
-import logo from '../../assets/images/logo.png';
-import { getUserFromStorage } from '../../services/api/authServiceClient'; 
+import logo from '../../../assets/images/logo.png';
+import { getUserFromStorage } from '../../../services/api/authServiceClient'; 
 
 const Header = () => {
   const [isProfileMenuVisible, setIsProfileMenuVisible] = useState(false);

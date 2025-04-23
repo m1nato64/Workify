@@ -1,0 +1,56 @@
+/* security.css */
+
+/* Общие стили для формы */
+.security-settings-form {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Заголовок для секции безопасности */
+  .security-settings-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Поля ввода пароля */
+  .security-settings-label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .security-settings-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  /* Кнопка для отправки формы */
+  .security-settings-btn {
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .security-settings-btn:hover {
+    background-color: #409642;
+  }
+  
+  .security-settings-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  

@@ -1,8 +1,8 @@
 // src/pages/Profile/Profile.jsx
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../services/context/userContext';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
+import Header from '../../components/common/Header-Footer/Header';
+import Footer from '../../components/common/Header-Footer/Footer';
 import './profile.css';
 
 const renderStars = (rating) => {

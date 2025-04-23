@@ -1,193 +1,237 @@
 /* Основной контейнер */
 main {
-    max-width: 1050px; /* Устанавливаем максимальную ширину */
-    width: 100%; /* Обеспечиваем, чтобы блок занимал всю доступную ширину */
-    margin: 0 auto; /* Центрируем блок по горизонтали */
-    padding: 20px; /* Отступы внутри main */
-    box-sizing: border-box; /* Учитываем padding в ширине */
+  max-width: 1050px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Контейнер для списка заказов */
 .order-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    max-width: 100%; /* Максимальная ширина контейнера */
-    margin: 0 auto; /* Центрируем по горизонтали */
-    box-sizing: border-box; /* Учитываем padding в ширине */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Карточка заказа */
 .order-item {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 1000px; /* Делаем карточки гибкими, с учетом отступа */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавные анимации */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
 /* Карточка при наведении */
 .order-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Добавляем эффект тени при наведении */
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Информация о проекте */
 .order-item p {
-    margin: 10px 0;
-    font-size: 16px;
-    color: #333;
-    line-height: 1.5;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
 }
 
-.project-file a:hover {
-    background-color: #45a049;
-}
-
-.no-orders {
-    padding: 20px;
-    text-align: center;
-    color: #555;
-    font-style: italic;
-    font-size: 16px;
-}
-
-/* Основные стили для модального окна */
+/* Основные стили для модальных окон */
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; 
-  }
-  
-  .order-actions {
-    display: flex;
-    gap: 20px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Прозрачный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  .btn-action {
-    margin-right: 10px; 
-    padding: 10px 20px; 
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .accept {
-    background-color: #4CAF50; /* Зеленый цвет для кнопки "Принять" */
-  }
-  
-  .reject {
-    background-color: #f44336; /* Красный цвет для кнопки "Отклонить" */
-  }
-  
-  .btn-action:hover {
-    opacity: 0.9; /* Легкая прозрачность при наведении */
-  }
-  
-  
-/* Основные стили для модального окна */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Поверх всего остального */
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 800px; 
-    max-height: 80vh; 
-    overflow-y: auto; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
-  
-  .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: #333;
-    cursor: pointer;
-    background: none;
-    border: none;
-  }
-  
-  /* Стили для списка откликов */
-  .bid-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .bid-item:last-child {
-    border-bottom: none;
-  }
-  
-  button {
-    padding: 8px 16px;
-    margin: 5px 0;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Стили для кнопки "Посмотреть отклики" */
-  .order-actions button {
-    margin-top: 10px;
-  }
-  
-  /* Чтобы модальное окно выглядело аккуратно */
-  .order-list {
-    padding: 20px;
-  }
+/* Модальное окно (для откликов и редактирования) */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
 
-/* Адаптивность для устройств с шириной экрана менее 768px */
-@media screen and (max-width: 768px) {
-    /* Карточка заказа */
-    .order-item {
-        width: 100%; 
-        margin-bottom: 20px; 
-    }
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 
-    /* Контейнер для списка заказов */
-    .order-list {
-        padding: 10px; 
-    }
+/* Стили для кнопок */
+button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #45a049;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-    /* Основной контейнер */
-    main {
-        padding: 10px; 
-    }
+button:hover {
+  background-color: #388e3c;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+img {
+  height: auto;
+}
+
+/* Модальные окна для откликов */
+.bid-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.bid-item:last-child {
+  border-bottom: none;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.rejectedButton {
+  background-color: #ff4d4d;
+}
+
+.rejectedButton:hover {
+  background-color: #dd2121;
+}
+
+button {
+  flex: 1;
+  margin: 5px;
+}
+
+/* Стили для статуса */
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.accepting {
+  color: white;
+  background-color: #45a049;
+}
+
+.not-accepting {
+  color: white;
+  background-color: #ff4d4d;
+}
+
+.status span {
+  margin-left: 8px;
+}
+
+.status.accepting::before {
+  content: "✔️";
+  margin-right: 5px;
+}
+
+.status.not-accepting::before {
+  content: "❌";
+  margin-right: 5px;
+}
+
+.status-project {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.open {
+  color: #0086f3;
+  background-color: #a1cceb;
+}
+
+.in_progress {
+  color: #FF9800;
+  background-color: #ffe7c1;
+}
+
+.completed {
+  color: #4CAF50;
+  background-color: #baf7bf;
+}
+
+.status-project span {
+  margin-left: 8px;
+}
+
+.status-project.open::before {
+  content: "📂";
+  margin-right: 5px;
+}
+
+.status-project.in_progress::before {
+  content: "🔨";
+  margin-right: 5px;
+}
+
+.status-project.completed::before {
+  content: "✅";
+  margin-right: 5px;
+}
+
+/* Стили для модального окна редактирования */
+.modal-edit textarea {
+  resize: none;
+}
+
+.modal-edit .modal-content {
+  background-color: #fefefe;
+  max-height: 90vh;
+}
+
+/* Стили для модального окна откликов */
+
+.modal-bid .modal-content {
+  background-color: #ffffff;
+  max-height: 80vh;
 }

@@ -77,3 +77,12 @@ export const changePassword = async (userId, oldPassword, newPassword) => {
     throw err;
   }
 };
+
+// Обновление скиллов юзера
+export const updateUserSkills = async (userId, skills) => {
+  const result = await pool.query(
+    'UPDATE users SET skills = $1 WHERE id = $2 RETURNING *',
+    [skills, userId]
+  );
+  return result.rows[0];
+};

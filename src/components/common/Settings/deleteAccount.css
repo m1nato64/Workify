@@ -1,0 +1,125 @@
+/* deleteAccount.css */
+
+/* Общие стили для компонента */
+.delete-account-settings {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Заголовок для секции удаления */
+  .delete-account-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Описание информации о удалении */
+  .delete-account-info {
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Кнопка для удаления аккаунта */
+  .delete-account-btn {
+    padding: 12px 25px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-account-btn:hover {
+    background-color: #d43f3f;
+  }
+  
+  /* Модальное окно */
+  .delete-account-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .delete-account-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Заголовок модального окна */
+  .delete-account-modal-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  /* Информация о подтверждении */
+  .delete-account-modal-info {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  /* Поле ввода пароля */
+  .delete-account-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  /* Кнопки в модальном окне */
+  .delete-account-modal-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .delete-account-confirm-btn,
+  .delete-account-cancel-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48%;
+  }
+  
+  .delete-account-confirm-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-account-cancel-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-account-confirm-btn:hover {
+    background-color: #d43f3f;
+  }
+  
+  .delete-account-cancel-btn:hover {
+    background-color: #0056b3;
+  }
+  

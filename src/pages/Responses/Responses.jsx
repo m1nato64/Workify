@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
+import Header from '../../components/common/Header-Footer/Header';
+import Footer from '../../components/common/Header-Footer/Footer';
 import { getToken, getUserFromStorage } from '../../services/api/authServiceClient';
 import './responses.css';
 

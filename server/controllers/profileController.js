@@ -7,7 +7,9 @@ import {
   updateUserAvatar, 
   changePassword,
   updateUserName, 
+  updateUserSkills,
  } from '../models/profileModel.js';
+ import bcrypt from 'bcrypt';
 
 export const getProfileController = async (req, res) => {
   try {
@@ -29,10 +31,35 @@ export const updateProfileController = async (req, res) => {
 };
 
 export const deleteProfileController = async (req, res) => {
+  const { password } = req.body;
+  const userId = req.params.id;
+
   try {
-    const deletedUser = await deleteUserAccount(req.params.id);
+    // 1. Получаем данные пользователя по ID
+    const user = await getUserData(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    // 2. Логируем данные для отладки
+    console.log("Пользователь найден:", user);
+
+    // 3. Проверяем, что введённый пароль совпадает с хэшированным паролем
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    
+    if (!passwordMatch) {
+      console.log('Пароль не совпадает');
+      return res.status(401).json({ error: 'Неверный пароль' });
+    }
+
+    // 4. Если пароль верный, удаляем аккаунт
+    const deletedUser = await deleteUserAccount(userId);
+    console.log('Аккаунт успешно удален:', deletedUser);
+    
     res.json({ message: 'Аккаунт удален', user: deletedUser });
   } catch (err) {
+    console.error("Ошибка при удалении аккаунта:", err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -68,6 +95,18 @@ export const updateUserNameController = async (req, res) => {
   try {
     const updatedUser = await updateUserName(userId, name);
     res.json({ message: 'Имя пользователя обновлено', user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updateUserSkillsController = async (req, res) => {
+  const userId = req.params.id;
+  const { skills } = req.body;
+
+  try {
+    const updatedUser = await updateUserSkills(userId, skills);
+    res.json({ message: 'Навыки успешно обновлены', user: updatedUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

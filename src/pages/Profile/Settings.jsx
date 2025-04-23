@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import GeneralSettings from '../../components/common/GeneralSettings';
-import SecuritySettings from '../../components/common/SecuritySettings';
-import DeleteAccount from '../../components/common/DeleteAccount';
-import { getUserFromStorage } from '../../services/api/authServiceClient'; // Для получения данных пользователя
+import Header from '../../components/common/Header-Footer/Header';
+import Footer from '../../components/common/Header-Footer/Footer';
+import GeneralSettings from '../../components/common/Settings/GeneralSettings';
+import SecuritySettings from '../../components/common/Settings/SecuritySettings';
+import DeleteAccount from '../../components/common/Settings/DeleteAccount';
+import Skills from '../../components/common/Settings/Skills'; 
+import { getUserFromStorage } from '../../services/api/authServiceClient'; 
 import './settings.css';
 
 const Settings = () => {
@@ -27,6 +28,8 @@ const Settings = () => {
         return <SecuritySettings />;
       case 'delete':
         return user ? <DeleteAccount user={user} /> : <p>Пользователь не найден</p>;
+      case 'skills':
+        return user && user.role === 'Freelancer' ? <Skills user={user} /> : <p>Доступно только для фрилансеров.</p>;
       default:
         return null;
     }
@@ -53,6 +56,9 @@ const Settings = () => {
           <ul>
             <li onClick={() => handleTabClick('general')} className={activeTab === 'general' ? 'active' : ''}>Основные</li>
             <li onClick={() => handleTabClick('security')} className={activeTab === 'security' ? 'active' : ''}>Безопасность</li>
+            {user && user.role === 'Freelancer' && (
+              <li onClick={() => handleTabClick('skills')} className={activeTab === 'skills' ? 'active' : ''}>Навыки</li>
+            )}
             <li onClick={() => handleTabClick('delete')} className={activeTab === 'delete' ? 'active' : ''}>Удаление аккаунта</li>
           </ul>
         </aside>
