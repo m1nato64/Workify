@@ -80,6 +80,7 @@ const Responses = () => {
                 <p><strong>Номер отклика:</strong> {bid.id}</p>
                 <p><strong>Проект:</strong> {bid.project.title || 'Не указано'}</p>
                 <p><strong>Описание:</strong> {bid.project.description || 'Нет описания'}</p>
+                <p><strong>Количество откликов:</strong> {bid.project.bids_count}</p>
                 {bid.project.media && (
                   <div className="project-file">
                     <a href={bid.project.media} target="_blank" rel="noopener noreferrer">

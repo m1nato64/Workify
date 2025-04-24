@@ -7,12 +7,20 @@ export const createBid = async (freelance_id, project_id) => {
   try {
     await client.query('BEGIN');
 
+    // Вставка нового отклика
     const insertQuery = `
       INSERT INTO bids (freelance_id, project_id, status, created_at) 
       VALUES ($1, $2, $3, NOW()) 
       RETURNING *`;
     const values = [freelance_id, project_id, 'pending'];
     const result = await client.query(insertQuery, values);
+
+    // Обновление количества откликов для проекта
+    const updateBidsCountQuery = `
+      UPDATE projects 
+      SET bids_count = bids_count + 1 
+      WHERE id = $1`;
+    await client.query(updateBidsCountQuery, [project_id]);
 
     await client.query('COMMIT');
     return result.rows[0];
@@ -95,7 +103,6 @@ export const updateBidStatus = async (bid_id, status) => {
     client.release();
   }
 };
-
 
 // Проверка на отклик
 export const checkBidExists = async (freelance_id, project_id) => {

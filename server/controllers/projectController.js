@@ -1,5 +1,12 @@
 //controllers/projectController.js
-import { createProject,  getAllProjects, getProjectsByUserId, getProjectById, deleteProject, toggleBids, updateProject } from '../models/projectModel.js';
+import { createProject,  
+  getAllProjects, 
+  getProjectsByUserId, 
+  getProjectById, 
+  deleteProject, 
+  toggleBids, 
+  updateProject, 
+   } from '../models/projectModel.js';
 import { getBidsForProject } from '../models/bidModel.js';
 
 export const createProjectController = async (req, res) => {

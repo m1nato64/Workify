@@ -4,7 +4,7 @@ import upload from '../config/multerConfig.js';
 import { createProjectController, getAllProjectsController, 
     getProjectsByUserIdController, getProjectByIdController,
     toggleProjectBidsController, deleteProjectController,
-    updateProjectController,
+    updateProjectController, 
 } from '../controllers/projectController.js';
 
 const router = express.Router();
