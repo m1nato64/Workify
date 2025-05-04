@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import '../../../styles/global.css';
-import './login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../../styles/global.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./login.css";
 
 const Login = () => {
-  const navigate = useNavigate(); 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!username || !password) {
-      setError('Пожалуйста, заполните все поля.');
+      setError("Пожалуйста, заполните все поля.");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name: username, password }),
       });
@@ -30,13 +31,14 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok && data.token) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
 
-        navigate('/home'); // 👈 перенаправление после успешного входа
+        navigate("/home"); // 👈 перенаправление после успешного входа
       } else {
         const errorAlert = document.getElementById("errorAlert");
-        errorAlert.textContent = "Неправильные данные. Пожалуйста, проверьте логин и пароль.";
+        errorAlert.textContent =
+          "Неправильные данные. Пожалуйста, проверьте логин и пароль.";
         errorAlert.classList.add("show");
 
         setTimeout(() => {
@@ -44,8 +46,8 @@ const Login = () => {
         }, 3000);
       }
     } catch (error) {
-      console.error('Ошибка авторизации:', error);
-      alert('Ошибка сервера. Пожалуйста, попробуйте позже.');
+      console.error("Ошибка авторизации:", error);
+      alert("Ошибка сервера. Пожалуйста, попробуйте позже.");
     }
   };
 
@@ -68,7 +70,7 @@ const Login = () => {
         />
         <div className="password-container">
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             id="password"
             placeholder="Пароль"
             value={password}
@@ -82,7 +84,7 @@ const Login = () => {
             aria-label="Показать пароль"
             onClick={togglePassword}
           >
-            {showPassword ? '🙈' : '👁️'}
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
         <button type="submit">Войти</button>

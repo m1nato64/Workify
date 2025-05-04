@@ -26,7 +26,7 @@ export const getBidsForFreelancerController = async (req, res) => {
     const { freelancer_id } = req.params;
     const bids = await getBidsForFreelancer(freelancer_id);
     if (bids.length === 0) {
-      return res.status(200).json([]); // просто возвращаем пустой массив
+      return res.status(200).json([]); 
     }
     res.json(bids);
   } catch (err) {

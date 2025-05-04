@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
-import './Header.css';
-import logo from '../../../assets/images/logo.png';
-import { getUserFromStorage } from '../../../services/api/authServiceClient'; 
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Header.css";
+import logo from "../../../assets/images/logo.png";
+import { FaBell, FaUserCircle } from 'react-icons/fa';
+import { getUserFromStorage } from "../../../services/api/authServiceClient";
 
 const Header = () => {
   const [isProfileMenuVisible, setIsProfileMenuVisible] = useState(false);
   const [role, setRole] = useState(null);
 
   useEffect(() => {
-    const currentUser = getUserFromStorage(); 
+    const currentUser = getUserFromStorage();
     if (currentUser) {
-      setRole(currentUser.role); 
+      setRole(currentUser.role);
     }
-  }, []); 
+  }, []);
 
   const toggleProfileMenu = () => {
     setIsProfileMenuVisible(!isProfileMenuVisible);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/login';
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
   };
 
   let navContent;
@@ -54,7 +55,14 @@ const Header = () => {
     <header id="main-header">
       <div className="header">
         <div className="logo">
-          <Link to="/home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <Link
+            to="/home"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              textDecoration: "none",
+            }}
+          >
             <img src={logo} alt="Workify Logo" />
             <span className="logo-name">Workify</span>
           </Link>
@@ -63,15 +71,17 @@ const Header = () => {
         <nav>{navContent}</nav>
 
         <div className="header-icons">
-          <div id="notification-icon" className="icon-bell">🔔</div>
+          <div id="notification-icon" className="icon-bell">
+            <FaBell size={20} />
+          </div>
 
           <div
             id="profile-icon"
             className="icon-user"
             onClick={toggleProfileMenu}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
           >
-            👤
+            <FaUserCircle size={22} />
           </div>
 
           {isProfileMenuVisible && (

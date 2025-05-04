@@ -235,3 +235,38 @@ button {
   background-color: #ffffff;
   max-height: 80vh;
 }
+
+.modal-confirmation .modal-content {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-confirmation .modal-actions {
+  margin-top: 20px;
+}
+
+.modal-confirmation .confirm-btn {
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-confirmation .cancel-btn {
+  background-color: gray;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-confirmation .confirm-btn:hover {
+  background-color: darkred;
+}
+
+.modal-confirmation .cancel-btn:hover {
+  background-color: darkgray;
+}

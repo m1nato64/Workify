@@ -35,17 +35,14 @@ export const deleteProfileController = async (req, res) => {
   const userId = req.params.id;
 
   try {
-    // 1. Получаем данные пользователя по ID
     const user = await getUserData(userId);
 
     if (!user) {
       return res.status(404).json({ error: 'Пользователь не найден' });
     }
 
-    // 2. Логируем данные для отладки
     console.log("Пользователь найден:", user);
 
-    // 3. Проверяем, что введённый пароль совпадает с хэшированным паролем
     const passwordMatch = await bcrypt.compare(password, user.password);
     
     if (!passwordMatch) {
@@ -53,7 +50,6 @@ export const deleteProfileController = async (req, res) => {
       return res.status(401).json({ error: 'Неверный пароль' });
     }
 
-    // 4. Если пароль верный, удаляем аккаунт
     const deletedUser = await deleteUserAccount(userId);
     console.log('Аккаунт успешно удален:', deletedUser);
     
