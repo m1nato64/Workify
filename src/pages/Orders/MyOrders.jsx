@@ -1,3 +1,4 @@
+//src/pages/Orders/MyOrders.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getToken } from "../../services/api/authServiceClient";
@@ -5,7 +6,7 @@ import { useUser } from "../../services/context/userContext";
 import Header from "../../components/common/Header-Footer/Header";
 import Footer from "../../components/common/Header-Footer/Footer";
 import Toast from "../../components/common/Toast";
-import "./myorders.css";
+import styles from "./MyOrders.module.css";
 
 const statusLabels = {
   open: "открыт",
@@ -19,7 +20,7 @@ const MyOrders = () => {
   const [error, setError] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // Стейт для модального окна подтверждения удаления
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [projectData, setProjectData] = useState({
     title: "",
@@ -118,7 +119,7 @@ const MyOrders = () => {
       });
       loadOrders(token, user.id);
       showToast("Проект успешно удален!", "success");
-      closeDeleteModal(); // Закрываем модальное окно после удаления
+      closeDeleteModal();
     } catch (err) {
       showToast("Ошибка при удалении проекта!", "error");
       console.error(err);
@@ -186,7 +187,7 @@ const MyOrders = () => {
     setImagePreview(null);
   };
 
-  const closeDeleteModal = () => setIsDeleteModalOpen(false); // Закрытие модального окна подтверждения удаления
+  const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const showToast = (message, type = "success") => {
     setToast({ message, type });
@@ -194,7 +195,7 @@ const MyOrders = () => {
 
   const openDeleteModal = (order) => {
     setSelectedOrder(order);
-    setIsDeleteModalOpen(true); // Открываем модальное окно подтверждения
+    setIsDeleteModalOpen(true);
   };
 
   return (
@@ -207,29 +208,35 @@ const MyOrders = () => {
         {error && <p>{error}</p>}
 
         {!loading && !error && orders.length === 0 && (
-          <div className="no-projects">
+          <div className={styles.noProjects}>
             <p>Вы пока не создавали проекты.</p>
             <p>Создайте проект, чтобы фрилансеры смогли выполнить его!</p>
           </div>
         )}
 
         {!loading && orders.length > 0 && (
-          <div className="order-list">
+          <div className={styles.orderList}>
             {orders.map((order) => (
-              <div className="order-item" key={order.id}>
+              <div className={styles.orderItem} key={order.id}>
                 <p>Название проекта: {order.title}</p>
                 <p>Описание: {order.description}</p>
                 <p>
                   Статус проекта:{" "}
-                  <span className={`status-project ${order.status}`}>
+                  <span
+                    className={`${styles.statusProject} ${
+                      styles[order.status]
+                    }`}
+                  >
                     {statusLabels[order.status]}
                   </span>
                 </p>
                 <p>
                   Статус откликов:{" "}
                   <span
-                    className={`status ${
-                      order.accepting_bids ? "accepting" : "not-accepting"
+                    className={`${styles.status} ${
+                      order.accepting_bids
+                        ? styles.accepting
+                        : styles.notAccepting
                     }`}
                   >
                     {order.accepting_bids ? "принимаются" : "не принимаются"}
@@ -238,23 +245,52 @@ const MyOrders = () => {
                 {order.media && (
                   <img src={order.media} alt="Project" width="100" />
                 )}
-                <div className="action-buttons">
+                <div className={styles.actionButtons}>
+                  {order.status === "completed" ? (
+                    <button
+                      className={styles.button}
+                      onClick={() => {
+                        // Здесь должна быть логика открытия модалки/страницы с отзывом
+                        alert("Оставить отзыв — функциональность в разработке");
+                      }}
+                    >
+                      Оставить комментарий и отзыв фрилансеру
+                    </button>
+                  ) : (
+                    <button
+                      className={styles.button}
+                      onClick={() => {
+                        setSelectedOrder(order);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Посмотреть отклики
+                    </button>
+                  )}
+
                   <button
-                    onClick={() => {
-                      setSelectedOrder(order);
-                      setIsModalOpen(true);
-                    }}
+                    className={styles.button}
+                    onClick={() => openEditModal(order)}
                   >
-                    Посмотреть отклики
-                  </button>
-                  <button onClick={() => openEditModal(order)}>
                     Редактировать
                   </button>
-                  <button onClick={() => openDeleteModal(order)}>
+
+                  <button
+                    className={styles.button}
+                    onClick={() => openDeleteModal(order)}
+                  >
                     Удалить
                   </button>
+
                   <button
-                    onClick={() => toggleBids(order.id, !order.accepting_bids)}
+                    className={`${styles.button} ${
+                      order.status === "completed" ? styles.disabledButton : ""
+                    }`}
+                    onClick={() =>
+                      order.status !== "completed" &&
+                      toggleBids(order.id, !order.accepting_bids)
+                    }
+                    disabled={order.status === "completed"}
                   >
                     {order.accepting_bids
                       ? "Закрыть отклики"
@@ -268,18 +304,20 @@ const MyOrders = () => {
 
         {/* Модальное окно подтверждения удаления */}
         {isDeleteModalOpen && selectedOrder && (
-          <div className="modal modal-confirmation">
-            <div className="modal-content">
+          <div className={styles.modal}>
+            <div
+              className={`${styles.modalContent} ${styles.modalConfirmationContent}`}
+            >
               <h2>Подтверждение удаления</h2>
               <p>Вы уверены, что хотите удалить этот проект?</p>
-              <div className="modal-actions">
+              <div className={styles.modalActions}>
                 <button
-                  className="confirm-btn"
+                  className={styles.confirmBtn}
                   onClick={() => deleteProject(selectedOrder.id)}
                 >
                   Да, удалить
                 </button>
-                <button className="cancel-btn" onClick={closeDeleteModal}>
+                <button className={styles.cancelBtn} onClick={closeDeleteModal}>
                   Отмена
                 </button>
               </div>
@@ -289,36 +327,37 @@ const MyOrders = () => {
 
         {/* Модальное окно откликов */}
         {isModalOpen && selectedOrder && !editMode && (
-          <div className="modal">
-            <div className="modal-content">
+          <div className={styles.modal}>
+            <div className={`${styles.modalContent} ${styles.modalBidContent}`}>
               <h2>Отклики на проект</h2>
-              <div className="bid-list">
+              <div className={styles.bidList}>
                 {selectedOrder.bids?.length > 0 ? (
                   selectedOrder.bids.map((bid) => (
-                    <div key={bid.id} className="bid-item">
+                    <div key={bid.id} className={styles.bidItem}>
                       <p>
                         Фрилансер: {bid.freelancer_name || "Имя не указано"}
                       </p>
                       <p>
                         Статус:{" "}
                         <span
-                          className={`status ${
+                          className={`${styles.status} ${
                             bid.status === "accepted"
-                              ? "accepting"
-                              : "not-accepting"
+                              ? styles.accepting
+                              : styles.notAccepting
                           }`}
                         >
                           {bid.status}
                         </span>
                       </p>
-                      <div className="action-buttons">
+                      <div className={styles.actionButtonsBids}>
                         <button
+                          className={styles.acceptedButton}
                           onClick={() => updateBidStatus(bid.id, "accepted")}
                         >
                           Принять
                         </button>
                         <button
-                          className="rejectedButton"
+                          className={styles.rejectedButton}
                           onClick={() => updateBidStatus(bid.id, "rejected")}
                         >
                           Отклонить
@@ -330,15 +369,19 @@ const MyOrders = () => {
                   <p>Нет откликов на этот проект.</p>
                 )}
               </div>
-              <button onClick={closeModal}>Закрыть</button>
+              <button className={styles.button} onClick={closeModal}>
+                Закрыть
+              </button>
             </div>
           </div>
         )}
 
         {/* Модальное окно редактирования */}
         {editMode && (
-          <div className="modal modal-edit">
-            <div className="modal-content">
+          <div className={styles.modal}>
+            <div
+              className={`${styles.modalContent} ${styles.modalEditContent}`}
+            >
               <h2>Редактирование проекта</h2>
               <form onSubmit={handleProjectUpdate}>
                 <input
@@ -348,6 +391,7 @@ const MyOrders = () => {
                     setProjectData({ ...projectData, title: e.target.value })
                   }
                   placeholder="Название проекта"
+                  className={styles.input}
                 />
                 <textarea
                   value={projectData.description}
@@ -358,12 +402,14 @@ const MyOrders = () => {
                     })
                   }
                   placeholder="Описание проекта"
+                  className={styles.textarea}
                 ></textarea>
                 <select
                   value={projectData.status}
                   onChange={(e) =>
                     setProjectData({ ...projectData, status: e.target.value })
                   }
+                  className={styles.select}
                 >
                   <option value="open">Открыт</option>
                   <option value="in_progress">В разработке</option>
@@ -373,11 +419,20 @@ const MyOrders = () => {
                   type="file"
                   onChange={handleFileChange}
                   accept="image/*"
+                  className={styles.input}
                 />
                 {imagePreview && <img src={imagePreview} alt="Preview" />}
-                <div className="modal-actions">
-                  <button type="submit">Обновить проект</button>
-                  <button onClick={closeEditModal}>Отмена</button>
+                <div className={styles.modalActions}>
+                  <button type="submit" className={styles.button}>
+                    Обновить проект
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.button}
+                    onClick={closeEditModal}
+                  >
+                    Отмена
+                  </button>
                 </div>
               </form>
             </div>

@@ -1,0 +1,123 @@
+.pageWrapper {
+   min-height: calc(100vh - 20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.authContainer {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;       
+  max-width: 350px;  
+}
+
+.input {
+  font-size: 16px;
+  padding: 10px;
+      margin: 10px 10px 10px 0px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #4caf50;
+  outline: none;
+  background-color: #fff;
+}
+
+.passwordContainer {
+  position: relative;
+  width: 100%;
+}
+
+.passwordContainer input {
+  padding-right: 40px;
+}
+
+.togglePasswordBtn {
+  position: absolute;
+  top: 55%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+}
+
+.togglePasswordBtn:hover {
+  color: #4caf50;
+}
+
+.submitBtn {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.submitBtn:hover {
+  background-color: #45a049;
+}
+
+.noAccount {
+  margin-top: 15px;
+}
+
+.noAccount a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.noAccount a:hover {
+  text-decoration: underline;
+}
+
+.errorAlert {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.show {
+  opacity: 1;
+  max-height: 100px;
+}

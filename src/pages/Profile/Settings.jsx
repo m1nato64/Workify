@@ -6,7 +6,7 @@ import SecuritySettings from '../../components/common/Settings/SecuritySettings'
 import DeleteAccount from '../../components/common/Settings/DeleteAccount';
 import Skills from '../../components/common/Settings/Skills'; 
 import { getUserFromStorage } from '../../services/api/authServiceClient'; 
-import './settings.css';
+import styles from './Settings.module.css';
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState('general');
@@ -48,22 +48,42 @@ const Settings = () => {
     <>
       <Header />
 
-      <div className="settings-page">
-        <div className="burger" onClick={toggleSidebar}>☰</div>
+      <div className={styles.settingsPage}>
+        <div className={styles.burger} onClick={toggleSidebar}>☰</div>
 
-        <aside className={`settings-sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <aside className={`${styles.settingsSidebar} ${sidebarOpen ? styles.settingsSidebarOpen : ''}`}>
           <h2>Настройки</h2>
           <ul>
-            <li onClick={() => handleTabClick('general')} className={activeTab === 'general' ? 'active' : ''}>Основные</li>
-            <li onClick={() => handleTabClick('security')} className={activeTab === 'security' ? 'active' : ''}>Безопасность</li>
+            <li
+              onClick={() => handleTabClick('general')}
+              className={activeTab === 'general' ? styles.settingsSidebarLiActive : ''}
+            >
+              Основные
+            </li>
+            <li
+              onClick={() => handleTabClick('security')}
+              className={activeTab === 'security' ? styles.settingsSidebarLiActive : ''}
+            >
+              Безопасность
+            </li>
             {user && user.role === 'Freelancer' && (
-              <li onClick={() => handleTabClick('skills')} className={activeTab === 'skills' ? 'active' : ''}>Навыки</li>
+              <li
+                onClick={() => handleTabClick('skills')}
+                className={activeTab === 'skills' ? styles.settingsSidebarLiActive : ''}
+              >
+                Навыки
+              </li>
             )}
-            <li onClick={() => handleTabClick('delete')} className={activeTab === 'delete' ? 'active' : ''}>Удаление аккаунта</li>
+            <li
+              onClick={() => handleTabClick('delete')}
+              className={activeTab === 'delete' ? styles.settingsSidebarLiActive : ''}
+            >
+              Удаление аккаунта
+            </li>
           </ul>
         </aside>
 
-        <main className="settings-content">
+        <main className={styles.settingsContent}>
           {renderTabContent()}
         </main>
       </div>

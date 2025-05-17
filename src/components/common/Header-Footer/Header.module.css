@@ -1,0 +1,205 @@
+.mainHeader {
+  background-color: #0b6623;
+  color: #fff;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.logoName {
+  font-size: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo img {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 20px;
+  padding-right: 65px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.dropdownContent {
+  display: none;
+  align-items: center;
+  text-align: left;
+  padding-top: 7px;
+  position: absolute;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.dropdownContent a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.dropdown:hover .dropdownContent {
+  display: block;
+}
+
+.headerIcons {
+  display: flex;
+  gap: 15px;
+  position: relative;
+}
+
+.iconBell,
+.iconUser {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.iconBell:hover,
+.iconUser:hover {
+  color: #007bff;
+}
+
+.profileMenu {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.profileMenu a {
+  display: block;
+  color: #333;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+.profileMenu a:hover {
+  background-color: #f0f0f0;
+}
+
+.profileMenu button {
+  display: block;
+  background-color: #ff4d4d;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.profileMenu button:hover {
+  background-color: #ff3333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mainHeader {
+    padding: 10px;
+    height: 60px;
+  }
+
+  .logoName {
+    font-size: 18px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .nav a {
+    font-size: 14px;
+  }
+
+  .headerIcons {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .iconBell,
+  .iconUser {
+    font-size: 20px;
+  }
+
+  .profileMenu {
+    top: 60px;
+    right: 0;
+    width: 100%;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    width: 30px;
+  }
+
+  .headerIcons {
+    gap: 8px;
+  }
+
+  .iconBell,
+  .iconUser {
+    font-size: 18px;
+  }
+}

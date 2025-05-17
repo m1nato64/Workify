@@ -8,6 +8,8 @@ import {
   changePassword,
   updateUserName, 
   updateUserSkills,
+  getAllUsers,
+
  } from '../models/profileModel.js';
  import bcrypt from 'bcrypt';
 
@@ -103,6 +105,15 @@ export const updateUserSkillsController = async (req, res) => {
   try {
     const updatedUser = await updateUserSkills(userId, skills);
     res.json({ message: 'Навыки успешно обновлены', user: updatedUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

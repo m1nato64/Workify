@@ -1,0 +1,333 @@
+/* Основной контейнер */
+.main {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Контейнер для списка заказов */
+.orderList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 1050px;
+}
+
+/* Карточка заказа */
+.orderItem {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.orderItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Текст в карточке */
+.orderText {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Общая обёртка модалки */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Унифицированные стили для содержимого модалок */
+.modalContent,
+.modalEditContent,
+.modalBidContent,
+.modalConfirmationContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 80%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Особенности модального окна подтверждения */
+.modalConfirmationContent {
+  flex-direction: column;
+}
+
+/* Особенности модального окна редактирования */
+.modalEditContent {
+  max-height: 90vh;
+  background-color: #fefefe; 
+  border-radius: 5px; 
+}
+
+.modalBidContent {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  color: #333;
+}
+
+/* Карточки откликов */
+.bidList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.bidItem {
+  padding: 15px 20px;
+  background-color: #e7e7e7;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Кнопки действий */
+.actionButtons {
+  display: flex;
+  justify-content: space-around;
+  font-size: 16px;
+}
+
+.actionButtonsBids {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.acceptedButton,
+.rejectedButton {
+  flex: 1;
+  padding: 12px ;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  user-select: none;
+}
+
+.acceptedButton {
+  background-color: #45a049;
+}
+
+.acceptedButton:hover {
+  background-color: #388e3c;
+  box-shadow: 0 6px 12px rgba(56, 142, 60, 0.5);
+}
+
+.rejectedButton {
+  background-color: #ff4d4d;
+}
+
+.rejectedButton:hover {
+  background-color: #dd2121;
+  box-shadow: 0 6px 12px rgba(221, 33, 33, 0.5);
+}
+
+/* Статусы заявок */
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.accepting {
+  color: white;
+  background-color: #45a049;
+}
+
+.notAccepting {
+  color: white;
+  background-color: #ff4d4d;
+}
+
+.status span {
+  margin-left: 8px;
+}
+
+.accepting::before {
+  content: "✔️";
+  margin-right: 5px;
+}
+
+.notAccepting::before {
+  content: "❌";
+  margin-right: 5px;
+}
+
+/* Статусы проектов */
+.projectStatus {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.open {
+  color: #0086f3;
+  background-color: #a1cceb;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.in_progress {
+  padding: 5px;
+  border-radius: 5px;
+  color: #FF9800;
+  background-color: #ffe7c1;
+}
+
+.completed {
+  color: #4CAF50;
+  background-color: #baf7bf;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.projectStatus span {
+  margin-left: 8px;
+}
+
+.open::before {
+  content: "📂";
+  margin-right: 5px;
+}
+
+.in_progress::before {
+  content: "🔨";
+  margin-right: 5px;
+}
+
+.completed::before {
+  content: "✅";
+  margin-right: 5px;
+}
+
+/* Кнопки */
+.button {
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: #45a049;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1;
+  font-size: 15px;
+}
+
+.button:hover {
+  background-color: #388e3c;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+
+/* Инпуты, textarea и select */
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.textarea {
+  resize: none;
+  height: 100px;
+}
+
+/* Модалка подтверждения - кнопки */
+.modalActions {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.confirmBtn,
+.cancelBtn {
+  flex: 1;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.confirmBtn {
+  background-color: red;
+}
+
+.confirmBtn:hover {
+  background-color: darkred;
+}
+
+.cancelBtn {
+  background-color: gray;
+}
+
+.cancelBtn:hover {
+  background-color: darkgray;
+}

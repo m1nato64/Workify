@@ -1,31 +1,43 @@
-// src/App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserProvider } from './services/context/userContext';
-import Login from './pages/Auth/Login/Login.jsx';
-import Register from './pages/Auth/Register/Register.jsx';
-import Home from './pages/Main/Home';
-import Responses from './pages/Responses/Responses'; 
-import MyOrders from './pages/Orders/MyOrders'; 
-import Profile from './pages/Profile/Profile'
-import DocumentTitleUpdater from './utils/DocumentTitleUpdater.jsx';
-import Settings from './pages/Profile/Settings';
-import './styles/global.css'; 
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { UserProvider, useUser } from "./services/context/userContext";
+import Login from "./pages/Auth/Login/Login.jsx";
+import Register from "./pages/Auth/Register/Register.jsx";
+import Home from "./pages/Main/Home";
+import Responses from "./pages/Responses/Responses";
+import MyOrders from "./pages/Orders/MyOrders";
+import Profile from "./pages/Profile/Profile";
+import DocumentTitleUpdater from "./utils/DocumentTitleUpdater.jsx";
+import Settings from "./pages/Profile/Settings";
+import Chats from "./pages/Chat/Chats";
+import "./styles/global.css";
+
+const AppRoutes = () => {
+  const { user } = useUser(); 
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/responses" element={<Responses />} />
+      <Route path="/orders" element={<MyOrders />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route
+        path="/chat"
+        element={user ? <Chats currentUserId={user.id} /> : <Login />}
+      />
+    </Routes>
+  );
+};
 
 const App = () => {
   return (
-    <UserProvider> 
+    <UserProvider>
       <Router>
         <DocumentTitleUpdater />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/responses" element={<Responses />} /> 
-          <Route path="/orders" element={<MyOrders />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
+        <AppRoutes />
       </Router>
     </UserProvider>
   );

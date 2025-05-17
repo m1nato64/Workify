@@ -1,0 +1,121 @@
+.settingsPage {
+  display: flex;
+  padding: 20px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 20px);
+  width: 1080px;
+  margin: auto;
+  box-sizing: border-box;
+
+}
+
+.settingsSidebar {
+  width: 250px;
+  height: 450px;
+  border-radius: 8px;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+  box-shadow: 0.5px 0.5px 0.5px 2px rgba(0, 0, 0, 0.2);
+}
+
+.settingsContent {
+  width: 810px;
+  height: 450px;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-left: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.settingsSidebar h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.settingsSidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settingsSidebar li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.settingsSidebar li:hover {
+  background-color: #f0f0f0;
+}
+
+.settingsSidebar liActive {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+/* Контент */
+.settingsContent {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  flex: 1;
+  width: 610px;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-left: 20px;
+  box-shadow: 0.5px 0.5px 0.5px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Бургер-иконка */
+.burger {
+  display: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Мобильный стиль */
+@media (max-width: 768px) {
+  .settingsPage {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .settingsSidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 100;
+    width: 220px;
+     box-shadow: 0.5px 0.5px 0.5px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .settingsSidebarOpen {
+    transform: translateX(0);
+  }
+
+  .settingsContent {
+    margin-left: 0;
+    padding: 20px;
+  }
+}

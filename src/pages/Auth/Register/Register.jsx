@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./register.css";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import styles from "./Register.module.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -53,84 +53,99 @@ const Register = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Регистрация</h2>
-      <form className="register-form" onSubmit={handleRegister}>
-        <label htmlFor="name">Логин:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-
-        <label htmlFor="password">Пароль:</label>
-        <div className="password-container">
+    <div className={styles.pageWrapper}>
+      <div className={styles.container}>
+        <h2>Регистрация</h2>
+        <form className={styles.registerFormHadAcc} onSubmit={handleRegister}>
+          <label className={styles.label}>Логин:</label>
           <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            className={styles.input}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
+            name="username"
+            autoComplete="username"
           />
-          <button
-            type="button"
-            id="togglePassword"
-            aria-label="Показать пароль"
-            onClick={togglePassword}
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
-        </div>
 
-        <label htmlFor="role">Роль:</label>
-        <select
-          id="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          required
-        >
-          <option value="Freelancer">Фрилансер</option>
-          <option value="Client">Клиент</option>
-        </select>
-
-        {role === "Freelancer" && (
-          <div className="skills-container visible">
-            <label htmlFor="skills">Навыки:</label>
+          <label className={styles.label}>Пароль:</label>
+          <div className={styles.passwordContainer}>
             <input
-              type="text"
-              id="skills"
-              value={skillsInput}
-              onChange={(e) => setSkillsInput(e.target.value)}
-              placeholder="Введите навык"
+              type={showPassword ? "text" : "password"}
+              className={`${styles.input} ${styles.passwordInput}`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              name="password"
+              autoComplete="new-password"
             />
-            <button type="button" onClick={handleAddSkill}>
-              Добавить навык
+            <button
+              type="button"
+              aria-label="Показать пароль"
+              onClick={togglePassword}
+              className={styles.togglePasswordBtn}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            <div className="skills-list">
-              {skills.map((skill, index) => (
-                <span key={index}>
-                  {skill}{" "}
-                  <span
-                    className="remove-skill"
-                    onClick={() => handleRemoveSkill(index)}
-                  >
-                    ×
-                  </span>
-                </span>
-              ))}
-            </div>
           </div>
-        )}
 
-        <button type="submit" className="btn">
-          Зарегистрироваться
-        </button>
-      </form>
-      <p className="had-acc">
-        Уже есть аккаунт? <a href="/login">Войти</a>
-      </p>
+          <label className={styles.label}>Роль:</label>
+          <select
+            className={styles.select}
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+            name="role"
+          >
+            <option value="Freelancer">Фрилансер</option>
+            <option value="Client">Клиент</option>
+          </select>
+
+          {role === "Freelancer" && (
+            <div
+              className={`${styles.skillsContainer} ${styles.skillsContainerVisible}`}
+            >
+              <label className={styles.label}>Навыки:</label>
+              <input
+                type="text"
+                className={`${styles.input} ${styles.skillsInput}`}
+                value={skillsInput}
+                onChange={(e) => setSkillsInput(e.target.value)}
+                placeholder="Введите навык"
+                name="skillInput"
+                autoComplete="off"
+              />
+              <button
+                type="button"
+                onClick={handleAddSkill}
+                className={styles.button}
+              >
+                Добавить навык
+              </button>
+              <div className={styles.skillsList}>
+                {skills.map((skill, index) => (
+                  <span key={index} className={styles.skillItem}>
+                    {skill}{" "}
+                    <span
+                      className={styles.removeSkill}
+                      onClick={() => handleRemoveSkill(index)}
+                    >
+                      ×
+                    </span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <button type="submit" className={styles.button}>
+            Зарегистрироваться
+          </button>
+        </form>
+        <p className={styles.hadAcc}>
+          Уже есть аккаунт? <a href="/login">Войти</a>
+        </p>
+      </div>
     </div>
   );
 };

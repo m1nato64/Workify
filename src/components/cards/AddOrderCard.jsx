@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import Toast from "../../components/common/Toast"; 
-import "./AddOrderCard.css";
+import Toast from "../../components/common/Toast";
+import styles from "./AddOrderCard.module.css";  
 
 const AddOrderCard = ({ clientId }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("open");
-  const [media, setMedia] = useState(null); // Состояние для файла
-  const [toast, setToast] = useState({ message: "", type: "success" }); // Стейт для Toast
+  const [media, setMedia] = useState(null);
+  const [toast, setToast] = useState({ message: "", type: "success" });
 
   const handleFileChange = (e) => {
-    setMedia(e.target.files[0]); // Сохраняем выбранный файл
+    setMedia(e.target.files[0]);
   };
 
   const showToast = (message, type = "success") => {
@@ -20,60 +20,69 @@ const AddOrderCard = ({ clientId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(); // Используем FormData для отправки данных и файлов
+    const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("status", status);
     formData.append("client_id", clientId);
     if (media) {
-      formData.append("media", media); // Добавляем файл в FormData
+      formData.append("media", media);
     }
 
     try {
       const res = await fetch("http://localhost:3000/api/projects", {
         method: "POST",
-        body: formData, // Отправляем FormData с данными и файлом
+        body: formData,
       });
 
       const data = await res.json();
       if (res.ok) {
-        showToast("Проект успешно создан!", "success"); // Показываем успешный toast
+        showToast("Проект успешно создан!", "success");
         setTitle("");
         setDescription("");
         setStatus("open");
-        setMedia(null); 
+        setMedia(null);
       } else {
-        showToast(`Ошибка: ${data.error}`, "error"); 
+        showToast(`Ошибка: ${data.error}`, "error");
       }
     } catch (err) {
       console.error(err);
-      showToast("Ошибка при отправке запроса", "error"); // Показываем ошибочный toast
+      showToast("Ошибка при отправке запроса", "error");
     }
   };
 
   return (
-    <div className="add-order-card">
-      <h2>Добавить заказ</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className={styles.addOrderCard}>
+      <h2 className={styles.title}>Добавить заказ</h2>
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+      >
         <input
           type="text"
           placeholder="Название проекта"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          className={styles.inputText}
         />
         <textarea
           placeholder="Описание"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
+          className={styles.textarea}
         />
         <input
           type="file"
           accept="image/*"
-          onChange={handleFileChange} 
+          onChange={handleFileChange}
+          className={styles.fileInput}
         />
-        <button type="submit">Создать</button>
+        <button type="submit" className={styles.submitButton}>
+          Создать
+        </button>
       </form>
 
       {toast.message && <Toast message={toast.message} type={toast.type} />}

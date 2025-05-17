@@ -9,6 +9,7 @@ const pageTitles = {
     '/orders': 'Мои заказы | Workify',
     '/jobs': 'Проекты | Workify',
     '/responses': 'Мои отклики | Workify',
+    '/chat': 'Чат | Workify',
   };
   
   export default pageTitles;

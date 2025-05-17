@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Header.css";
+import styles from "./Header.module.css";
 import logo from "../../../assets/images/logo.png";
 import { FaBell, FaUserCircle } from 'react-icons/fa';
 import { getUserFromStorage } from "../../../services/api/authServiceClient";
@@ -27,17 +27,16 @@ const Header = () => {
   };
 
   let navContent;
-
   if (role === "Client") {
     navContent = (
       <>
-        <div className="dropdown">
-          <button className="dropbtn">Фрилансеры ▾</button>
-          <div className="dropdown-content">
+        <div className={styles.dropdown}>
+          <button className={styles.dropbtn}>Фрилансеры ▾</button>
+          <div className={styles.dropdownContent}>
             <a href="#">Список фрилансеров</a>
           </div>
         </div>
-        <a href="#">Чаты</a>
+        <a href="/chat">Чаты</a>
         <a href="/orders">Мои заказы</a>
       </>
     );
@@ -45,47 +44,34 @@ const Header = () => {
     navContent = (
       <>
         <a href="#">Работа</a>
-        <a href="#">Чаты</a>
+        <a href="/chat">Чаты</a>
         <a href="/responses">Мои отклики</a>
       </>
     );
   }
 
   return (
-    <header id="main-header">
-      <div className="header">
-        <div className="logo">
-          <Link
-            to="/home"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-            }}
-          >
+    <header className={styles.mainHeader}>
+      <div className={styles.header}>
+        <div className={styles.logo}>
+          <Link to="/home" className={styles.logoLink}>
             <img src={logo} alt="Workify Logo" />
-            <span className="logo-name">Workify</span>
+            <span className={styles.logoName}>Workify</span>
           </Link>
         </div>
 
-        <nav>{navContent}</nav>
+        <nav className={styles.nav}>{navContent}</nav>
 
-        <div className="header-icons">
-          <div id="notification-icon" className="icon-bell">
-            <FaBell size={20} />
+        <div className={styles.headerIcons}>
+          <div className={styles.iconBell}>
+            <FaBell size={25} />
           </div>
-
-          <div
-            id="profile-icon"
-            className="icon-user"
-            onClick={toggleProfileMenu}
-            style={{ cursor: "pointer" }}
-          >
-            <FaUserCircle size={22} />
+          <div className={styles.iconUser} onClick={toggleProfileMenu}>
+            <FaUserCircle size={25} />
           </div>
 
           {isProfileMenuVisible && (
-            <div className="profile-menu">
+            <div className={styles.profileMenu}>
               <Link to="/profile">Профиль</Link>
               <Link to="/settings">Настройки</Link>
               <button onClick={handleLogout}>Выход</button>

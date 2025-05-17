@@ -86,3 +86,8 @@ export const updateUserSkills = async (userId, skills) => {
   );
   return result.rows[0];
 };
+
+export async function getAllUsers() {
+  const result = await pool.query('SELECT id, name, role, skills, rating, created_at, avatar FROM users ORDER BY name');
+  return result.rows;
+}

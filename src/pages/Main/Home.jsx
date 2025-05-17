@@ -26,7 +26,6 @@ const Home = () => {
       <Header role={role} />
 
       <main>
-        {/* Отображение компонентов по ролям */}
         {role === 'Client' && clientId && (
           <AddOrderCard clientId={clientId} />
         )}

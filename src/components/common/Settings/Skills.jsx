@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useUser } from '../../../services/context/userContext'; // Подключаем контекст
+import { useUser } from '../../../services/context/userContext'; 
 import Toast from '../Toast';
 import './skills.css';
 
 const Skills = () => {
-  const { user, updateUser } = useUser(); // Получаем пользователя и функцию обновления из контекста
-  const [skills, setSkills] = useState(user?.skills || ''); // Инициализируем скиллы из контекста
+  const { user, updateUser } = useUser(); 
+  const [skills, setSkills] = useState(user?.skills || ''); 
   const [toast, setToast] = useState(null);
 
   // Функция для валидации скиллов
@@ -14,22 +14,22 @@ const Skills = () => {
     if (skillsArray.some(skill => skill === '')) {
       return 'Скиллы не могут быть пустыми.';
     }
-    return null; // Валидация прошла успешно
+    return null; 
   };
 
   const handleSkillsChange = (event) => {
     setSkills(event.target.value);
-    setToast(null); // Сбрасываем уведомление при изменении
+    setToast(null); 
   };
 
   const handleSave = async () => {
     if (!user) {
-      return; // Проверка на наличие пользователя, если он не авторизован
+      return;
     }
 
     const error = validateSkills(skills);
     if (error) {
-      setToast({ message: error, type: 'error' }); // Показываем ошибку через Toast
+      setToast({ message: error, type: 'error' }); 
       return;
     }
 
@@ -46,8 +46,8 @@ const Skills = () => {
       if (response.ok) {
         // Обновляем скиллы в контексте
         const updatedUser = { ...user, skills };
-        updateUser(updatedUser); // Обновляем пользователя в контексте и в localStorage
-        setSkills(updatedUser.skills); // Обновляем локальное состояние
+        updateUser(updatedUser); 
+        setSkills(updatedUser.skills); 
         setToast({ message: 'Навыки успешно обновлены', type: 'success' });
       } else {
         setToast({ message: data.error || 'Ошибка при сохранении навыков', type: 'error' });

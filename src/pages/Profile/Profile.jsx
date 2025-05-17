@@ -3,31 +3,31 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '../../services/context/userContext';
 import Header from '../../components/common/Header-Footer/Header';
 import Footer from '../../components/common/Header-Footer/Footer';
-import './profile.css';
+import styles from './Profile.module.css';
 
-const renderStars = (rating) => {
+const renderStars = (rating, styles) => {
   const fullStars = Math.floor(rating);
   const halfStars = rating % 1 !== 0 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStars;
   let stars = [];
 
   for (let i = 0; i < fullStars; i++) {
-    stars.push(<span key={`full-${i}`} className="star filled">★</span>);
+    stars.push(<span key={`full-${i}`} className={styles.star + ' ' + styles.starFilled}>★</span>);
   }
 
   if (halfStars) {
-    stars.push(<span key="half" className="star half">★</span>);
+    stars.push(<span key="half" className={styles.star + ' ' + styles.starHalf}>★</span>);
   }
 
   for (let i = 0; i < emptyStars; i++) {
-    stars.push(<span key={`empty-${i}`} className="star">★</span>);
+    stars.push(<span key={`empty-${i}`} className={styles.star}>★</span>);
   }
 
   return stars;
 };
 
 const Profile = () => {
-  const { user, updateUser } = useUser(); 
+  const { user, updateUser } = useUser();
   const [avatarPreview, setAvatarPreview] = useState(null);
 
   useEffect(() => {
@@ -47,9 +47,9 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="profile-container">
+      <div className={styles.profileContainer}>
         <Header />
-        <div className="profile-content">
+        <div className={styles.profileContent}>
           <p>Пользователь не авторизован.</p>
         </div>
         <Footer />
@@ -71,16 +71,16 @@ const Profile = () => {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   return (
-    <div className="profile-container">
+    <div className={styles.profileContainer}>
       <Header />
-      <div className="profile-content">
-        <h2>Профиль пользователя</h2>
+      <div className={styles.profileContent}>
+        <h2>Профиль пользователя {user.name}</h2>
 
-        <div className="profile-avatar">
+        <div className={styles.profileAvatar}>
           <img
             src={avatarPreview ? `${API_URL}${avatarPreview}` : '/default-avatar.png'}
             alt="Аватар"
-            className="avatar-img"
+            className={styles.avatarImg}
           />
         </div>
 
@@ -88,20 +88,20 @@ const Profile = () => {
         <p><strong>Роль:</strong> {translateRole(user.role)}</p>
 
         {user.role === 'Freelancer' && (
-          <div className="profile-skills">
+          <div className={styles.profileSkills}>
             <strong>Навыки:</strong>
-            <div className="skills-list">
+            <div className={styles.skillsList}>
               {(user.skills?.split(',') || []).map((skill, index) => (
-                <span key={index} className="skill-badge">{skill.trim()}</span>
+                <span key={index} className={styles.skillBadge}>{skill.trim()}</span>
               ))}
             </div>
           </div>
         )}
 
-        <div className="profile-rating">
+        <div className={styles.profileRating}>
           <strong>Рейтинг:</strong>
-          <div className="rating-stars">
-            {renderStars(user.rating || 0)}
+          <div className={styles.ratingStars}>
+            {renderStars(user.rating || 0, styles)}
           </div>
         </div>
       </div>
