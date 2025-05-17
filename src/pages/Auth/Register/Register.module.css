@@ -67,7 +67,7 @@ label {
 /* Общий стиль для кнопок "Добавить навык" и "Зарегистрироваться" */
 .button {
   width: 100%;
-  padding: 12px 0; /* Вертикальный padding для одинаковой высоты */
+  padding: 12px 0; 
   font-size: 16px;
   background-color: #4caf50;
   color: white;
@@ -77,7 +77,6 @@ label {
   transition: background-color 0.3s ease;
   display: inline-block;
   text-align: center;
-  margin-bottom: 30px; /* Отступ снизу, если нужно */
 }
 
 .button:hover {
