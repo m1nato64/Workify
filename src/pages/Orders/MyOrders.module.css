@@ -1,9 +1,9 @@
 /* Основной контейнер */
-.main {
+.mainContent {
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
+  margin-top: 100px;
+  box-sizing: border-box; 
 }
 
 /* Контейнер для списка заказов */
@@ -32,6 +32,10 @@
 .orderItem:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ordersHeader {
+  text-align: center;      
 }
 
 /* Текст в карточке */
@@ -317,11 +321,11 @@
 }
 
 .confirmBtn {
-  background-color: red;
+  background-color: #ff4d4d;
 }
 
 .confirmBtn:hover {
-  background-color: darkred;
+  background-color: #dd2121;
 }
 
 .cancelBtn {

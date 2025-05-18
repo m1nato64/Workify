@@ -1,23 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import logo from "../../../assets/images/logo.png";
-import { FaBell, FaUserCircle } from 'react-icons/fa';
-import { getUserFromStorage } from "../../../services/api/authServiceClient";
+import { FaBell, FaUserCircle } from "react-icons/fa";
+import { useUser } from "../../../services/context/userContext";
 
 const Header = () => {
   const [isProfileMenuVisible, setIsProfileMenuVisible] = useState(false);
-  const [role, setRole] = useState(null);
+  const menuRef = useRef(null);
+  const { user } = useUser();
+
+  const role = user?.role;
 
   useEffect(() => {
-    const currentUser = getUserFromStorage();
-    if (currentUser) {
-      setRole(currentUser.role);
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsProfileMenuVisible(false);
+      }
+    };
+    if (isProfileMenuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
-  }, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isProfileMenuVisible]);
 
   const toggleProfileMenu = () => {
-    setIsProfileMenuVisible(!isProfileMenuVisible);
+    setIsProfileMenuVisible((v) => !v);
   };
 
   const handleLogout = () => {
@@ -33,19 +43,19 @@ const Header = () => {
         <div className={styles.dropdown}>
           <button className={styles.dropbtn}>Фрилансеры ▾</button>
           <div className={styles.dropdownContent}>
-            <a href="#">Список фрилансеров</a>
+            <Link to="/freelancers">Список фрилансеров</Link>
           </div>
         </div>
-        <a href="/chat">Чаты</a>
-        <a href="/orders">Мои заказы</a>
+        <Link to="/chat">Чаты</Link>
+        <Link to="/orders">Мои заказы</Link>
       </>
     );
   } else if (role === "Freelancer") {
     navContent = (
       <>
-        <a href="#">Работа</a>
-        <a href="/chat">Чаты</a>
-        <a href="/responses">Мои отклики</a>
+        <Link to="/jobs">Работа</Link>
+        <Link to="/chat">Чаты</Link>
+        <Link to="/responses">Мои отклики</Link>
       </>
     );
   }
@@ -54,19 +64,30 @@ const Header = () => {
     <header className={styles.mainHeader}>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <Link to="/home" className={styles.logoLink}>
+          <Link to="/home" className={styles.logoLink} id="logoLink">
             <img src={logo} alt="Workify Logo" />
             <span className={styles.logoName}>Workify</span>
           </Link>
         </div>
 
-        <nav className={styles.nav}>{navContent}</nav>
+        <nav className={styles.nav} id="headerNav">
+          {navContent}
+        </nav>
 
-        <div className={styles.headerIcons}>
-          <div className={styles.iconBell}>
+        <div className={styles.headerIcons} ref={menuRef} id="notificationsAndProfile">
+          <div className={styles.iconBell} title="Уведомления">
             <FaBell size={25} />
           </div>
-          <div className={styles.iconUser} onClick={toggleProfileMenu}>
+          <div
+            className={styles.iconUser}
+            onClick={toggleProfileMenu}
+            title="Профиль"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") toggleProfileMenu();
+            }}
+          >
             <FaUserCircle size={25} />
           </div>
 

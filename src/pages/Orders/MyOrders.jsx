@@ -86,6 +86,15 @@ const MyOrders = () => {
       );
 
       setOrders(updatedOrders);
+
+      // Обновляем selectedOrder, если он содержит этот bid
+      if (selectedOrder) {
+        const updatedBids = selectedOrder.bids.map((bid) =>
+          bid.id === bidId ? { ...bid, status: data.updatedBid.status } : bid
+        );
+        setSelectedOrder({ ...selectedOrder, bids: updatedBids });
+      }
+
       updateUser(user);
       showToast(data.message, "success");
     } catch (err) {
@@ -201,8 +210,8 @@ const MyOrders = () => {
   return (
     <div>
       <Header role={user?.role} />
-      <main>
-        <h1>Мои заказы</h1>
+      <main className={styles.mainContent}>
+        <h1 className={styles.ordersHeader}>Мои заказы</h1>
 
         {loading && <p>Загрузка...</p>}
         {error && <p>{error}</p>}

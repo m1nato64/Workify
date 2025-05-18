@@ -1,8 +1,14 @@
 import React, { useState } from "react";
+import { useUser } from "../../services/context/userContext"; 
 import Toast from "../../components/common/Toast";
-import styles from "./AddOrderCard.module.css";  
+import Header from "../../components/common/Header-Footer/Header";
+import Footer from "../../components/common/Header-Footer/Footer";
+import styles from "./AddOrderCard.module.css";
 
-const AddOrderCard = ({ clientId }) => {
+const AddOrderCard = () => {
+  const { user } = useUser();
+  const clientId = user?.id;
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("open");
@@ -19,6 +25,11 @@ const AddOrderCard = ({ clientId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!clientId) {
+      showToast("Ошибка: пользователь не авторизован", "error");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("title", title);
@@ -52,41 +63,45 @@ const AddOrderCard = ({ clientId }) => {
   };
 
   return (
-    <div className={styles.addOrderCard}>
-      <h2 className={styles.title}>Добавить заказ</h2>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-      >
-        <input
-          type="text"
-          placeholder="Название проекта"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className={styles.inputText}
-        />
-        <textarea
-          placeholder="Описание"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-          className={styles.textarea}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className={styles.fileInput}
-        />
-        <button type="submit" className={styles.submitButton}>
-          Создать
-        </button>
-      </form>
+    <>
+      <Header />
+      <div className={styles.addOrderCard}>
+        <h2 className={styles.title}>Добавить заказ</h2>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
+          <input
+            type="text"
+            placeholder="Название проекта"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className={styles.inputText}
+          />
+          <textarea
+            placeholder="Описание"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            className={styles.textarea}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className={styles.fileInput}
+          />
+          <button type="submit" className={styles.submitButton}>
+            Создать
+          </button>
+        </form>
 
-      {toast.message && <Toast message={toast.message} type={toast.type} />}
-    </div>
+        {toast.message && <Toast message={toast.message} type={toast.type} />}
+      </div>
+      <Footer />
+    </>
   );
 };
 

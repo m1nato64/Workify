@@ -13,6 +13,7 @@ export const createProjectController = async (req, res) => {
   try {
     const body = Object.fromEntries(Object.entries(req.body));
     const { title, description, status, client_id } = body;
+    console.log("client_id при создании проекта:", client_id); 
     const media = req.file ? req.file.path : null;
 
     if (!title || !description || !status || !client_id) {

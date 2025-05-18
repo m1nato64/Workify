@@ -1,0 +1,140 @@
+.main {
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  gap: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.highlight {
+  color: #007bff;
+  font-weight: 700;
+}
+
+.buttonsWrapper {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 460px;
+  width: 100%;
+  justify-content: center;
+}
+
+.actionButton,
+.tutorialButton {
+  flex: 1; 
+  padding: 12px 10px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.actionButton {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.actionButton:hover {
+  background-color: #388e3c;
+}
+
+.tutorialButton {
+  background-color: #bbbbbb; 
+  color: #fff;          
+}
+
+.tutorialButton:hover {
+  background-color: #777; 
+}
+
+.logo-wrapper {
+  display: inline-block;
+  animation:
+    sway 0.4s ease-in-out infinite,     
+    floatUpDown 6s ease-in-out infinite;
+  animation-delay: 1.8s, 1.8s;          
+  transform-origin: center bottom;
+}
+
+.logo-inner {
+  display: block;
+  width: 250px;
+  margin-bottom: 25px;
+  cursor: default;
+  animation:
+    introPulse 1.8s ease forwards,       
+    pulseGlowLight 3.5s ease-in-out infinite;
+  animation-delay: 0s, 1.8s;           
+  transition: filter 0.3s ease;
+}
+
+.logo-wrapper:hover .logo-inner {
+  filter: drop-shadow(0 0 30px rgba(0, 191, 255, 1)) brightness(1.3);
+  transform: scale(1.15) translateY(-10px);
+}
+
+/* Анимации */
+@keyframes introPulse {
+  0% {
+    transform: scale(0.8) translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(0, 191, 255, 0));
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(-12px) rotate(180deg);
+    filter: drop-shadow(0 0 25px rgba(0, 191, 255, 1));
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.05) translateY(-8px) rotate(270deg);
+    filter: drop-shadow(0 0 18px rgba(0, 191, 255, 0.8));
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(360deg);
+    filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.7));
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2deg);  
+  }
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlowLight {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.7));
+    brightness: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(0, 191, 255, 1));
+    brightness: 1.3;
+  }
+}

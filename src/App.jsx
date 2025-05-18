@@ -10,7 +10,9 @@ import Profile from "./pages/Profile/Profile";
 import DocumentTitleUpdater from "./utils/DocumentTitleUpdater.jsx";
 import Settings from "./pages/Profile/Settings";
 import Chats from "./pages/Chat/Chats";
+import WelcomePage from "./pages/Welcome/WelcomePage.jsx";
 import "./styles/global.css";
+import AddOrderCard from "./components/cards/AddOrderCard.jsx";
 
 const AppRoutes = () => {
   const { user } = useUser(); 
@@ -24,10 +26,12 @@ const AppRoutes = () => {
       <Route path="/orders" element={<MyOrders />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/add-order" element={<AddOrderCard />} />
       <Route
         path="/chat"
         element={user ? <Chats currentUserId={user.id} /> : <Login />}
       />
+      <Route path="/welcome" element={<WelcomePage/>} />
     </Routes>
   );
 };

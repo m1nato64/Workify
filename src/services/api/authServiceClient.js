@@ -1,3 +1,4 @@
+//src/services/authServiceClient.js
 export const getToken = () => {
     return localStorage.getItem('token');
   };

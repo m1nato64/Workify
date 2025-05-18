@@ -1,0 +1,112 @@
+.tutorialOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tutorialBox {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  text-align: left;
+  position: absolute;
+  max-width: 320px;
+  font-size: 1rem;
+  z-index: 1200;
+}
+
+.tutorialBox h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  margin-bottom: 0.7rem;
+  color: #222;
+}
+
+.tutorialContent {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tutorialContent ul {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tutorialContent ul li {
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+  color: #444;
+}
+
+/* Controls Buttons */
+
+.tutorialControls {
+  display: flex;
+  justify-content: center;
+  gap: 15px; 
+  margin-top: 1rem;
+}
+
+.nextBtn,
+.finishBtn,
+.skipBtn {
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+  color: white;
+  min-width: 90px; 
+}
+
+.nextBtn {
+  background-color: #28a745;
+}
+
+.nextBtn:hover {
+  background-color: #1e7e34;
+}
+
+.finishBtn {
+  background-color: #28a745;
+}
+
+.finishBtn:hover {
+  background-color: #1e7e34;
+}
+
+.skipBtn {
+  background-color: #6c757d;
+}
+
+.skipBtn:hover {
+  background-color: #5a6268;
+}
+
+/* Кнопка Назад - другой стиль */
+.backBtn {
+  background-color: transparent;
+  color: #007bff; 
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid #007bff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.backBtn:hover {
+  background-color: #007bff;
+  color: white;
+}

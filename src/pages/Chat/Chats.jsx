@@ -5,8 +5,12 @@ import Header from "../../components/common/Header-Footer/Header";
 import Footer from "../../components/common/Header-Footer/Footer";
 import styles from "./Сhats.module.css";
 import { FaArrowCircleRight } from "react-icons/fa";
+import { getUserFromStorage } from "../../services/api/authServiceClient";
 
-const Chats = ({ currentUserId }) => {
+const Chats = () => {
+  const user = getUserFromStorage();
+  const currentUserId = user?.id;
+
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -14,12 +18,11 @@ const Chats = ({ currentUserId }) => {
   const messagesEndRef = useRef(null);
   const socketRef = useRef(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    if (!currentUserId) return;
+    if (!currentUserId) {
+      window.location.href = "/login";
+      return;
+    }
 
     socketRef.current = io("http://localhost:3000", {
       withCredentials: true,
@@ -87,6 +90,10 @@ const Chats = ({ currentUserId }) => {
     setNewMessage("");
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(scrollToBottom, [messages]);
 
   return (
@@ -94,7 +101,6 @@ const Chats = ({ currentUserId }) => {
       <Header />
 
       <div className={styles.chatWrapper}>
-        {/* Список пользователей */}
         <div className={styles.sidebar}>
           <h2 className={styles.sidebarTitle}>Пользователи</h2>
           {users.length === 0 && <div>Пользователи не найдены</div>}
@@ -111,7 +117,6 @@ const Chats = ({ currentUserId }) => {
           ))}
         </div>
 
-        {/* Чат */}
         <div className={styles.chatArea}>
           {selectedUser ? (
             <>

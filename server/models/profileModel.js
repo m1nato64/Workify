@@ -91,3 +91,21 @@ export async function getAllUsers() {
   const result = await pool.query('SELECT id, name, role, skills, rating, created_at, avatar FROM users ORDER BY name');
   return result.rows;
 }
+
+// Получить настройку показа обучения
+export async function getShowTutorialSetting(userId) {
+  const result = await pool.query(
+    'SELECT show_tutorial_on_login FROM users WHERE id = $1',
+    [userId]
+  );
+  return result.rows[0]?.show_tutorial_on_login ?? true; // по умолчанию true
+}
+
+// Обновить настройку показа обучения
+export async function updateShowTutorialSetting(userId, showTutorial) {
+  const result = await pool.query(
+    'UPDATE users SET show_tutorial_on_login = $1 WHERE id = $2 RETURNING show_tutorial_on_login',
+    [showTutorial, userId]
+  );
+  return result.rows[0];
+}

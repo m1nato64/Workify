@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 900;
   height: 80px;
   box-sizing: border-box;
 }
@@ -38,13 +38,29 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: 20px;
-  padding-right: 65px;
+}
+
+.logoLink:hover img {
+  transform: scale(1.2);
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logoLink img {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .nav a {
   text-decoration: none;
   color: #fff;
   font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav a:hover {
+  color: #87bdf7; /* светло-зеленый оттенок при наведении */
+  transform: translateY(-2px);
 }
 
 .dropdown {
@@ -99,7 +115,8 @@
 
 .iconBell:hover,
 .iconUser:hover {
-  color: #007bff;
+  color: #87bdf7;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .profileMenu {

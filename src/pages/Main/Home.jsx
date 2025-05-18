@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import Header from '../../components/common/Header-Footer/Header'; 
-import Footer from '../../components/common/Header-Footer/Footer'; 
-import AddOrderCard from '../../components/cards/AddOrderCard';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/common/Header-Footer/Header';
+import Footer from '../../components/common/Header-Footer/Footer';
+import WelcomePage from '../../pages/Welcome/WelcomePage';
 import JobList from '../../components/cards/JobList';
 
 const Home = () => {
-  const [role, setRole] = useState(null);
-  const [clientId, setClientId] = useState(null);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userData = JSON.parse(localStorage.getItem('user'));
 
-    if (!user) {
+    if (!userData) {
       navigate('/login');
     } else {
-      setRole(user.role);
-      setClientId(user.id); 
+      setUser(userData);
     }
   }, [navigate]);
 
+  if (!user) return null;
+
   return (
     <div className="home">
-      <Header role={role} />
+      <Header />
 
       <main>
-        {role === 'Client' && clientId && (
-          <AddOrderCard clientId={clientId} />
+        {user.role === 'Client' && (
+          <WelcomePage user={user} />
         )}
 
-        {role === 'Freelancer' && (
+        {user.role === 'Freelancer' && (
           <JobList />
         )}
       </main>

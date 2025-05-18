@@ -10,8 +10,8 @@ export const createProject = async (title, description, status, client_id, media
     );
     return result.rows[0];
   } catch (err) {
-    console.error('Ошибка при создании проекта:', err.message);  // Логируем ошибку
-    throw err;  // Пробрасываем ошибку дальше
+    console.error('Ошибка при создании проекта:', err.message);  
+    throw err;  
   }
 };
 
