@@ -1,0 +1,196 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.viewToggle button {
+  margin-left: 8px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.viewToggle .active {
+  color: #4CAF50;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card,
+.listItem {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card {
+  flex-direction: column;
+  text-align: center;
+}
+
+.listItem {
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 20px; 
+}
+
+.card:hover, .listItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarIcon {
+  font-size: 80px;
+  color: #ccc;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.listItem .avatar {
+  margin-bottom: 0;
+}
+
+.info {
+  flex: 1;
+  display: flex;              
+  flex-direction: column;     
+  justify-content: center;     
+  min-width: 0;                
+}
+
+.skills {
+  font-size: 14px;
+  color: #666;
+  margin-top: 4px;             
+}
+
+.ratingActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  margin-top: 10px;
+  gap: 10px;
+}
+
+/* Сам рейтинг */
+.rating {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #333;
+  gap: 5px;
+  flex-shrink: 0; 
+}
+
+.star {
+  color: gold;
+}
+
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0; 
+}
+
+
+.iconButton {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s;
+  padding: 0;         
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+}
+
+.iconButton:hover {
+  color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 40px auto 80px;
+  padding: 10px 20px;
+  border-radius: 12px;  
+  user-select: none;
+  max-width: fit-content;
+}
+
+/* Кнопки с номерами страниц и стрелки */
+.pagination button,
+.pageButton {
+  padding: 10px 18px;
+  background-color: #28a745; /* основной зелёный */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 5px;
+  min-width: 42px;
+  text-align: center;
+  user-select: none;
+}
+
+.pagination button:hover:not(:disabled),
+.pageButton:hover:not(:disabled) {
+  background-color: #1e7e34; /* темнее на ховере */
+  box-shadow: 0 4px 14px rgba(30, 126, 52, 0.6);
+}
+
+.pagination button:disabled,
+.pageButton:disabled {
+  background-color: #c0c4cc;
+  color: #666;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Текущая страница — более яркий зелёный, без клика */
+.pageButton.activePage {
+  background-color: #317a34; /* насыщенный тёмно-зеленый */
+  box-shadow: 0 4px 15px rgba(25, 105, 44, 0.7);
+  cursor: default;
+  color: white;
+  pointer-events: none;
+}

@@ -11,6 +11,7 @@ import {
   getAllUsers,
   getShowTutorialSetting,
   updateShowTutorialSetting,
+  getFreelancers,
 } from "../models/profileModel.js";
 import bcrypt from "bcrypt";
 
@@ -70,7 +71,12 @@ export const deleteProfileController = async (req, res) => {
 
 export const updateUserAvatarController = async (req, res) => {
   const userId = req.params.id;
-  const avatarUrl = `/uploads/${req.file.filename}`;
+
+  if (!req.file) {
+    return res.status(400).json({ error: "Файл аватара обязателен" });
+  }
+
+  const avatarUrl = req.file.path;
 
   try {
     const updatedUser = await updateUserAvatar(userId, avatarUrl);
@@ -82,7 +88,6 @@ export const updateUserAvatarController = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 export const changePasswordController = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const userId = req.params.id;
@@ -151,6 +156,16 @@ export const updateShowTutorialSettingController = async (req, res) => {
 
     const updated = await updateShowTutorialSetting(userId, showTutorial);
     res.json({ message: 'Настройка обучения обновлена', showTutorial: updated.show_tutorial_on_login });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Получаем фрилансеров
+export const getFreelancersController = async (req, res) => {
+  try {
+    const freelancers = await getFreelancers();
+    res.json(freelancers);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

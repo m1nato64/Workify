@@ -1,0 +1,104 @@
+.skillsSettingsContainer {
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.skillsSettingsTitle {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.skillsTextarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  resize: none;
+  transition: border 0.3s ease;
+}
+
+.skillsTextarea:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.skillsSaveBtn {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+  width: 100%;
+}
+
+.skillsSaveBtn:hover {
+  background-color: #409642;
+}
+
+.errorMessage {
+  color: #ff4d4d;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.skillsList {
+  margin-bottom: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.skillItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.skillItem span {
+  margin-right: 10px;
+}
+
+.skillItem button {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+}
+
+.skillItem button:hover {
+  background-color: #ccc;
+}
+
+.skillItem button:first-child {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.skillItem button:first-child:hover {
+  background-color: #e60000;
+}
+
+.skillItem button:last-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.skillItem button:last-child:hover {
+  background-color: #409642;
+}

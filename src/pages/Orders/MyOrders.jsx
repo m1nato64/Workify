@@ -29,9 +29,11 @@ const MyOrders = () => {
     media: null,
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const [toast, setToast] = useState({ message: "", type: "success" });
-
+  const [toasts, setToasts] = useState([]);
   const { user, updateUser } = useUser();
+
+  const projectsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const token = getToken();
@@ -199,12 +201,37 @@ const MyOrders = () => {
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const showToast = (message, type = "success") => {
-    setToast({ message, type });
+    const id = Date.now(); // простой id по времени
+    setToasts((prev) => [...prev, { id, message, type }]);
+  };
+
+  const removeToast = (id) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
   const openDeleteModal = (order) => {
     setSelectedOrder(order);
     setIsDeleteModalOpen(true);
+  };
+
+  // Вычисляем индекс начала и конца среза проектов для текущей страницы
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = orders.slice(indexOfFirstProject, indexOfLastProject);
+
+  // Общее количество страниц
+  const totalPages = Math.ceil(orders.length / projectsPerPage);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const setPage = (pageNum) => {
+    setCurrentPage(pageNum);
   };
 
   return (
@@ -224,94 +251,143 @@ const MyOrders = () => {
         )}
 
         {!loading && orders.length > 0 && (
-          <div className={styles.orderList}>
-            {orders.map((order) => (
-              <div className={styles.orderItem} key={order.id}>
-                <p>Название проекта: {order.title}</p>
-                <p>Описание: {order.description}</p>
-                <p>
-                  Статус проекта:{" "}
-                  <span
-                    className={`${styles.statusProject} ${
-                      styles[order.status]
-                    }`}
-                  >
-                    {statusLabels[order.status]}
-                  </span>
-                </p>
-                <p>
-                  Статус откликов:{" "}
-                  <span
-                    className={`${styles.status} ${
-                      order.accepting_bids
-                        ? styles.accepting
-                        : styles.notAccepting
-                    }`}
-                  >
-                    {order.accepting_bids ? "принимаются" : "не принимаются"}
-                  </span>
-                </p>
-                {order.media && (
-                  <img src={order.media} alt="Project" width="100" />
-                )}
-                <div className={styles.actionButtons}>
-                  {order.status === "completed" ? (
-                    <button
-                      className={styles.button}
-                      onClick={() => {
-                        // Здесь должна быть логика открытия модалки/страницы с отзывом
-                        alert("Оставить отзыв — функциональность в разработке");
-                      }}
+          <>
+            <div className={styles.orderList}>
+              {currentProjects.map((order) => (
+                <div className={styles.orderItem} key={order.id}>
+                  <p>Название проекта: {order.title}</p>
+                  <p>Описание: {order.description}</p>
+                  <p>
+                    Статус проекта:{" "}
+                    <span
+                      className={`${styles.statusProject} ${
+                        styles[order.status]
+                      }`}
                     >
-                      Оставить комментарий и отзыв фрилансеру
-                    </button>
-                  ) : (
-                    <button
-                      className={styles.button}
-                      onClick={() => {
-                        setSelectedOrder(order);
-                        setIsModalOpen(true);
-                      }}
+                      {statusLabels[order.status]}
+                    </span>
+                  </p>
+                  <p>
+                    Статус откликов:{" "}
+                    <span
+                      className={`${styles.status} ${
+                        order.accepting_bids
+                          ? styles.accepting
+                          : styles.notAccepting
+                      }`}
                     >
-                      Посмотреть отклики
-                    </button>
+                      {order.accepting_bids ? "принимаются" : "не принимаются"}
+                    </span>
+                  </p>
+                  {order.media && (
+                    <img
+                      src={order.media}
+                      alt="Project"
+                      className={styles.projectImage}
+                    />
                   )}
+                  <div className={styles.actionButtons}>
+                    {order.status === "completed" ? (
+                      <button
+                        className={styles.button}
+                        onClick={() => {
+                          alert(
+                            "Оставить отзыв — функциональность в разработке"
+                          );
+                        }}
+                      >
+                        Оставить комментарий и отзыв фрилансеру
+                      </button>
+                    ) : (
+                      <button
+                        className={styles.button}
+                        onClick={() => {
+                          setSelectedOrder(order);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        Посмотреть отклики
+                      </button>
+                    )}
 
-                  <button
-                    className={styles.button}
-                    onClick={() => openEditModal(order)}
-                  >
-                    Редактировать
-                  </button>
+                    <button
+                      className={styles.button}
+                      onClick={() => openEditModal(order)}
+                    >
+                      Редактировать
+                    </button>
 
-                  <button
-                    className={styles.button}
-                    onClick={() => openDeleteModal(order)}
-                  >
-                    Удалить
-                  </button>
+                    <button
+                      className={styles.button}
+                      onClick={() => openDeleteModal(order)}
+                    >
+                      Удалить
+                    </button>
 
-                  <button
-                    className={`${styles.button} ${
-                      order.status === "completed" ? styles.disabledButton : ""
-                    }`}
-                    onClick={() =>
-                      order.status !== "completed" &&
-                      toggleBids(order.id, !order.accepting_bids)
-                    }
-                    disabled={order.status === "completed"}
-                  >
-                    {order.accepting_bids
-                      ? "Закрыть отклики"
-                      : "Открыть отклики"}
-                  </button>
+                    <button
+                      className={`${styles.button} ${
+                        order.status === "completed"
+                          ? styles.disabledButton
+                          : ""
+                      }`}
+                      onClick={() =>
+                        order.status !== "completed" &&
+                        toggleBids(order.id, !order.accepting_bids)
+                      }
+                      disabled={order.status === "completed"}
+                    >
+                      {order.accepting_bids
+                        ? "Закрыть отклики"
+                        : "Открыть отклики"}
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Пагинация */}
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                <button
+                  className={styles.pageButton}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                >
+                  Назад
+                </button>
+
+                {[...Array(totalPages)].map((_, index) => {
+                  const page = index + 1;
+                  return (
+                    <button
+                      key={page}
+                      className={`${styles.pageButton} ${
+                        currentPage === page ? styles.activePage : ""
+                      }`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+
+                <button
+                  className={styles.pageButton}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                >
+                  Вперед
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
 
-        {/* Модальное окно подтверждения удаления */}
+        {/* Модальные окна (удаления, откликов, редактирования) и Toast */}
         {isDeleteModalOpen && selectedOrder && (
           <div className={styles.modal}>
             <div
@@ -334,7 +410,6 @@ const MyOrders = () => {
           </div>
         )}
 
-        {/* Модальное окно откликов */}
         {isModalOpen && selectedOrder && !editMode && (
           <div className={styles.modal}>
             <div className={`${styles.modalContent} ${styles.modalBidContent}`}>
@@ -385,7 +460,6 @@ const MyOrders = () => {
           </div>
         )}
 
-        {/* Модальное окно редактирования */}
         {editMode && (
           <div className={styles.modal}>
             <div
@@ -430,7 +504,13 @@ const MyOrders = () => {
                   accept="image/*"
                   className={styles.input}
                 />
-                {imagePreview && <img src={imagePreview} alt="Preview" />}
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className={styles.previewImage}
+                  />
+                )}
                 <div className={styles.modalActions}>
                   <button type="submit" className={styles.button}>
                     Обновить проект
@@ -449,7 +529,16 @@ const MyOrders = () => {
         )}
       </main>
       <Footer />
-      {toast.message && <Toast message={toast.message} type={toast.type} />}
+      <div className={styles.toastContainer}>
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 };

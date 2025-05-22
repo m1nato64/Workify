@@ -4,7 +4,7 @@ import Footer from '../../components/common/Header-Footer/Footer';
 import GeneralSettings from '../../components/common/Settings/GeneralSettings';
 import SecuritySettings from '../../components/common/Settings/SecuritySettings';
 import DeleteAccount from '../../components/common/Settings/DeleteAccount';
-import Skills from '../../components/common/Settings/Skills'; 
+import Skills from '../../components/common/Settings/SkillsSettings'; 
 import { getUserFromStorage } from '../../services/api/authServiceClient'; 
 import styles from './Settings.module.css';
 

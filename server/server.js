@@ -14,6 +14,7 @@ import bidRoutes from './routes/bidRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import chatsRoutes from './routes/chatRoutes.js';
 import { initializeSocket } from './services/socketService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -22,7 +23,7 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
-initializeSocket(server);
+const io = initializeSocket(server);
 
 // Middleware
 app.use(cookieParser());
@@ -34,7 +35,6 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Маршруты
 app.use('/api/auth', authRoutes);
@@ -45,6 +45,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/upload-avatar', uploadRoutes);
+app.use('/api/chats', chatsRoutes);
 
 // 404 fallback
 app.use((req, res) => {

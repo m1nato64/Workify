@@ -11,15 +11,13 @@ import { getBidsForProject } from '../models/bidModel.js';
 
 export const createProjectController = async (req, res) => {
   try {
-    const body = Object.fromEntries(Object.entries(req.body));
-    const { title, description, status, client_id } = body;
-    console.log("client_id при создании проекта:", client_id); 
-    const media = req.file ? req.file.path : null;
+    const { title, description, status, client_id, mediaUrl } = req.body;
 
     if (!title || !description || !status || !client_id) {
       return res.status(400).json({ error: 'Все поля обязательны' });
     }
 
+    const media = req.file ? req.file.path : null;
     const project = await createProject(title, description, status, media, client_id);
     res.status(201).json({ message: 'Проект создан', project });
   } catch (err) {
@@ -92,13 +90,14 @@ export const deleteProjectController = async (req, res) => {
 export const updateProjectController = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const body = Object.fromEntries(Object.entries(req.body)); 
-    const { title, description, status } = body; 
-    const media = req.file ? req.file.path : null; 
+    const { title, description, status, mediaUrl } = req.body;
 
     if (!title || !description || !status) {
       return res.status(400).json({ error: 'Все поля обязательны' });
     }
+
+    // Если файл загружен через multer, берем путь из req.file, иначе из mediaUrl, либо null
+    const media = req.file ? req.file.path : (mediaUrl || null);
 
     const updatedProject = await updateProject(projectId, title, description, status, media);
     if (!updatedProject) {

@@ -1,6 +1,11 @@
 // routes/messageRoutes.js
 import express from 'express';
-import { sendMessageController, getMessagesBetweenUsersController, getMessagesForUserController } from '../controllers/messageController.js';
+import { 
+    sendMessageController, 
+    getMessagesBetweenUsersController, 
+    getMessagesForUserController,
+    
+ } from '../controllers/messageController.js';
 
 const router = express.Router();
 

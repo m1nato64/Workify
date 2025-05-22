@@ -109,3 +109,11 @@ export async function updateShowTutorialSetting(userId, showTutorial) {
   );
   return result.rows[0];
 }
+
+// Получаем список фрилансеров
+export const getFreelancers = async () => {
+  const result = await pool.query(
+    "SELECT id, name, avatar, skills, rating FROM users WHERE role = 'Freelancer'"
+  );
+  return result.rows;
+};

@@ -1,5 +1,5 @@
-//server/routes/profileRoutes.js
 import express from 'express';
+import upload from '../middlewares/upload.js';  
 import {
   getProfileController,
   updateProfileController,
@@ -11,13 +11,13 @@ import {
   getAllUsersController,
   getShowTutorialSettingController,
   updateShowTutorialSettingController,
+  getFreelancersController,
 } from '../controllers/profileController.js';
-
-import upload from '../middlewares/upload.js';
 
 const router = express.Router();
 
 router.get('/all', getAllUsersController);
+router.get('/freelancers', getFreelancersController);
 router.get('/:id', getProfileController);
 router.put('/:id', updateProfileController);
 router.get('/:id/tutorial-setting', getShowTutorialSettingController);

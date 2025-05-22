@@ -1,83 +1,97 @@
-import React, { useEffect, useState } from 'react';
-import Toast from '../common/Toast';
-import styles from './JobList.module.css';
+import React, { useEffect, useState } from "react";
+import Toast from "../common/Toast";
+import styles from "./JobList.module.css";
 
 const JobList = () => {
   const [projects, setProjects] = useState([]);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success');
-  const userId = JSON.parse(localStorage.getItem('user'))?.id;
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   const getStatusText = (status) => {
-  switch (status) {
-    case 'completed':
-      return 'Завершен';
-    case 'in_progress':
-      return 'В разработке';
-    case 'open':
-      return 'Открыт';
-    default:
-      return 'Неизвестно';
-  }
-};
+    switch (status) {
+      case "completed":
+        return "Завершен";
+      case "in_progress":
+        return "В разработке";
+      case "open":
+        return "Открыт";
+      default:
+        return "Неизвестно";
+    }
+  };
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/projects')
-      .then(res => res.json())
-      .then(data => setProjects(data))
+    fetch("http://localhost:3000/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        const sorted = data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        setProjects(sorted);
+      })
       .catch(() => {
-        setToastType('error');
-        setToastMessage('Ошибка загрузки проектов');
+        setToastType("error");
+        setToastMessage("Ошибка загрузки проектов");
       });
   }, []);
 
   const handleApply = async (projectId) => {
     if (!userId) {
-      setToastType('error');
-      setToastMessage('Пожалуйста, войдите в систему, чтобы откликнуться.');
+      setToastType("error");
+      setToastMessage("Пожалуйста, войдите в систему, чтобы откликнуться.");
       return;
     }
     try {
-      const responseCheck = await fetch(`http://localhost:3000/api/bids/check?freelance_id=${userId}&project_id=${projectId}`);
-      if (!responseCheck.ok) throw new Error('Ошибка при проверке отклика');
+      const responseCheck = await fetch(
+        `http://localhost:3000/api/bids/check?freelance_id=${userId}&project_id=${projectId}`
+      );
+      if (!responseCheck.ok) throw new Error("Ошибка при проверке отклика");
       const checkData = await responseCheck.json();
 
       if (checkData.exists) {
-        setToastType('error');
-        setToastMessage('Вы уже оставили отклик на этот проект.');
+        setToastType("error");
+        setToastMessage("Вы уже оставили отклик на этот проект.");
         return;
       }
 
-      const projectResponse = await fetch(`http://localhost:3000/api/projects/${projectId}`);
-      if (!projectResponse.ok) throw new Error('Ошибка при получении данных проекта');
+      const projectResponse = await fetch(
+        `http://localhost:3000/api/projects/${projectId}`
+      );
+      if (!projectResponse.ok)
+        throw new Error("Ошибка при получении данных проекта");
       const project = await projectResponse.json();
 
       if (!project.accepting_bids) {
-        setToastType('error');
-        setToastMessage('На данный проект не принимаются отклики.');
+        setToastType("error");
+        setToastMessage("На данный проект не принимаются отклики.");
         return;
       }
 
-      const response = await fetch('http://localhost:3000/api/bids', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:3000/api/bids", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ freelance_id: userId, project_id: projectId }),
       });
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.message || 'Ошибка при отправке отклика.');
+        throw new Error(errData.message || "Ошибка при отправке отклика.");
       }
 
-      setToastType('success');
-      setToastMessage('Отклик успешно отправлен!');
+      setToastType("success");
+      setToastMessage("Отклик успешно отправлен!");
 
-      setProjects(prev =>
-        prev.map(p => (p.id === projectId ? { ...p, bids_count: p.bids_count + 1 } : p))
+      setProjects((prev) =>
+        prev.map((p) =>
+          p.id === projectId ? { ...p, bids_count: p.bids_count + 1 } : p
+        )
       );
     } catch (err) {
-      setToastType('error');
-      setToastMessage(err.message || 'Ошибка сервера. Пожалуйста, попробуйте позже.');
+      setToastType("error");
+      setToastMessage(
+        err.message || "Ошибка сервера. Пожалуйста, попробуйте позже."
+      );
     }
   };
 
@@ -87,7 +101,11 @@ const JobList = () => {
         <h2 className={styles.jobTitle}>Доступные проекты</h2>
 
         {toastMessage && (
-          <Toast message={toastMessage} type={toastType} onClose={() => setToastMessage('')} />
+          <Toast
+            message={toastMessage}
+            type={toastType}
+            onClose={() => setToastMessage("")}
+          />
         )}
 
         <div className={styles.jobList}>
@@ -96,22 +114,30 @@ const JobList = () => {
               <p>На данный момент проектов нету.</p>
             </div>
           ) : (
-            projects.map(project => (
+            projects.slice(0, 3).map((project) => (
               <div key={project.id} className={styles.jobCard}>
                 <div className={styles.info}>
                   <h3 className={styles.jobCardTitle}>{project.title}</h3>
                   <p className={styles.jobDescription}>{project.description}</p>
                   <div className={styles.details}>
-                    <span className={styles.status}>{getStatusText(project.status)}</span>  
-                    <span className={styles.date}>{new Date(project.created_at).toLocaleDateString()}</span>
+                    <span className={styles.status}>
+                      {getStatusText(project.status)}
+                    </span>
+                    <span className={styles.date}>
+                      {new Date(project.created_at).toLocaleDateString()}
+                    </span>
                   </div>
 
                   <div className={styles.stats}>
                     <div className={styles.statIcon}>
-                      <svg viewBox="0 0 24 24"><path d="M12 5c-7.633 0-11 6.686-11 7s3.367 7 11 7 11-6.686 11-7-3.367-7-11-7zm0 12c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5zm0-8c-1.656 0-3 1.344-3 3s1.344 3 3 3 3-1.344 3-3-1.344-3-3-3z" /></svg>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M12 5c-7.633 0-11 6.686-11 7s3.367 7 11 7 11-6.686 11-7-3.367-7-11-7zm0 12c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5zm0-8c-1.656 0-3 1.344-3 3s1.344 3 3 3 3-1.344 3-3-1.344-3-3-3z" />
+                      </svg>
                     </div>
                     <div className={styles.statIcon}>
-                      <svg viewBox="0 0 24 24"><path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z" /></svg>
+                      <svg viewBox="0 0 24 24">
+                        <path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z" />
+                      </svg>
                       {project.bids_count || 0}
                     </div>
                   </div>
@@ -121,13 +147,24 @@ const JobList = () => {
                     onClick={() => handleApply(project.id)}
                     disabled={!project.accepting_bids}
                   >
-                    {project.accepting_bids ? "Откликнуться" : "Отклики не принимаются"}
+                    {project.accepting_bids
+                      ? "Откликнуться"
+                      : "Отклики не принимаются"}
                   </button>
                 </div>
               </div>
             ))
           )}
         </div>
+
+        {projects.length > 3 && (
+          <div className={styles.showAll}>
+            <a href="/jobs" className={styles.showAllButton}>
+              Смотреть все проекты
+              <span className={styles.arrow}>&rarr;</span>
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

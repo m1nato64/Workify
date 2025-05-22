@@ -111,3 +111,29 @@
   color: #f39c12;
   cursor: default;
 }
+
+.avatarPlaceholder {
+  font-size: 120px; 
+  color: #ccc;      
+}
+
+.avatarImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ratingStars {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+}
+
+.ratingNumber {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  min-width: 30px;
+  text-align: right; 
+}

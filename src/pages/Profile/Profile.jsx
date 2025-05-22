@@ -1,9 +1,10 @@
 // src/pages/Profile/Profile.jsx
-import React, { useEffect, useState } from 'react';
-import { useUser } from '../../services/context/userContext';
-import Header from '../../components/common/Header-Footer/Header';
-import Footer from '../../components/common/Header-Footer/Footer';
-import styles from './Profile.module.css';
+import React, { useEffect, useState } from "react";
+import { useUser } from "../../services/context/userContext";
+import Header from "../../components/common/Header-Footer/Header";
+import Footer from "../../components/common/Header-Footer/Footer";
+import styles from "./Profile.module.css";
+import { FaUserCircle } from "react-icons/fa";
 
 const renderStars = (rating, styles) => {
   const fullStars = Math.floor(rating);
@@ -12,15 +13,27 @@ const renderStars = (rating, styles) => {
   let stars = [];
 
   for (let i = 0; i < fullStars; i++) {
-    stars.push(<span key={`full-${i}`} className={styles.star + ' ' + styles.starFilled}>★</span>);
+    stars.push(
+      <span key={`full-${i}`} className={styles.star + " " + styles.starFilled}>
+        ★
+      </span>
+    );
   }
 
   if (halfStars) {
-    stars.push(<span key="half" className={styles.star + ' ' + styles.starHalf}>★</span>);
+    stars.push(
+      <span key="half" className={styles.star + " " + styles.starHalf}>
+        ★
+      </span>
+    );
   }
 
   for (let i = 0; i < emptyStars; i++) {
-    stars.push(<span key={`empty-${i}`} className={styles.star}>★</span>);
+    stars.push(
+      <span key={`empty-${i}`} className={styles.star}>
+        ★
+      </span>
+    );
   }
 
   return stars;
@@ -31,7 +44,7 @@ const Profile = () => {
   const [avatarPreview, setAvatarPreview] = useState(null);
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+    const currentUser = JSON.parse(localStorage.getItem("user"));
     if (currentUser && currentUser !== user) {
       updateUser(currentUser);
     }
@@ -59,16 +72,16 @@ const Profile = () => {
 
   const translateRole = (role) => {
     switch (role) {
-      case 'Freelancer':
-        return 'Фрилансер';
-      case 'Client':
-        return 'Клиент';
+      case "Freelancer":
+        return "Фрилансер";
+      case "Client":
+        return "Клиент";
       default:
         return role;
     }
   };
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const ratingNumber = user.rating ? Number(user.rating) : 0;
 
   return (
     <div className={styles.profileContainer}>
@@ -77,22 +90,37 @@ const Profile = () => {
         <h2>Профиль пользователя {user.name}</h2>
 
         <div className={styles.profileAvatar}>
-          <img
-            src={avatarPreview ? `${API_URL}${avatarPreview}` : '/default-avatar.png'}
-            alt="Аватар"
-            className={styles.avatarImg}
-          />
+          {avatarPreview ? (
+            <img
+              src={avatarPreview}
+              alt="Аватар"
+              className={styles.avatarImg}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = ""; // если ошибка — показать иконку
+                setAvatarPreview(null); // сбрасываем preview
+              }}
+            />
+          ) : (
+            <FaUserCircle className={styles.avatarPlaceholder} />
+          )}
         </div>
 
-        <p><strong>Имя:</strong> {user.name}</p>
-        <p><strong>Роль:</strong> {translateRole(user.role)}</p>
+        <p>
+          <strong>Имя:</strong> {user.name}
+        </p>
+        <p>
+          <strong>Роль:</strong> {translateRole(user.role)}
+        </p>
 
-        {user.role === 'Freelancer' && (
+        {user.role === "Freelancer" && (
           <div className={styles.profileSkills}>
             <strong>Навыки:</strong>
             <div className={styles.skillsList}>
-              {(user.skills?.split(',') || []).map((skill, index) => (
-                <span key={index} className={styles.skillBadge}>{skill.trim()}</span>
+              {(user.skills?.split(",") || []).map((skill, index) => (
+                <span key={index} className={styles.skillBadge}>
+                  {skill.trim()}
+                </span>
               ))}
             </div>
           </div>
@@ -101,7 +129,10 @@ const Profile = () => {
         <div className={styles.profileRating}>
           <strong>Рейтинг:</strong>
           <div className={styles.ratingStars}>
-            {renderStars(user.rating || 0, styles)}
+            <span className={styles.ratingNumber}>
+              {(Number(user.rating) || 0).toFixed(1)}
+            </span>
+            {renderStars(Number(user.rating) || 0, styles)}
           </div>
         </div>
       </div>

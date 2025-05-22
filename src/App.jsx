@@ -13,9 +13,10 @@ import Chats from "./pages/Chat/Chats";
 import WelcomePage from "./pages/Welcome/WelcomePage.jsx";
 import "./styles/global.css";
 import AddOrderCard from "./components/cards/AddOrderCard.jsx";
+import FreelancersList from "./pages/Freelancers/FreelancersList.jsx";
 
 const AppRoutes = () => {
-  const { user } = useUser(); 
+  const { user } = useUser();
 
   return (
     <Routes>
@@ -27,11 +28,10 @@ const AppRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/add-order" element={<AddOrderCard />} />
-      <Route
-        path="/chat"
-        element={user ? <Chats currentUserId={user.id} /> : <Login />}
-      />
-      <Route path="/welcome" element={<WelcomePage/>} />
+      <Route path="/freelancers" element={<FreelancersList />} />
+      <Route path="/chat/" element={user ? <Chats currentUserId={user.id} /> : <Login />} />
+      <Route path="/chat/:chatId" element={user ? <Chats currentUserId={user.id} /> : <Login />} />
+      <Route path="/welcome" element={<WelcomePage />} />
     </Routes>
   );
 };

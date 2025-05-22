@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { useParams } from "react-router-dom"; // === импорт useParams
 import Header from "../../components/common/Header-Footer/Header";
 import Footer from "../../components/common/Header-Footer/Footer";
 import styles from "./Сhats.module.css";
@@ -8,10 +9,11 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import { getUserFromStorage } from "../../services/api/authServiceClient";
 
 const Chats = () => {
+  const { chatId } = useParams(); // === получаем chatId из URL
   const user = getUserFromStorage();
   const currentUserId = user?.id;
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]); // Пользователи с перепиской
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -40,26 +42,58 @@ const Chats = () => {
       ) {
         setMessages((prev) => [...prev, message]);
       }
+
+      // Если пришло сообщение от нового пользователя, обновим список
+      if (
+        message.sender_id !== currentUserId &&
+        !users.find((u) => u.id === message.sender_id)
+      ) {
+        fetchChatUsers();
+      }
     });
 
     return () => {
       socketRef.current.disconnect();
     };
-  }, [currentUserId, selectedUser]);
+  }, [currentUserId, selectedUser, users]);
+
+  const fetchChatUsers = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/chats/chatusers/${currentUserId}`,
+        { withCredentials: true }
+      );
+      setUsers(res.data);
+    } catch (err) {
+      console.error("Ошибка при загрузке собеседников:", err);
+    }
+  };
 
   useEffect(() => {
-    if (!currentUserId) return;
-
-    axios
-      .get("http://localhost:3000/api/profile/all", { withCredentials: true })
-      .then((res) => {
-        const otherUsers = res.data.filter((u) => u.id !== currentUserId);
-        setUsers(otherUsers);
-      })
-      .catch((err) => {
-        console.error("Ошибка при загрузке пользователей:", err);
-      });
+    if (currentUserId) {
+      fetchChatUsers();
+    }
   }, [currentUserId]);
+
+  // === Новый хук для загрузки чата по chatId из URL
+  useEffect(() => {
+    if (chatId && currentUserId) {
+      axios
+        .get(
+          `http://localhost:3000/api/chats/${chatId}?currentUserId=${currentUserId}`,
+          { withCredentials: true }
+        )
+        .then(({ data }) => {
+          setSelectedUser(data.otherUser);
+          setMessages(data.messages);
+        })
+        .catch((err) => {
+          console.error("Ошибка при загрузке чата по chatId:", err);
+          setSelectedUser(null);
+          setMessages([]);
+        });
+    }
+  }, [chatId, currentUserId]);
 
   const fetchMessages = async (user) => {
     try {
@@ -88,6 +122,8 @@ const Chats = () => {
 
     setMessages((prev) => [...prev, { ...messageData, id: Date.now() }]);
     setNewMessage("");
+
+    fetchChatUsers(); 
   };
 
   const scrollToBottom = () => {
@@ -102,8 +138,10 @@ const Chats = () => {
 
       <div className={styles.chatWrapper}>
         <div className={styles.sidebar}>
-          <h2 className={styles.sidebarTitle}>Пользователи</h2>
-          {users.length === 0 && <div>Пользователи не найдены</div>}
+          <h2 className={styles.sidebarTitle}>Чаты</h2>
+          {users.length === 0 && (
+            <div>Чатов не найдено. Начните переписку с пользователем.</div>
+          )}
           {users.map((user) => (
             <div
               key={user.id}
@@ -157,7 +195,7 @@ const Chats = () => {
             </>
           ) : (
             <div className="text-gray-500 text-center mt-20">
-              Выберите пользователя для начала чата
+              Выберите чат для начала переписки
             </div>
           )}
         </div>

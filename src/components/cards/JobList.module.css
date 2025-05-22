@@ -1,16 +1,14 @@
 .jobPage {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh -20px); 
+  min-height: calc(100vh-20px);
   padding-top: 50px;  
   box-sizing: border-box;
 }
 
 .jobWrapper {
   margin: 20px auto;
-  width: 100%;
   max-width: 1040px;
-  padding: 0 20px;
   background-color: transparent;
   flex-grow: 1; 
 }
@@ -132,6 +130,45 @@
   text-align: center;
   color: #777;
   font-size: 16px;
+}
+
+.showAll {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 70px;
+}
+
+.showAllButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.showAllButton:hover,
+.showAllButton:focus {
+  background-color: #45a045;
+  box-shadow: 0 6px 12px rgba(69, 160, 69, 0.5);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.arrow {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.showAllButton:hover .arrow {
+  transform: translateX(5px);
 }
 
 /* Адаптивность */

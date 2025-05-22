@@ -112,7 +112,7 @@ const Responses = () => {
                   <div className={styles.projectFile}>
                     <a
                       href={bid.project.media}
-                      target="_blank"
+                      download
                       rel="noopener noreferrer"
                     >
                       Скачать файл

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getUserFromStorage } from '../../../services/api/authServiceClient';
 import Toast from '../Toast'; 
-import './security.css';
+import styles from './SecuritySettings.module.css';
 
 const SecuritySettings = () => {
   const [password, setPassword] = useState('');
@@ -40,7 +40,7 @@ const SecuritySettings = () => {
       } else {
         setToast({ message: data.error || 'Ошибка при изменении пароля', type: 'error' });
       }
-    } catch (err) {
+    } catch {
       setToast({ message: 'Ошибка подключения к серверу', type: 'error' });
     }
   };
@@ -54,27 +54,27 @@ const SecuritySettings = () => {
           onClose={() => setToast(null)}
         />
       )}
-      <form onSubmit={handleChangePassword} className="security-settings-form">
-        <h3 className="security-settings-title">Безопасность</h3>
-        <label className="security-settings-label">
+      <form onSubmit={handleChangePassword} className={styles.form}>
+        <h3 className={styles.title}>Безопасность</h3>
+        <label className={styles.label}>
           Текущий пароль:
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="security-settings-input"
+            className={styles.input}
           />
         </label>
-        <label className="security-settings-label">
+        <label className={styles.label}>
           Новый пароль:
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="security-settings-input"
+            className={styles.input}
           />
         </label>
-        <button type="submit" className="security-settings-btn" disabled={!user}>
+        <button type="submit" className={styles.btn} disabled={!user}>
           Изменить пароль
         </button>
       </form>

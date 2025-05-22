@@ -1,5 +1,9 @@
 // controllers/messageController.js
-import { sendMessage, getMessagesBetweenUsers, getMessagesForUser } from '../models/messageModel.js';
+import { 
+  sendMessage, 
+  getMessagesBetweenUsers, 
+  getMessagesForUser,
+ } from '../models/messageModel.js';
 
 // Отправка сообщения
 export const sendMessageController = async (req, res) => {

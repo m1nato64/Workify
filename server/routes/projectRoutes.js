@@ -1,10 +1,13 @@
-// routes/projectRoutes.js
 import express from 'express';
-import upload from '../config/multerConfig.js'; 
-import { createProjectController, getAllProjectsController, 
-    getProjectsByUserIdController, getProjectByIdController,
-    toggleProjectBidsController, deleteProjectController,
-    updateProjectController, 
+import upload from '../middlewares/upload.js';  
+import { 
+  createProjectController, 
+  getAllProjectsController, 
+  getProjectsByUserIdController, 
+  getProjectByIdController,
+  toggleProjectBidsController, 
+  deleteProjectController,
+  updateProjectController, 
 } from '../controllers/projectController.js';
 
 const router = express.Router();

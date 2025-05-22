@@ -1,6 +1,6 @@
 // models/messageModel.js
 import { pool } from './database.js';
-import { findOrCreateChat } from './сhatModel.js';
+import { findOrCreateChat } from './chatModel.js';
 
 // Отправка сообщения
 export const sendMessage = async (sender_id, receiver_id, content) => {
