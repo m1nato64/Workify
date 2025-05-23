@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Toast from "../common/Toast";
 import styles from "./JobList.module.css";
+import { Link } from "react-router-dom";
 
 const JobList = () => {
   const [projects, setProjects] = useState([]);
@@ -157,12 +158,12 @@ const JobList = () => {
           )}
         </div>
 
-        {projects.length > 3 && (
+        {projects.length > 0 && (
           <div className={styles.showAll}>
-            <a href="/jobs" className={styles.showAllButton}>
+            <Link to="/jobs" className={styles.showAllButton}>
               Смотреть все проекты
               <span className={styles.arrow}>&rarr;</span>
-            </a>
+            </Link>
           </div>
         )}
       </div>
