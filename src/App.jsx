@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { UserProvider, useUser } from "./services/context/userContext";
+import { SocketProvider } from "./services/context/socketContext";
 import Login from "./pages/Auth/Login/Login.jsx";
 import Register from "./pages/Auth/Register/Register.jsx";
 import Home from "./pages/Main/Home";
@@ -36,15 +37,23 @@ const AppRoutes = () => {
   );
 };
 
-const App = () => {
+const AppWrapper = () => {
+  const { user } = useUser();
+
   return (
-    <UserProvider>
+    <SocketProvider userId={user?.id}>
       <Router>
         <DocumentTitleUpdater />
         <AppRoutes />
       </Router>
-    </UserProvider>
+    </SocketProvider>
   );
 };
+
+const App = () => (
+  <UserProvider>
+    <AppWrapper />
+  </UserProvider>
+);
 
 export default App;

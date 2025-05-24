@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import http from 'http';
 import cookieParser from 'cookie-parser';
-import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -15,6 +14,7 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import chatsRoutes from './routes/chatRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
 import { initializeSocket } from './services/socketService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,6 +46,7 @@ app.use('/api/message', messageRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/upload-avatar', uploadRoutes);
 app.use('/api/chats', chatsRoutes);
+app.use ('/api/notifications', notificationRoutes);
 
 // 404 fallback
 app.use((req, res) => {

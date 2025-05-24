@@ -49,6 +49,72 @@
   margin-top: 10px;
 }
 
+.actionsRow {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fileButton,
+.chatButton {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  display: inline-block;
+}
+
+/* Кнопка Скачать файл (активная) */
+.fileButton {
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid #4caf50;
+}
+
+.fileButton:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+  box-shadow: 0 0 8px rgba(69, 160, 73, 0.6);
+}
+
+/* Кнопка Скачать файл (неактивная) */
+.disabledFileButton {
+  background-color: #a5d6a7; /* светло-зеленый */
+  border-color: #a5d6a7;
+  color: #f1f1f1;
+  cursor: default;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* Кнопка Связаться в чате */
+.chatButton {
+  background-color: #2196f3;
+  color: white;
+  border: 2px solid #2196f3;
+}
+
+.chatButton:hover {
+  background-color: #1976d2;
+  border-color: #1976d2;
+  box-shadow: 0 0 8px rgba(25, 118, 210, 0.6);
+}
+
+.chatButton:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* Статусы */
 .pending {
   background-color: #f9c74f;

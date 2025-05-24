@@ -1,24 +1,24 @@
+// src/pages/Chat/Chats.jsx
 import React, { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
 import axios from "axios";
-import { useParams } from "react-router-dom"; // === импорт useParams
+import { useParams } from "react-router-dom";
 import Header from "../../components/common/Header-Footer/Header";
 import Footer from "../../components/common/Header-Footer/Footer";
 import styles from "./Сhats.module.css";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { getUserFromStorage } from "../../services/api/authServiceClient";
+import { useSocket } from "../../services/context/socketContext";
 
 const Chats = () => {
-  const { chatId } = useParams(); // === получаем chatId из URL
+  const { chatId } = useParams();
   const user = getUserFromStorage();
   const currentUserId = user?.id;
-
-  const [users, setUsers] = useState([]); // Пользователи с перепиской
+  const { socket } = useSocket();
+  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
-  const socketRef = useRef(null);
 
   useEffect(() => {
     if (!currentUserId) {
@@ -26,36 +26,28 @@ const Chats = () => {
       return;
     }
 
-    socketRef.current = io("http://localhost:3000", {
-      withCredentials: true,
-    });
+    if (!socket) return;
 
-    socketRef.current.emit("register", currentUserId);
+    socket.emit("register", currentUserId);
 
-    socketRef.current.on("receive_message", (message) => {
+    socket.on("receive_message", (message) => {
       if (
         selectedUser &&
-        ((message.sender_id === selectedUser.id &&
-          message.receiver_id === currentUserId) ||
-          (message.sender_id === currentUserId &&
-            message.receiver_id === selectedUser.id))
+        ((message.sender_id === selectedUser.id && message.receiver_id === currentUserId) ||
+          (message.sender_id === currentUserId && message.receiver_id === selectedUser.id))
       ) {
         setMessages((prev) => [...prev, message]);
       }
 
-      // Если пришло сообщение от нового пользователя, обновим список
-      if (
-        message.sender_id !== currentUserId &&
-        !users.find((u) => u.id === message.sender_id)
-      ) {
+      if (message.sender_id !== currentUserId && !users.find((u) => u.id === message.sender_id)) {
         fetchChatUsers();
       }
     });
 
     return () => {
-      socketRef.current.disconnect();
+      socket.off("receive_message");
     };
-  }, [currentUserId, selectedUser, users]);
+  }, [socket, currentUserId, selectedUser, users]);
 
   const fetchChatUsers = async () => {
     try {
@@ -75,7 +67,6 @@ const Chats = () => {
     }
   }, [currentUserId]);
 
-  // === Новый хук для загрузки чата по chatId из URL
   useEffect(() => {
     if (chatId && currentUserId) {
       axios
@@ -112,18 +103,23 @@ const Chats = () => {
   const handleSend = () => {
     if (!newMessage.trim() || !selectedUser) return;
 
+    if (!socket) {
+      console.error("Socket не подключен");
+      return;
+    }
+
     const messageData = {
       sender_id: currentUserId,
       receiver_id: selectedUser.id,
       content: newMessage.trim(),
     };
 
-    socketRef.current.emit("send_message", messageData);
+    socket.emit("send_message", messageData);
 
     setMessages((prev) => [...prev, { ...messageData, id: Date.now() }]);
     setNewMessage("");
 
-    fetchChatUsers(); 
+    fetchChatUsers();
   };
 
   const scrollToBottom = () => {

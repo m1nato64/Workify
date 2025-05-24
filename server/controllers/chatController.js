@@ -40,18 +40,10 @@ export const getChatByIdController = async (req, res) => {
     }
     const chat = chatRes.rows[0];
 
-    // Получить собеседника — пользователя, кроме текущего (user1_id или user2_id)
-    // Текущего пользователя можно брать из сессии или из параметров
-    // Для примера — если в запросе есть userId (например, в JWT), то:
     const currentUserId = req.user?.id || parseInt(req.query.currentUserId);
-
     const otherUserId = chat.user1_id === currentUserId ? chat.user2_id : chat.user1_id;
-
-    // Получаем данные собеседника
     const userRes = await pool.query("SELECT id, name FROM users WHERE id = $1", [otherUserId]);
     const otherUser = userRes.rows[0];
-
-    // Получаем сообщения
     const messagesRes = await pool.query("SELECT * FROM messages WHERE chat_id = $1 ORDER BY created_at ASC", [chatId]);
 
     res.json({ chat, otherUser, messages: messagesRes.rows });

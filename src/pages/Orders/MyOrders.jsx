@@ -6,6 +6,9 @@ import { useUser } from "../../services/context/userContext";
 import Header from "../../components/common/Header-Footer/Header";
 import Footer from "../../components/common/Header-Footer/Footer";
 import Toast from "../../components/common/Toast";
+import BidModal from "../../pages/Orders/BidModal";
+import EditProjectModal from "../../pages/Orders/EditProjectModal";
+import DeleteConfirmationModal from "../../pages/Orders/DeleteConfirmationModal";
 import styles from "./MyOrders.module.css";
 
 const statusLabels = {
@@ -387,145 +390,32 @@ const MyOrders = () => {
           </>
         )}
 
-        {/* Модальные окна (удаления, откликов, редактирования) и Toast */}
+        {/* Модальные окна */}
         {isDeleteModalOpen && selectedOrder && (
-          <div className={styles.modal}>
-            <div
-              className={`${styles.modalContent} ${styles.modalConfirmationContent}`}
-            >
-              <h2>Подтверждение удаления</h2>
-              <p>Вы уверены, что хотите удалить этот проект?</p>
-              <div className={styles.modalActions}>
-                <button
-                  className={styles.confirmBtn}
-                  onClick={() => deleteProject(selectedOrder.id)}
-                >
-                  Да, удалить
-                </button>
-                <button className={styles.cancelBtn} onClick={closeDeleteModal}>
-                  Отмена
-                </button>
-              </div>
-            </div>
-          </div>
+          <DeleteConfirmationModal
+            selectedOrder={selectedOrder}
+            deleteProject={deleteProject}
+            closeDeleteModal={closeDeleteModal}
+          />
         )}
 
         {isModalOpen && selectedOrder && !editMode && (
-          <div className={styles.modal}>
-            <div className={`${styles.modalContent} ${styles.modalBidContent}`}>
-              <h2>Отклики на проект</h2>
-              <div className={styles.bidList}>
-                {selectedOrder.bids?.length > 0 ? (
-                  selectedOrder.bids.map((bid) => (
-                    <div key={bid.id} className={styles.bidItem}>
-                      <p>
-                        Фрилансер: {bid.freelancer_name || "Имя не указано"}
-                      </p>
-                      <p>
-                        Статус:{" "}
-                        <span
-                          className={`${styles.status} ${
-                            bid.status === "accepted"
-                              ? styles.accepting
-                              : styles.notAccepting
-                          }`}
-                        >
-                          {bid.status}
-                        </span>
-                      </p>
-                      <div className={styles.actionButtonsBids}>
-                        <button
-                          className={styles.acceptedButton}
-                          onClick={() => updateBidStatus(bid.id, "accepted")}
-                        >
-                          Принять
-                        </button>
-                        <button
-                          className={styles.rejectedButton}
-                          onClick={() => updateBidStatus(bid.id, "rejected")}
-                        >
-                          Отклонить
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p>Нет откликов на этот проект.</p>
-                )}
-              </div>
-              <button className={styles.button} onClick={closeModal}>
-                Закрыть
-              </button>
-            </div>
-          </div>
+          <BidModal
+            selectedOrder={selectedOrder}
+            updateBidStatus={updateBidStatus}
+            closeModal={() => setIsModalOpen(false)}
+          />
         )}
 
         {editMode && (
-          <div className={styles.modal}>
-            <div
-              className={`${styles.modalContent} ${styles.modalEditContent}`}
-            >
-              <h2>Редактирование проекта</h2>
-              <form onSubmit={handleProjectUpdate}>
-                <input
-                  type="text"
-                  value={projectData.title}
-                  onChange={(e) =>
-                    setProjectData({ ...projectData, title: e.target.value })
-                  }
-                  placeholder="Название проекта"
-                  className={styles.input}
-                />
-                <textarea
-                  value={projectData.description}
-                  onChange={(e) =>
-                    setProjectData({
-                      ...projectData,
-                      description: e.target.value,
-                    })
-                  }
-                  placeholder="Описание проекта"
-                  className={styles.textarea}
-                ></textarea>
-                <select
-                  value={projectData.status}
-                  onChange={(e) =>
-                    setProjectData({ ...projectData, status: e.target.value })
-                  }
-                  className={styles.select}
-                >
-                  <option value="open">Открыт</option>
-                  <option value="in_progress">В разработке</option>
-                  <option value="completed">Завершен</option>
-                </select>
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  accept="image/*"
-                  className={styles.input}
-                />
-                {imagePreview && (
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className={styles.previewImage}
-                  />
-                )}
-                <div className={styles.modalActions}>
-                  <button type="submit" className={styles.button}>
-                    Обновить проект
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.button}
-                    onClick={closeEditModal}
-                  >
-                    Отмена
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <EditProjectModal
+            projectData={projectData}
+            setProjectData={setProjectData}
+            imagePreview={imagePreview}
+            handleFileChange={handleFileChange}
+            handleProjectUpdate={handleProjectUpdate}
+            closeEditModal={closeEditModal}
+          />
         )}
       </main>
       <Footer />

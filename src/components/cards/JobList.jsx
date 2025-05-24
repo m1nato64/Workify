@@ -1,9 +1,12 @@
+// src/components/cards/JobList.jsx
 import React, { useEffect, useState } from "react";
 import Toast from "../common/Toast";
 import styles from "./JobList.module.css";
 import { Link } from "react-router-dom";
+import { useSocket } from "../../services/context/socketContext";
 
 const JobList = () => {
+  const { socket } = useSocket();
   const [projects, setProjects] = useState([]);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
@@ -44,6 +47,7 @@ const JobList = () => {
       return;
     }
     try {
+      // Проверка, не откликался ли пользователь уже
       const responseCheck = await fetch(
         `http://localhost:3000/api/bids/check?freelance_id=${userId}&project_id=${projectId}`
       );
@@ -56,6 +60,7 @@ const JobList = () => {
         return;
       }
 
+      // Получение данных проекта
       const projectResponse = await fetch(
         `http://localhost:3000/api/projects/${projectId}`
       );
@@ -69,6 +74,7 @@ const JobList = () => {
         return;
       }
 
+      // Создание отклика
       const response = await fetch("http://localhost:3000/api/bids", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,11 +89,20 @@ const JobList = () => {
       setToastType("success");
       setToastMessage("Отклик успешно отправлен!");
 
+      // Обновление счетчика откликов в локальном состоянии
       setProjects((prev) =>
         prev.map((p) =>
           p.id === projectId ? { ...p, bids_count: p.bids_count + 1 } : p
         )
       );
+
+      // Отправка события в сокет о новом отклике
+      if (socket) {
+        socket.emit("create_bid", {
+          freelance_id: userId,
+          project_id: projectId,
+        });
+      }
     } catch (err) {
       setToastType("error");
       setToastMessage(

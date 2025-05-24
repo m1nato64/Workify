@@ -6,7 +6,7 @@ export const createProject = async (title, description, status, media, client_id
   try {
     const result = await pool.query(
       'INSERT INTO projects (title, description, status, media, client_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [title, description, status, media, client_id]  // media на 4-м месте, client_id — 5-м
+      [title, description, status, media, client_id]  
     );
     return result.rows[0];
   } catch (err) {
