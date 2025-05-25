@@ -1,0 +1,442 @@
+.container {
+    max-width: 900px;
+    margin: 100px auto 70px;
+    /* объединил margin-bottom */
+    color: #1e293b;
+    padding-bottom: 20px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #1e293b;
+}
+
+/* Контейнер для поиска + переключателя */
+.searchWithView {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.accepting {
+    color: #fff;
+    background-color: #66b42a;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.notAccepting {
+    color: #fff;
+    background-color: #f94144;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.unknownStatus {
+    color: #777;
+    background-color: #ddd;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Поиск занимает максимум, переключатель фиксированной ширины */
+.searchInput {
+    flex-grow: 1;
+    padding: 12px 16px 12px 30px;
+    /* упрощено padding-left */
+    font-size: 16px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    outline-offset: 2px;
+    outline-color: #28a745;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    width: 30vh;
+}
+
+.searchInputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 10px;
+    color: #888;
+    pointer-events: none;
+}
+
+.searchInput:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+/* Переключатель режима */
+.viewToggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.viewToggle button {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.3s ease;
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.viewToggle button:hover {
+    color: #28a745;
+}
+
+.viewToggle .active {
+    color: #4caf50;
+    /* основной зелёный как в FreelanceList */
+}
+
+/* Сетки и списки проектов */
+.projectsGrid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-bottom: 36px;
+}
+
+.projectsList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+/* Карточки и списочные элементы */
+.projectCard,
+.projectListItem {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    border: none;
+}
+
+.projectCard:hover,
+.projectListItem:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+.projectCard h2,
+.projectListItem h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.projectCard p,
+.projectListItem p {
+    display: flex;
+    font-size: 16px;
+    color: #555;
+    white-space: pre-line;
+    flex-wrap: wrap;
+    margin: 5px;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid #dbdbdb;
+    color: #666;
+    font-size: 14px;
+    align-items: flex-start;
+}
+
+.createdDate,
+.status,
+.bidsCount {
+    margin: 0;
+    font-weight: 500;
+    color: #666;
+    font-size: 14px;
+}
+
+.status {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 40px auto 80px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    user-select: none;
+    max-width: fit-content;
+}
+
+/* Кнопки с номерами страниц и стрелки */
+.pagination button {
+    padding: 10px 18px;
+    background-color: #28a745;
+    /* основной зелёный */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 5px;
+    min-width: 48px;
+    text-align: center;
+    user-select: none;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #1e7e34;
+    /* темнее на ховере */
+    box-shadow: 0 4px 14px rgba(30, 126, 52, 0.6);
+}
+
+.pagination button:disabled {
+    background-color: #c0c4cc;
+    color: #666;
+    cursor: default;
+    box-shadow: none;
+}
+
+.activePage {
+    background-color: #317a34 !important;
+    /* насыщенный тёмно-зеленый */
+    box-shadow: 0 4px 15px rgba(25, 105, 44, 0.7);
+    cursor: default;
+    color: white !important;
+    pointer-events: none;
+}
+
+/* Фильтры справа от поиска */
+.filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.select {
+    padding: 8px 12px;
+    font-size: 15px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    outline-offset: 2px;
+    outline-color: #28a745;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    color: #1e293b;
+    cursor: pointer;
+}
+
+.select:hover,
+.select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+.bidsCount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #28a745;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.statIcon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f1f1;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: background 0.2s;
+    cursor: default;
+}
+
+.bidsIcon {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Для удобного позиционирования переключателя рядом с поиском */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.searchWithView {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+.viewToggle {
+    display: flex;
+    gap: 8px;
+}
+
+.viewToggle button {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.3s ease;
+    border-radius: 6px;
+    padding: 4px 6px;
+}
+
+.viewToggle .active {
+    color: #4caf50;
+}
+
+.listDetails {
+    font-size: 14px;
+    color: #333;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+.listDetails p {
+    margin: 4px 0;
+}
+
+/* Для первой строки: дата и отклики рядом */
+.listDetails p:first-child {
+    display: flex;
+    gap: 20px;
+    /* расстояние между датой и откликами */
+    font-weight: 500;
+    color: #555;
+}
+
+/* Для второй строки — статус, чуть выделим */
+.listDetails p:last-child {
+    color: #777;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.open {
+    color: #0086f3;
+    background-color: #a1cceb;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.in_progress {
+    padding: 5px;
+    border-radius: 5px;
+    color: #FF9800;
+    background-color: #ffe7c1;
+}
+
+.completed {
+    color: #4CAF50;
+    background-color: #baf7bf;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.listDetailsTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.statusWrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+    font-weight: 600;
+}
+
+.bidsWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f1f1f1;
+    padding: 6px 10px;
+    border-radius: 20px;
+    cursor: default;
+}
+
+
+
+@keyframes spinOnce {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.searchInputWrapper:focus-within .searchIcon {
+    animation: spinOnce 0.45s ease-out 1;
+}
+
+.bidsCountInline {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    color: #555;
+    font-weight: 600;
+    gap: 6px;
+    background: #f1f1f1;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: background 0.2s;
+    cursor: default;
+}

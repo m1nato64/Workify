@@ -114,7 +114,7 @@ const JobList = () => {
   return (
     <div className={styles.jobPage}>
       <div className={styles.jobWrapper}>
-        <h2 className={styles.jobTitle}>Доступные проекты</h2>
+        <h2 className={styles.jobTitle}>Последние добавленные проекты</h2>
 
         {toastMessage && (
           <Toast

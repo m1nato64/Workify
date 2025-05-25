@@ -9,6 +9,7 @@ import Toast from "../../components/common/Toast";
 import BidModal from "../../pages/Orders/BidModal";
 import EditProjectModal from "../../pages/Orders/EditProjectModal";
 import DeleteConfirmationModal from "../../pages/Orders/DeleteConfirmationModal";
+import ReviewModal from "../../components/cards/ReviewModal"; 
 import styles from "./MyOrders.module.css";
 
 const statusLabels = {
@@ -34,6 +35,9 @@ const MyOrders = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [toasts, setToasts] = useState([]);
   const { user, updateUser } = useUser();
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewTargetUser, setReviewTargetUser] = useState(null); // кому отзыв
+  const [reviewProjectTitle, setReviewProjectTitle] = useState("");
 
   const projectsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);

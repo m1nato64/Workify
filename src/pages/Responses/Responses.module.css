@@ -153,6 +153,70 @@
   color: #333;
 }
 
+.reviewButton {
+  background-color: #3f51b5; /* красивый синий */
+  color: white;
+  border: 2px solid #3f51b5;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  display: inline-block;
+}
+
+.reviewButton:hover:not(:disabled) {
+  background-color: #334296;
+  border-color: #334296;
+  box-shadow: 0 0 8px rgba(51, 66, 150, 0.6);
+}
+
+.reviewButton:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.completed {
+    color: #4CAF50;
+    background-color: #baf7bf;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.completed::before {
+    content: "✅";
+    margin-right: 5px;
+}
+
+.open {
+    color: #0086f3;
+    background-color: #a1cceb;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.open::before {
+    content: "📂";
+    margin-right: 5px;
+}
+
+.in_progress {
+    padding: 5px;
+    border-radius: 5px;
+    color: #FF9800;
+    background-color: #ffe7c1;
+}
+
+.in_progress::before {
+    content: "🔨";
+    margin-right: 5px;
+}
+
 @media screen and (max-width: 768px) {
   .bidItem {
     width: 100%;

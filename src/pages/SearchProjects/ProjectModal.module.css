@@ -1,0 +1,57 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1e293b; /* основной текстовой цвет */
+  transition: color 0.3s ease;
+}
+
+.closeButton:hover {
+  color: #28a745; /* основной зелёный */
+}
+
+.respondButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #28a745; /* основной зелёный */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.respondButton:hover {
+  background-color: #1e7e34; /* темнее на ховере */
+  box-shadow: 0 4px 14px rgba(30, 126, 52, 0.6);
+}

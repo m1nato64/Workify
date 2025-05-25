@@ -42,6 +42,7 @@ const renderStars = (rating, styles) => {
 const Profile = () => {
   const { user, updateUser } = useUser();
   const [avatarPreview, setAvatarPreview] = useState(null);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -52,9 +53,11 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.avatar) {
-        setAvatarPreview(user.avatar);
-      }
+      setAvatarPreview(user.avatar || null);
+      setRating(user.rating ? Number(user.rating) : 0);
+    } else {
+      setAvatarPreview(null);
+      setRating(0);
     }
   }, [user]);
 
@@ -97,8 +100,8 @@ const Profile = () => {
               className={styles.avatarImg}
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = ""; // если ошибка — показать иконку
-                setAvatarPreview(null); // сбрасываем preview
+                e.target.src = "";
+                setAvatarPreview(null);
               }}
             />
           ) : (
@@ -129,10 +132,8 @@ const Profile = () => {
         <div className={styles.profileRating}>
           <strong>Рейтинг:</strong>
           <div className={styles.ratingStars}>
-            <span className={styles.ratingNumber}>
-              {(Number(user.rating) || 0).toFixed(1)}
-            </span>
-            {renderStars(Number(user.rating) || 0, styles)}
+            <span className={styles.ratingNumber}>{rating.toFixed(1)}</span>
+            {renderStars(rating, styles)}
           </div>
         </div>
       </div>

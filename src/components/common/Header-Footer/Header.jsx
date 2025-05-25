@@ -78,6 +78,11 @@ const Header = () => {
     [notifications]
   );
 
+  const reviewNotifications = useMemo(
+    () => notifications.filter((n) => n.type === "new_review"),
+    [notifications]
+  );
+
   const unreadMessagesCount = messageNotifications.length;
 
   const totalBidCount = Object.values(bidNotifications).reduce(
@@ -238,6 +243,32 @@ const Header = () => {
                       </li>
                     )}
 
+                    {reviewNotifications.length > 0 &&
+                      reviewNotifications.map((notification) => {
+                        const { projectId, contentPreview, message, rating } =
+                          notification.data || {};
+                        return (
+                          <li
+                            key={notification.id}
+                            className={styles.notificationItem}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              navigate("/profile");
+                              setShowNotifications(false);
+                            }}
+                          >
+                            📝{" "}
+                            {message ||
+                              `Вы получили отзыв по проекту #${projectId}`}{" "}
+                            — Оценка: {rating}⭐
+                            <br />
+                            <span style={{ fontSize: "0.9em", color: "#666" }}>
+                              "{contentPreview}..."
+                            </span>
+                          </li>
+                        );
+                      })}
+
                     {/* Отклики по проектам */}
                     {Object.entries(bidNotifications).map(
                       ([projectId, { count, title }]) => (
@@ -297,7 +328,10 @@ const Header = () => {
             {/* Меню профиля */}
             {isProfileMenuVisible && (
               <div className={styles.profileMenu}>
-                <Link to="/profile" onClick={() => setIsProfileMenuVisible(false)}>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsProfileMenuVisible(false)}
+                >
                   Профиль
                 </Link>
                 <Link
@@ -306,7 +340,7 @@ const Header = () => {
                 >
                   Настройки
                 </Link>
-          
+
                 <button onClick={handleLogout} type="button">
                   Выйти
                 </button>
