@@ -3,6 +3,7 @@ import { sendMessage } from "../models/messageModel.js";
 import { createNotification } from "../models/notificationModel.js";
 import { createBid, updateBidStatus } from "../models/bidModel.js";
 import { getProjectById } from "../models/projectModel.js";
+import { addReview } from "../models/reviewModel.js";
 
 const connectedUsers = new Map();
 let ioInstance;
@@ -82,6 +83,33 @@ export function initializeSocket(server) {
         socket.emit("error", { message: "Не удалось обновить статус отклика" });
       }
     });
+
+    socket.on("leave_review", async ({ project_id, author_id, target_user_id, rating, content }) => {
+  try {
+    const newReview = await addReview(project_id, author_id, target_user_id, rating, content);
+
+    // Создаём уведомление
+    const notification = await createNotification(target_user_id, "new_review", {
+      from: author_id,
+      projectId: project_id,
+      rating,
+      contentPreview: content.slice(0, 100),
+      message: `Вы получили новый отзыв по проекту #${project_id}`,
+    });
+
+    // Отправляем уведомление целевому пользователю, если он онлайн
+    const targetSocketId = connectedUsers.get(target_user_id);
+    if (targetSocketId) {
+      io.to(targetSocketId).emit("notification", notification);
+    }
+
+    // Ответ отправителю — подтверждение, что отзыв создан
+    socket.emit("review_created", newReview);
+  } catch (err) {
+    console.error("Ошибка при добавлении отзыва:", err);
+    socket.emit("error", { message: "Не удалось добавить отзыв" });
+  }
+});
 
     socket.on("create_bid", async ({ freelance_id, project_id }) => {
       try {

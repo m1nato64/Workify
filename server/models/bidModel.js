@@ -76,12 +76,9 @@ export const updateBidStatus = async (bid_id, status) => {
       throw new Error(`Отклик с id ${bid_id} не найден`);
     }
 
-    console.log('Обновляем статус отклика:', bid_id, 'на', status);
-
     // Если отклик принят — меняем статус проекта
     if (status === 'accepted') {
       const projectId = bid.project_id;
-      console.log('Обновление проекта с id:', projectId);
 
       // Проверка на существование проекта
       const projectCheckQuery = 'SELECT 1 FROM projects WHERE id = $1';

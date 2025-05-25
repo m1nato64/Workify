@@ -8,12 +8,15 @@ import {
   toggleProjectBidsController, 
   deleteProjectController,
   updateProjectController, 
+  getFilteredProjectsController,
+
 } from '../controllers/projectController.js';
 
 const router = express.Router();
 
 router.post('/', upload.single('media'), createProjectController);
 router.get('/', getAllProjectsController);
+router.get('/search', getFilteredProjectsController);
 router.get('/user/:id', getProjectsByUserIdController);
 router.get('/:id', getProjectByIdController);
 router.put('/bids-toggle/:projectId', toggleProjectBidsController);

@@ -1,10 +1,20 @@
-import { addReview, getReviewsForProject, getReviewsForUser } from '../models/reviewModel.js';
+import {
+  addReview,
+  getReviewsForProject,
+  getReviewsForUser,
+} from "../models/reviewModel.js";
 
 // Создать отзыв
 export const createReviewController = async (req, res) => {
   try {
-    const { project_id, author_id, rating, content } = req.body;
-    const newReview = await addReview(project_id, author_id, rating, content);
+    const { project_id, author_id, target_user_id, rating, content } = req.body;
+    const newReview = await addReview(
+      project_id,
+      author_id,
+      target_user_id,
+      rating,
+      content
+    );
     res.status(201).json(newReview);
   } catch (error) {
     res.status(500).json({ error: error.message });

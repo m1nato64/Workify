@@ -6,6 +6,7 @@ import { createProject,
   deleteProject, 
   toggleBids, 
   updateProject, 
+  getFilteredProjects,
    } from '../models/projectModel.js';
 import { getBidsForProject } from '../models/bidModel.js';
 
@@ -108,5 +109,22 @@ export const updateProjectController = async (req, res) => {
   } catch (err) {
     console.error('Error updating project:', err.message);
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const getFilteredProjectsController = async (req, res) => {
+  const { title, status, sortByBids, page = 1, limit = 10 } = req.query;
+  try {
+    const projects = await getFilteredProjects({
+      title,
+      status,
+      sortByBids,
+      page: parseInt(page, 10),
+      limit: parseInt(limit, 10),
+    });
+    res.json(projects);
+  } catch (err) {
+    console.error('Ошибка в getFilteredProjectsController:', err);
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };
