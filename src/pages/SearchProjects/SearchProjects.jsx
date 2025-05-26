@@ -6,9 +6,16 @@ import Toast from "../../components/common/Toast";
 import styles from "./SearchProjects.module.css";
 import { FaTh, FaBars, FaSearch } from "react-icons/fa";
 import { useSocket } from "../../services/context/socketContext";
+import { useUser } from "../../services/context/userContext";
+import { useLocation } from "react-router-dom";
 
 const SearchProjects = () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const location = useLocation();
   const { socket } = useSocket();
+
+  
 
   const [projects, setProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +23,7 @@ const SearchProjects = () => {
   const [sortByBids, setSortByBids] = useState("");
   const [viewMode, setViewMode] = useState("card");
   const [currentPage, setCurrentPage] = useState(1);
+  
 
   const projectsPerPage = viewMode === "card" ? 6 : 3;
 
@@ -27,6 +35,12 @@ const SearchProjects = () => {
   const [toastType, setToastType] = useState();
 
   const userId = JSON.parse(localStorage.getItem("user"))?.id;
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const searchFromUrl = params.get("search") || "";
+    setSearchTerm(searchFromUrl);
+  }, [location.search]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -55,9 +69,6 @@ const SearchProjects = () => {
     setCurrentPage(1); // сброс страницы при смене вида
   }, [viewMode]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
 
   const truncateText = (text, maxLength) => {
     if (!text) return "";
@@ -114,9 +125,28 @@ const SearchProjects = () => {
     setCurrentPage(pageNum);
   };
 
-  const openModal = (project) => {
+  const openModal = async (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
+
+      const response = await fetch(`/api/projects/${project.id}/create-view`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }), // отправляем userId
+      });
+
+      if (!response.ok) {
+        throw new Error(`Ошибка сервера: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Ошибка при отправке просмотра проекта:", error);
+    }
   };
 
   const closeModal = () => {
@@ -193,6 +223,10 @@ const SearchProjects = () => {
         err.message || "Ошибка сервера. Пожалуйста, попробуйте позже."
       );
     }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -302,24 +336,36 @@ const SearchProjects = () => {
                           {acceptingBidsText}
                         </span>
                       </p>
-                      <p className={styles.bidsCount}>
-                        <span className={styles.statIcon}>
-                          {/* иконка */}
+                      <div className={styles.statsWrapper}>
+                        <span className={styles.bidsCountInline}>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
                             viewBox="0 0 24 24"
                             width="18"
                             height="18"
-                            aria-hidden="true"
-                            focusable="false"
                             className={styles.bidsIcon}
                           >
                             <path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z"></path>
                           </svg>
                           {project.bids_count ?? 0}
                         </span>
-                      </p>
+
+                        <span className={styles.viewsCountInline}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            className={styles.viewsIcon}
+                          >
+                            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" />
+                            <circle cx="12" cy="12" r="2.5" />
+                          </svg>
+                          {project.views_total ?? 0}
+                        </span>
+                      </div>
                     </div>
                   ) : (
                     <div className={styles.listDetails}>
@@ -337,24 +383,42 @@ const SearchProjects = () => {
                         </span>
                       </span>
 
-                      <p className={styles.createdDate}>
-                        Создан: {createdDate}{" "}
-                        <span className={styles.bidsCountInline}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            width="18"
-                            height="18"
-                            aria-hidden="true"
-                            focusable="false"
-                            className={styles.bidsIcon}
-                          >
-                            <path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z"></path>
-                          </svg>
-                          {project.bids_count ?? 0}
+                      <div className={styles.listBottomRow}>
+                        <span className={styles.createdDate}>
+                          Создан: {createdDate}
                         </span>
-                      </p>
+
+                        <div className={styles.statsWrapper}>
+                          <span className={styles.bidsCountInline}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              width="18"
+                              height="18"
+                              className={styles.bidsIcon}
+                            >
+                              <path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z"></path>
+                            </svg>
+                            {project.bids_count ?? 0}
+                          </span>
+
+                          <span className={styles.viewsCountInline}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              width="18"
+                              height="18"
+                              className={styles.viewsIcon}
+                            >
+                              <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" />
+                              <circle cx="12" cy="12" r="2.5" />
+                            </svg>
+                            {project.views_total ?? 0}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -365,7 +429,6 @@ const SearchProjects = () => {
           )}
         </div>
 
-        {/* Пагинация */}
         {totalPages > 1 && (
           <div className={styles.pagination}>
             <button onClick={goToPrevPage} disabled={currentPage === 1}>

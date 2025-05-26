@@ -55,6 +55,11 @@ const Header = () => {
     [notifications]
   );
 
+  const projectInvitationNotifications = useMemo(
+    () => notifications.filter((n) => n.type === "project_invitation"),
+    [notifications]
+  );
+
   const bidNotifications = useMemo(() => {
     const bids = notifications.filter((n) => n.type === "new_bid");
 
@@ -277,6 +282,30 @@ const Header = () => {
                         </li>
                       )
                     )}
+
+                    {/* Приглашения на проект */}
+                    {projectInvitationNotifications.length > 0 &&
+                      projectInvitationNotifications.map((notification) => {
+                        const { projectTitle } = notification.data || {};
+                        return (
+                          <li
+                            key={notification.id}
+                            className={styles.notificationItem}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              // Навигация с параметром search
+                              navigate(
+                                `/jobs?search=${encodeURIComponent(
+                                  projectTitle || ""
+                                )}`
+                              );
+                              setShowNotifications(false);
+                            }}
+                          >
+                            📩 {`Вас пригласили на проект "${projectTitle}"`}
+                          </li>
+                        );
+                      })}
 
                     {/* Статусы откликов */}
                     {bidStatusNotifications.length > 0 && (

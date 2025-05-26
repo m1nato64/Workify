@@ -1,3 +1,4 @@
+//server/services/socketService.js
 import { Server } from "socket.io";
 import { sendMessage } from "../models/messageModel.js";
 import { createNotification } from "../models/notificationModel.js";
@@ -108,6 +109,31 @@ export function initializeSocket(server) {
   } catch (err) {
     console.error("Ошибка при добавлении отзыва:", err);
     socket.emit("error", { message: "Не удалось добавить отзыв" });
+  }
+});
+
+socket.on("invite_freelancer", async ({ freelancer_id, client_id, project_id, project_title }) => {
+  try {
+    const notification = await createNotification(
+      freelancer_id,
+      "project_invitation",
+      {
+        from: client_id,
+        projectId: project_id,
+        projectTitle: project_title,
+        message: `Вам предложили поработать над проектом "${project_title}"`,
+      }
+    );
+
+    const freelancerSocketId = connectedUsers.get(freelancer_id);
+    if (freelancerSocketId) {
+      io.to(freelancerSocketId).emit("notification", notification);
+    }
+
+    socket.emit("invitation_sent", { freelancer_id, project_id });
+  } catch (err) {
+    console.error("Ошибка при отправке приглашения:", err);
+    socket.emit("error", { message: "Не удалось отправить приглашение" });
   }
 });
 

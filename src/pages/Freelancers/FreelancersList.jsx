@@ -12,16 +12,21 @@ import {
 } from "react-icons/fa";
 import { getUserFromStorage } from "../../services/api/authServiceClient";
 import { useNavigate } from "react-router-dom";
+import OfferProjectModal from "./OfferProjectModal";
+import { useSocket } from "../../services/context/socketContext";
+import Toast from "../../components/common/Toast";
 
 const FreelancersList = () => {
+  const [toastMessage, setToastMessage] = useState("");
   const [freelancers, setFreelancers] = useState([]);
   const [view, setView] = useState("card");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedFreelancer, setSelectedFreelancer] = useState(null);
   const navigate = useNavigate();
   const user = getUserFromStorage();
   const currentUserId = user?.id;
+  const { socket } = useSocket();
 
-  // Количество элементов на странице зависит от текущего вида
   const freelancersPerPage = view === "card" ? 6 : 4;
 
   useEffect(() => {
@@ -38,7 +43,6 @@ const FreelancersList = () => {
     fetchFreelancers();
   }, []);
 
-  // Сбрасываем страницу при смене режима отображения
   useEffect(() => {
     setCurrentPage(1);
   }, [view]);
@@ -69,8 +73,37 @@ const FreelancersList = () => {
     }
   };
 
-  const handleOffer = (freelancerId) => {
-    console.log("Предложить заказ фрилансеру с ID:", freelancerId);
+  const handleOffer = (freelancer) => {
+    if (!currentUserId) {
+      alert("Пожалуйста, войдите в систему");
+      return;
+    }
+
+    setSelectedFreelancer(freelancer);
+  };
+
+  const handleSelectProject = (project) => {
+    if (!socket) {
+      alert("Сокет не подключен");
+      return;
+    }
+
+    socket.emit(
+      "invite_freelancer",
+      {
+        freelancer_id: selectedFreelancer.id,
+        client_id: currentUserId,
+        project_id: project.id,
+        project_title: project.title,
+      },
+      (response) => {
+        // Опционально: обработка подтверждения от сервера
+        console.log("Приглашение отправлено", response);
+      }
+    );
+
+    setSelectedFreelancer(null);
+    setToastMessage("Предложение успешно отправлено!");
   };
 
   // Вычисляем индексы для текущей страницы
@@ -161,7 +194,7 @@ const FreelancersList = () => {
                     </button>
                     <button
                       className={styles.iconButton}
-                      onClick={() => handleOffer(freelancer.id)}
+                      onClick={() => handleOffer(freelancer)}
                       title="Предложить заказ"
                     >
                       <FaHandshake />
@@ -209,6 +242,22 @@ const FreelancersList = () => {
           </div>
         )}
       </div>
+
+      {selectedFreelancer && (
+        <OfferProjectModal
+          freelancer={selectedFreelancer}
+          onClose={() => setSelectedFreelancer(null)}
+          onSelectProject={handleSelectProject}
+        />
+      )}
+
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          type="success"
+          onClose={() => setToastMessage("")}
+        />
+      )}
 
       <Footer />
     </>

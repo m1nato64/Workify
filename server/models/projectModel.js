@@ -157,3 +157,59 @@ export const getFilteredProjects = async ({
     throw err;
   }
 };
+
+export const addProjectView = async (projectId, userId) => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    // Проверяем, был ли просмотр в последние 24 часа
+    const { rows } = await client.query(
+      `SELECT id FROM project_views
+       WHERE project_id = $1 AND user_id = $2 AND viewed_at > NOW() - INTERVAL '24 hours'`,
+      [projectId, userId]
+    );
+
+    if (rows.length > 0) {
+      // Если просмотр был, откатываем и ничего не добавляем
+      await client.query('ROLLBACK');
+      return false;  // просмотр не добавлен
+    }
+
+    // Добавляем просмотр
+    await client.query(
+      "INSERT INTO project_views (project_id, user_id) VALUES ($1, $2)",
+      [projectId, userId]
+    );
+
+    // Увеличиваем счётчик просмотров в projects
+    await client.query(
+      "UPDATE projects SET views_total = views_total + 1 WHERE id = $1",
+      [projectId]
+    );
+
+    await client.query('COMMIT');
+    return true;  // просмотр успешно добавлен
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error("Ошибка при добавлении просмотра проекта:", err.message);
+    throw err;
+  } finally {
+    client.release();
+  }
+};
+
+
+// Получение количества просмотров проекта
+export const getProjectViewsCount = async (projectId) => {
+  try {
+    const result = await pool.query(
+      "SELECT views_total FROM projects WHERE id = $1",
+      [projectId]
+    );
+    return result.rows.length ? result.rows[0].views_total : 0;
+  } catch (err) {
+    console.error("Ошибка при получении количества просмотров:", err.message);
+    throw err;
+  }
+};

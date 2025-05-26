@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+
 import authRoutes from './routes/authRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
@@ -19,6 +20,7 @@ import { initializeSocket } from './services/socketService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const secret = process.env.JWT_SECRET;
 
 const app = express();
 const PORT = process.env.PORT || 3000;

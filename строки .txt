@@ -1,0 +1,4 @@
+Server: (controllers, models, routes, services, middlewares, config) - 1.755 строк (без .env)
+Client: (pages, components, services, assets) - 7.764 строк (без админки)
+
+Итого: 9.519 строк

@@ -9,7 +9,8 @@ import {
   deleteProjectController,
   updateProjectController, 
   getFilteredProjectsController,
-
+  viewProjectController,
+  getProjectViewsController,
 } from '../controllers/projectController.js';
 
 const router = express.Router();
@@ -22,5 +23,7 @@ router.get('/:id', getProjectByIdController);
 router.put('/bids-toggle/:projectId', toggleProjectBidsController);
 router.delete('/:projectId', deleteProjectController);
 router.put('/update-project/:projectId', upload.single('media'), updateProjectController);
+router.post('/:id/create-view', viewProjectController);
+router.get('/:id/get-view', getProjectViewsController);
 
 export default router;

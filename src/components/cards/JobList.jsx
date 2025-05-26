@@ -26,6 +26,45 @@ const JobList = () => {
   };
 
   useEffect(() => {
+    const fetchProjectsWithViews = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/projects");
+        const data = await res.json();
+
+        // Сортируем проекты по дате
+        const sorted = data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+
+        // Получаем просмотры для каждого проекта
+        const projectsWithViews = await Promise.all(
+          sorted.map(async (project) => {
+            try {
+              const viewsRes = await fetch(
+                `http://localhost:3000/api/projects/${project.id}/get-view`
+              );
+              if (!viewsRes.ok) throw new Error("Ошибка получения просмотров");
+              const viewsData = await viewsRes.json();
+
+              return { ...project, views: viewsData.views || 0 };
+            } catch {
+              // Если ошибка с просмотрами, ставим 0
+              return { ...project, views: 0 };
+            }
+          })
+        );
+
+        setProjects(projectsWithViews);
+      } catch {
+        setToastType("error");
+        setToastMessage("Ошибка загрузки проектов");
+      }
+    };
+
+    fetchProjectsWithViews();
+  }, []);
+
+  useEffect(() => {
     fetch("http://localhost:3000/api/projects")
       .then((res) => res.json())
       .then((data) => {
@@ -145,12 +184,16 @@ const JobList = () => {
                   </div>
 
                   <div className={styles.stats}>
-                    <div className={styles.statIcon}>
+                    {/* Иконка просмотров с числом */}
+                    <div className={styles.statIcon} title="Просмотры">
                       <svg viewBox="0 0 24 24">
                         <path d="M12 5c-7.633 0-11 6.686-11 7s3.367 7 11 7 11-6.686 11-7-3.367-7-11-7zm0 12c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5zm0-8c-1.656 0-3 1.344-3 3s1.344 3 3 3 3-1.344 3-3-1.344-3-3-3z" />
                       </svg>
+                      <span>{project.views || 0}</span>
                     </div>
-                    <div className={styles.statIcon}>
+
+                    {/* Иконка откликов с числом */}
+                    <div className={styles.statIcon} title="Отклики">
                       <svg viewBox="0 0 24 24">
                         <path d="M21 6h-18c-1.104 0-2 .896-2 2v10l4-4h16c1.104 0 2-.896 2-2v-4c0-1.104-.896-2-2-2zm0-2c2.206 0 4 1.794 4 4v4c0 2.206-1.794 4-4 4h-14l-6 6v-18c0-2.206 1.794-4 4-4h16z" />
                       </svg>

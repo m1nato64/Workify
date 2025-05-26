@@ -56,7 +56,7 @@ h1 {
     outline-offset: 2px;
     outline-color: #28a745;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
-    width: 30vh;
+    width: 29vh;
 }
 
 .searchInputWrapper {
@@ -426,11 +426,10 @@ h1 {
     animation: spinOnce 0.45s ease-out 1;
 }
 
-.bidsCountInline {
+.bidsCountInline, .viewsCountInline {
     display: inline-flex;
     align-items: center;
     margin-left: 10px;
-    color: #555;
     font-weight: 600;
     gap: 6px;
     background: #f1f1f1;
@@ -439,4 +438,17 @@ h1 {
     font-weight: 500;
     transition: background 0.2s;
     cursor: default;
+    color: #333;
+}
+
+.listBottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.statsWrapper {
+  display: flex;
+  align-items: center;
 }

@@ -7,11 +7,14 @@ import { createProject,
   toggleBids, 
   updateProject, 
   getFilteredProjects,
+  addProjectView, 
+  getProjectViewsCount
    } from '../models/projectModel.js';
 import { getBidsForProject } from '../models/bidModel.js';
 
 export const createProjectController = async (req, res) => {
   try {
+    
     const { title, description, status, client_id, mediaUrl } = req.body;
 
     if (!title || !description || !status || !client_id) {
@@ -126,5 +129,36 @@ export const getFilteredProjectsController = async (req, res) => {
   } catch (err) {
     console.error('Ошибка в getFilteredProjectsController:', err);
     res.status(500).json({ error: 'Ошибка сервера' });
+  }
+};
+
+export const viewProjectController = async (req, res) => {
+  const { id: projectId } = req.params;
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(401).json({ error: "Пользователь не авторизован" });
+  }
+
+  try {
+    const added = await addProjectView(projectId, userId);
+    if (!added) {
+      return res.status(200).json({ message: "Просмотр уже учтён за последние 24 часа" });
+    }
+    res.status(200).json({ message: "Просмотр добавлен" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Получить количество просмотров
+export const getProjectViewsController = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const count = await getProjectViewsCount(id);
+    res.status(200).json({ views: count });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
