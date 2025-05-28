@@ -3,13 +3,15 @@ import React, { useEffect } from 'react';
 import './Toast.css';
 
 const Toast = ({ message, type = 'success', onClose }) => {
-  useEffect(() => {
+ useEffect(() => {
+  if (typeof onClose === 'function') {
     const timer = setTimeout(() => {
       onClose();
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }
+}, [onClose]);
 
   return (
     <div className={`toast ${type}`}>

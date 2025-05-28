@@ -7,8 +7,8 @@ const Footer = () => {
       <div className={styles.footerContent}>
         <p>&copy; 2025 Workify. Все права защищены.</p>
         <div className={styles.footerLinks}>
-          <a href="#">Политика конфиденциальности</a>
-          <a href="#">Условия использования</a>
+          <a href="/privacy.pdf" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+           <a href="/terms_of_use.pdf" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
         </div>
       </div>
     </footer>

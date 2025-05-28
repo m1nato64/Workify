@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Register.module.css";
+import Toast from "../../../components/common/Toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
@@ -9,6 +10,16 @@ const Register = () => {
   const [skills, setSkills] = useState([]);
   const [skillsInput, setSkillsInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
+  const [showToast, setShowToast] = useState(false);
+
+  const showToastMessage = (message, type = "success") => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+  };
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -25,14 +36,16 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Регистрация успешна!");
-        window.location.href = "/login";
+        showToastMessage("Регистрация успешна!", "success");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1500);
       } else {
-        alert("Ошибка: " + data.error);
+        showToastMessage("Ошибка: " + data.error, "error");
       }
     } catch (error) {
       console.error("Ошибка регистрации:", error);
-      alert("Ошибка сервера");
+      showToastMessage("Ошибка сервера", "error");
     }
   };
 
@@ -146,6 +159,14 @@ const Register = () => {
           Уже есть аккаунт? <a href="/login">Войти</a>
         </p>
       </div>
+
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          type={toastType}
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 };

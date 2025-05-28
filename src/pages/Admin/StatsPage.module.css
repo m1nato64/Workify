@@ -1,0 +1,72 @@
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  /* Отступы, чтобы не залезать под фиксированный header/footer */
+  padding-top: 80px;
+  padding-bottom: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+/* Новый flex-контейнер для цифр и графика */
+.statsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Контейнер для цифр */
+.statsNumbers {
+  flex: 1 1 200px;
+  min-width: 180px;
+}
+
+/* Центрируем и делаем цифры вертикально друг под другом */
+.statsNumbers p {
+  margin: 10px 0;
+  text-align: left;
+}
+
+/* Крупные цифры */
+.totalNumber {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 10px 0 20px 0;
+  letter-spacing: 0.02em;
+}
+
+/* Обертка графика — фиксированная ширина, но адаптивная */
+.chartWrapper {
+  flex: 2 1 600px;
+  max-width: 600px;
+  height: 300px;
+  min-width: 300px;
+}
+
+/* Заголовки */
+.title {
+  margin-bottom: 15px;
+}
+
+/* Адаптивность: при узких экранах ставим вертикально */
+@media (max-width: 700px) {
+  .statsRow {
+    flex-direction: column;
+  }
+  .statsNumbers {
+    min-width: 100%;
+    margin-bottom: 20px;
+  }
+  .chartWrapper {
+    max-width: 100%;
+    height: 250px;
+  }
+}

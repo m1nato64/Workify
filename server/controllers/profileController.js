@@ -12,6 +12,9 @@ import {
   getShowTutorialSetting,
   updateShowTutorialSetting,
   getFreelancers,
+  getUserRating, 
+  updateUserRating,
+  getAdminUsers,
 } from "../models/profileModel.js";
 import bcrypt from "bcrypt";
 
@@ -21,6 +24,16 @@ export const getProfileController = async (req, res) => {
     res.json(userData);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const getAdminsController = async (req, res) => {
+  try {
+    const admins = await getAdminUsers();
+    res.json(admins);
+  } catch (err) {
+    console.error('Ошибка при получении админов:', err);
+    res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
 
@@ -168,5 +181,32 @@ export const getFreelancersController = async (req, res) => {
     res.json(freelancers);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+// Получить рейтинг пользователя
+export const getUserRatingController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const rating = await getUserRating(userId);
+    res.json({ rating });
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
+// Пересчитать и обновить рейтинг пользователя
+export const updateUserRatingController = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const updatedUser = await updateUserRating(userId);
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    res.json(updatedUser);  
+  } catch (err) {
+    console.error('Ошибка обновления рейтинга:', err);
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 };

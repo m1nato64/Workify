@@ -59,7 +59,7 @@
 }
 
 .nav a:hover {
-  color: #87bdf7; /* светло-зеленый оттенок при наведении */
+  color: #87bdf7; 
   transform: translateY(-2px);
 }
 

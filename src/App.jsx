@@ -15,7 +15,18 @@ import WelcomePage from "./pages/Welcome/WelcomePage.jsx";
 import AddOrderCard from "./components/cards/AddOrderCard.jsx";
 import FreelancersList from "./pages/Freelancers/FreelancersList.jsx";
 import SearchProjects from "./pages/SearchProjects/SearchProjects.jsx";
+import UsersPage from "./pages/Admin/UsersPage";
+import ProjectsPage from "./pages/Admin/ProjectsPage";
+import AdminLogs from "./pages/Admin/AdminLogs";
+import StatsPage from "./pages/Admin/StatsPage";
+import withAdminProtection from "./pages/Admin/withAdminProtection";
+
 import "./styles/global.css";
+
+const ProtectedUsersPage = withAdminProtection (UsersPage);
+const ProtectedProjectsPage = withAdminProtection (ProjectsPage);
+const ProtectedAdminLogs = withAdminProtection (AdminLogs);
+const ProtectedStatsPage = withAdminProtection (StatsPage);
 
 const AppRoutes = () => {
   const { user } = useUser();
@@ -35,6 +46,10 @@ const AppRoutes = () => {
       <Route path="/chat/:chatId" element={user ? <Chats currentUserId={user.id} /> : <Login />} />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/jobs" element={<SearchProjects />} />
+      <Route path="/admin/users" element={<ProtectedUsersPage />} />
+      <Route path="/admin/projects" element={<ProtectedProjectsPage />} />
+      <Route path="/admin/logs" element={<ProtectedAdminLogs />} />
+      <Route path="/admin/stats" element={<ProtectedStatsPage />} />
     </Routes>
   );
 };

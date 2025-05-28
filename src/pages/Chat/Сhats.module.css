@@ -145,6 +145,41 @@
   background: #1f7de0;
 }
 
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+.sidebarTop {
+  flex-grow: 1;
+}
+
+.supportBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.supportBtn:hover {
+  background-color: #0056b3;
+}
+
+.supportBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .chatWrapper {

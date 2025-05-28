@@ -159,6 +159,12 @@ const Header = () => {
         <Link to="/responses">Мои отклики</Link>
       </>
     );
+  } else if (role === "Admin") {
+    navContent = (
+      <>
+        <Link to="/chat">Чат поддержки</Link>
+      </>
+    );
   }
 
   const startTutorial = () => {

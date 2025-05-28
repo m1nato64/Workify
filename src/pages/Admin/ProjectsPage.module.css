@@ -1,0 +1,163 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.content {
+  flex: 1;
+  max-width: 1100px;
+  margin: 20px auto 40px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  padding-top: calc(20px + 60px);  
+  padding-bottom: calc(40px + 80px); 
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #222;
+  text-align: center;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.filtersContainer label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #444;
+  min-width: 150px;
+}
+
+.filtersContainer input,
+.filtersContainer select {
+  margin-top: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline-offset: 1px;
+  transition: border-color 0.2s ease;
+}
+
+.filtersContainer input:focus,
+.filtersContainer select:focus {
+  border-color: #007bff;
+}
+
+.resetButton {
+  padding: 8px 16px;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 38px;
+  align-self: flex-end;
+  transition: background-color 0.3s ease;
+}
+
+.resetButton:hover {
+  background-color: #c0392b;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  color: #333;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+}
+
+.actionsCell {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.editButton,
+.deleteButton,
+.saveButton,
+.cancelButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.editButton:hover {
+  color: #007bff;
+}
+
+.saveButton:hover {
+  color: #28a745;
+}
+
+.cancelButton:hover {
+  color: #dc3545;
+}
+
+.deleteButton:hover {
+  color: #e74c3c;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline-offset: 1px;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  border-color: #007bff;
+}
+
+.select {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline-offset: 1px;
+  transition: border-color 0.2s ease;
+}
+
+.select:focus {
+  border-color: #007bff;
+}

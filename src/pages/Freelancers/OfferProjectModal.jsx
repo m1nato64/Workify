@@ -1,30 +1,43 @@
-// components/modals/OfferProjectModal.jsx
 import React, { useEffect, useState } from "react";
 import styles from "./OfferProjectModal.module.css";
-import { useUser } from "../../services/context/userContext.jsx";  // импорт контекста
+import { useUser } from "../../services/context/userContext.jsx";
 
 const OfferProjectModal = ({ freelancer, onClose, onSelectProject }) => {
   const [projects, setProjects] = useState([]);
-  const { user } = useUser();  // получаем текущего пользователя из контекста
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        if (!user?.id) return; // если пользователя нет — не делать запрос
+        if (!user?.id) return;
         const res = await fetch(`/api/projects/user/${user.id}`);
         const data = await res.json();
-        setProjects(data);
+
+        // Исключаем проекты со статусом "completed"
+        const filteredProjects = data.filter(
+          (project) => project.status !== "completed"
+        );
+        setProjects(filteredProjects);
       } catch (err) {
         console.error("Ошибка загрузки проектов:", err);
       }
     };
 
     fetchProjects();
-  }, [user?.id]);
+  } , [user?.id]);
+
+  const handleClickOutside = (e) => {
+    if (e.target.classList.contains(styles.modalOverlay)) {
+      onClose();
+    }
+  };
 
   return (
-    <div className={styles.modalBackdrop}>
-      <div className={styles.modal}>
+    <div className={styles.modalOverlay} onClick={handleClickOutside}>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         <h2>Предложить проект {freelancer.name}</h2>
 
         {projects.length === 0 ? (
@@ -44,10 +57,6 @@ const OfferProjectModal = ({ freelancer, onClose, onSelectProject }) => {
             ))}
           </ul>
         )}
-
-        <button onClick={onClose} className={styles.closeButton}>
-          Закрыть
-        </button>
       </div>
     </div>
   );

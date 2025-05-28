@@ -45,7 +45,7 @@ const Responses = () => {
   loadBids(token, currentUserId);
 
   try {
-    const userResponse = await axios.get(`/api/users/${currentUserId}`, {
+    const userResponse = await axios.get(`/api/profile/${currentUserId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

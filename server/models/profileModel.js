@@ -8,6 +8,13 @@ export async function getUserData(id) {
   return result.rows[0];
 }
 
+export async function getAdminUsers() {
+  const result = await pool.query(
+    "SELECT id, name, avatar FROM users WHERE role = 'Admin'"
+  );
+  return result.rows;
+}
+
 // Обновить данные пользователя
 export async function updateUserData(id, name, password, skills) {
   const result = await pool.query(
@@ -117,3 +124,26 @@ export const getFreelancers = async () => {
   );
   return result.rows;
 };
+
+export async function getUserRating(userId) {
+  const result = await pool.query('SELECT rating FROM users WHERE id = $1', [userId]);
+  if (result.rows.length === 0) {
+    throw new Error('Пользователь не найден');
+  }
+  return result.rows[0].rating;
+}
+
+// Обновить рейтинг пользователя (пересчитать средний рейтинг из отзывов)
+export async function updateUserRating(userId) {
+  const avgResult = await pool.query(
+    'SELECT AVG(rating) as avg_rating FROM reviews WHERE reviewed_user_id = $1',
+    [userId]
+  );
+  const avgRating = avgResult.rows[0].avg_rating || 0;
+
+  const updateResult = await pool.query(
+    'UPDATE users SET rating = $1 WHERE id = $2 RETURNING *',  // возвращаем все поля пользователя
+    [avgRating, userId]
+  );
+  return updateResult.rows[0];  // возвращаем объект пользователя
+}

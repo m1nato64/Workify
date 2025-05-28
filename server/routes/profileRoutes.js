@@ -12,11 +12,15 @@ import {
   getShowTutorialSettingController,
   updateShowTutorialSettingController,
   getFreelancersController,
+  getUserRatingController,
+  updateUserRatingController,
+  getAdminsController,
 } from '../controllers/profileController.js';
 
 const router = express.Router();
 
 router.get('/all', getAllUsersController);
+router.get('/admins', getAdminsController);
 router.get('/freelancers', getFreelancersController);
 router.get('/:id', getProfileController);
 router.put('/:id', updateProfileController);
@@ -27,5 +31,7 @@ router.put('/:id/update-avatar', upload.single('avatar'), updateUserAvatarContro
 router.put('/:id/change-password', changePasswordController);
 router.put('/:id/update-name', updateUserNameController);
 router.put('/:id/update-skills', updateUserSkillsController);
+router.get('/:id/rating', getUserRatingController);
+router.put('/:id/rating', updateUserRatingController);
 
 export default router;
