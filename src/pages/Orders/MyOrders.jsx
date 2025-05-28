@@ -11,6 +11,7 @@ import EditProjectModal from "../../pages/Orders/EditProjectModal";
 import DeleteConfirmationModal from "../../pages/Orders/DeleteConfirmationModal";
 import styles from "./MyOrders.module.css";
 import ReviewModal from "../../components/cards/ReviewModal";
+import { useSocket } from "../../services/context/socketContext";
 
 const statusLabels = {
   open: "открыт",
@@ -19,6 +20,7 @@ const statusLabels = {
 };
 
 const MyOrders = () => {
+  const { socket } = useSocket();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,6 +40,8 @@ const MyOrders = () => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const projectsPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [reviewContent, setReviewContent] = useState("");
 
   useEffect(() => {
     const token = getToken();
@@ -48,6 +52,20 @@ const MyOrders = () => {
 
     loadOrders(token, user.id);
   }, [user]);
+
+  useEffect(() => {
+  if (!socket) return;
+
+  const handleNotification = (notification) => {
+    showToast(notification.message, "info");
+  };
+
+  socket.on("notification", handleNotification);
+
+  return () => {
+    socket.off("notification", handleNotification);
+  };
+}, [socket]);
 
   const loadOrders = async (token, userId) => {
     try {
@@ -66,6 +84,44 @@ const MyOrders = () => {
       setLoading(false);
     }
   };
+
+const handleReviewSubmit = async ({ rating, content }) => {
+  if (!selectedOrder) return;
+
+  const acceptedBid = selectedOrder.bids?.find((bid) => bid.status === "accepted");
+  if (!acceptedBid) {
+    showToast("Нет принятого отклика для этого проекта", "error");
+    return;
+  }
+
+  const reviewData = {
+    project_id: selectedOrder.id,
+    author_id: user.id,
+    target_user_id: acceptedBid.freelance_id,
+    rating,
+    content,
+  };
+
+  try {
+    const token = getToken();
+
+    // 1. Отправляем на сервер через REST API и ждём ответа
+    const response = await axios.post("/api/reviews/", reviewData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    showToast("Отзыв успешно добавлен!", "success");
+    setIsReviewModalOpen(false);
+
+    // 2. После успешного сохранения отправляем сокет-событие уведомления
+    if (socket) {
+      socket.emit("leave_review", reviewData);
+    }
+  } catch (error) {
+    showToast("Ошибка при добавлении отзыва!", "error");
+    console.error(error);
+  }
+};
 
   const updateBidStatus = async (bidId, status) => {
     const token = getToken();
@@ -202,6 +258,7 @@ const MyOrders = () => {
     setSelectedOrder(order);
     setIsReviewModalOpen(true);
   };
+
   const closeReviewModal = () => {
     setIsReviewModalOpen(false);
   };
@@ -214,7 +271,7 @@ const MyOrders = () => {
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
   const showToast = (message, type = "success") => {
-    const id = Date.now(); // простой id по времени
+    const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
   };
 
@@ -304,8 +361,11 @@ const MyOrders = () => {
                       <button
                         className={styles.button}
                         onClick={() => openReviewModal(order)}
+                        disabled={order.reviewLeft}
                       >
-                        Оставить комментарий и отзыв фрилансеру
+                        {order.reviewLeft
+                          ? "Отзыв оставлен"
+                          : "Оставить комментарий и отзыв фрилансеру"}
                       </button>
                     ) : (
                       <button
@@ -413,11 +473,13 @@ const MyOrders = () => {
           />
         )}
 
-        {isReviewModalOpen && (
+        {/* ReviewModal */}
+        {isReviewModalOpen && selectedOrder && (
           <ReviewModal
             isOpen={isReviewModalOpen}
             onClose={() => setIsReviewModalOpen(false)}
-            projectTitle={selectedOrder?.title}
+            onSubmit={handleReviewSubmit}
+            projectTitle={selectedOrder.title}
           />
         )}
 
