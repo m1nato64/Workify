@@ -9,8 +9,8 @@
 .content {
   flex: 1;
   padding: 20px;
-  padding-top: 80px;   /* 60px header + немного запаса */
-  padding-bottom: 100px; /* 80px footer + немного запаса */
+  padding-top: 80px;   
+  padding-bottom: 100px; 
   box-sizing: border-box;
 }
 

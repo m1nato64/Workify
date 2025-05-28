@@ -15,7 +15,6 @@ import {
   getStatisticsController,
 } from '../controllers/adminController.js';
 
-
 const router = express.Router();
 
 // Users

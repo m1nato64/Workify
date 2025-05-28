@@ -1,4 +1,4 @@
-Server: (controllers, models, routes, services, middlewares, config) - 1.755 строк (без .env)
-Client: (pages, components, services, assets) - 7.764 строк (без админки)
+Server: (controllers, models, routes, services, middlewares, config, .env, .server) - 2.469 строк
+Client: (pages, components, services, assets, App.jsx, main.jsx, vite.config.js) - 9.455 строк 
 
-Итого: 9.519 строк
+Итого: 11.924 строк
