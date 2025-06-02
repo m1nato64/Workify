@@ -53,7 +53,7 @@
 
 .skillsList {
   margin-bottom: 20px;
-  max-height: 200px;
+  max-height: calc(3 * 36px); /* 3 навыка * высота одного skillItem (примерно 36px) */
   overflow-y: auto;
 }
 
@@ -86,6 +86,10 @@
 }
 
 .skillItem button:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   background-color: #ff4d4d;
   color: white;
 }
@@ -101,4 +105,72 @@
 
 .skillItem button:last-child:hover {
   background-color: #409642;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  outline: none;
+  text-align: center;
+}
+
+.modalInput {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 15px 0 25px 0;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalSaveBtn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.modalSaveBtn:hover {
+  background-color: #409642;
+}
+
+.modalCancelBtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.modalCancelBtn:hover {
+  background-color: #d32f2f;
 }

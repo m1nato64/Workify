@@ -87,7 +87,7 @@ const BidModal = ({ selectedOrder, closeModal }) => {
         </button>
 
         {toastMessage && (
-          <Toast
+          <Toast  
             message={toastMessage}
             type={toastType}
             onClose={() => setToastMessage("")}

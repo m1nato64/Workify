@@ -14,6 +14,7 @@ const Header = () => {
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [currentStep, setCurrentStep] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuRef = useRef(null);
   const { user } = useUser();
@@ -177,6 +178,12 @@ const Header = () => {
     setCurrentStep(null);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+    setIsProfileMenuVisible(false);
+    setShowNotifications(false);
+  };
+
   return (
     <>
       <header className={styles.mainHeader}>
@@ -191,6 +198,10 @@ const Header = () => {
           <nav id="headerNav" className={styles.nav}>
             {navContent}
           </nav>
+
+          {isMobileMenuOpen && (
+            <div className={styles.mobileMenu}>{navContent}</div>
+          )}
 
           <div
             id="notificationsAndProfile"

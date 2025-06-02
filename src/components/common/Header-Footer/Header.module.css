@@ -251,6 +251,59 @@
   transform-origin: top center;
 }
 
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.burger span {
+  height: 3px;
+  background: #fff; /* белый, чтобы было видно на зеленом фоне */
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.burgerActive span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burgerActive span:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerActive span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 80px; /* под хедером */
+  left: 0;
+  width: 100%;
+  background-color: #0b6623; /* такой же зелёный фон */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.mobileMenu a {
+  padding: 15px;
+  border-bottom: 1px solid #144d13;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+.mobileMenu a:hover {
+  background-color: #144d13;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .mainHeader {
@@ -272,9 +325,15 @@
   }
 
   .nav {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
+    display: none;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  .mobileMenu.show {
+    display: flex;
   }
 
   .nav a {
@@ -311,5 +370,14 @@
   .iconBell,
   .iconUser {
     font-size: 18px;
+  }
+
+  .burger {
+    width: 22px;
+    height: 18px;
+  }
+
+  .mobileMenu a {
+    padding: 12px;
   }
 }
