@@ -29,6 +29,11 @@ const Responses = () => {
   });
   const { updateUser } = useUser();
 
+  // --- Новые состояния для пагинации ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(bids.length / itemsPerPage);
+
   const [reviewModal, setReviewModal] = useState({
     isOpen: false,
     projectId: null,
@@ -39,60 +44,61 @@ const Responses = () => {
     content: "",
   });
 
-  const handleReviewCreated = async (data) => {
-  console.log("Отзыв создан:", data);
-  setReviewModal({ isOpen: false, projectId: null, targetUserId: null });
-  loadBids(token, currentUserId);
-
-  try {
-    const userResponse = await axios.get(`/api/profile/${currentUserId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (userResponse.data) {
-      updateUser(userResponse.data);
-    }
-  } catch (error) {
-    console.error("Ошибка при обновлении данных пользователя:", error);
-  }
-};
   const navigate = useNavigate();
   const currentUserId = user?.id;
 
   useEffect(() => {
-  if (!token || !user) {
-    navigate("/login");
-    return;
-  }
+    if (!token || !user) {
+      navigate("/login");
+      return;
+    }
 
-  setRole(user.role);
-  loadBids(token, currentUserId);
-
-  if (!socket || !user) return;
-
-  function onConnect() {
-    socket.emit("register", user.id);
-  }
-
-  if (socket.connected) {
-    onConnect();
-  } else {
-    socket.once("connect", onConnect);
-  }
-
-  function handleReceiveReview(data) {
-    console.log("Новый отзыв получен через сокет:", data);
+    setRole(user.role);
     loadBids(token, currentUserId);
-  }
 
-  socket.on("receive_review", handleReceiveReview);
-  socket.on("review_created", handleReviewCreated);
+    if (!socket || !user) return;
 
-  return () => {
-    socket.off("receive_review", handleReceiveReview);
-    socket.off("review_created", handleReviewCreated);
+    function onConnect() {
+      socket.emit("register", user.id);
+    }
+
+    if (socket.connected) {
+      onConnect();
+    } else {
+      socket.once("connect", onConnect);
+    }
+
+    function handleReceiveReview(data) {
+      console.log("Новый отзыв получен через сокет:", data);
+      loadBids(token, currentUserId);
+    }
+
+    socket.on("receive_review", handleReceiveReview);
+    socket.on("review_created", handleReviewCreated);
+
+    return () => {
+      socket.off("receive_review", handleReceiveReview);
+      socket.off("review_created", handleReviewCreated);
+    };
+  }, [token, user, navigate, socket, currentUserId, updateUser]);
+
+  const handleReviewCreated = async (data) => {
+    console.log("Отзыв создан:", data);
+    setReviewModal({ isOpen: false, projectId: null, targetUserId: null });
+    await loadBids(token, currentUserId);
+
+    try {
+      const userResponse = await axios.get(`/api/profile/${currentUserId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (userResponse.data) {
+        updateUser(userResponse.data);
+      }
+    } catch (error) {
+      console.error("Ошибка при обновлении данных пользователя:", error);
+    }
   };
-}, [token, user, navigate, socket, currentUserId, updateUser]);
 
   const getStatusText = (status) => {
     switch (status) {
@@ -154,6 +160,7 @@ const Responses = () => {
 
         setBids(bidsWithProjects);
         setLoading(false);
+        setCurrentPage(1); // сбрасываем на первую страницу после загрузки
       }
     } catch (err) {
       setError("Ошибка при загрузке откликов");
@@ -208,6 +215,20 @@ const Responses = () => {
     setToast({ show: true, message: "Отзыв отправлен", type: "success" });
   };
 
+  // --- Вычисляем отображаемые отклики для текущей страницы ---
+  const indexOfLastBid = currentPage * itemsPerPage;
+  const indexOfFirstBid = indexOfLastBid - itemsPerPage;
+  const currentBids = bids.slice(indexOfFirstBid, indexOfLastBid);
+
+  // --- Обработчики переключения страниц ---
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   return (
     <div>
       <Header role={role} />
@@ -225,93 +246,113 @@ const Responses = () => {
         )}
 
         {!loading && !error && bids.length > 0 && (
-          <div className={styles.bidList}>
-            {bids.map((bid) => {
-              const projectStatusInfo = getStatusInfo(bid.project.status);
-              return (
-                <div key={bid.id} className={styles.bidItem}>
-                  <p>
-                    <strong>Номер отклика:</strong> {bid.id}
-                  </p>
-                  <p>
-                    <strong>Проект:</strong> {bid.project.title || "Не указано"}
-                  </p>
-                  <p>
-                    <strong>Описание:</strong>{" "}
-                    {bid.project.description || "Нет описания"}
-                  </p>
-                  <p>
-                    <strong>Статус отклика:</strong>{" "}
-                    <span className={`${styles.status} ${styles[bid.status]}`}>
-                      {getStatusText(bid.status)}
-                    </span>
-                  </p>
-                  <p>
-                    <strong>Статус проекта:</strong>{" "}
-                    <span
-                      className={`${styles.projectStatus} ${projectStatusInfo.className}`}
-                    >
-                      {projectStatusInfo.text}
-                    </span>
-                  </p>
+          <>
+            <div className={styles.bidList}>
+              {currentBids.map((bid) => {
+                const projectStatusInfo = getStatusInfo(bid.project.status);
+                return (
+                  <div key={bid.id} className={styles.bidItem}>
+                    <p>
+                      <strong>Номер отклика:</strong> {bid.id}
+                    </p>
+                    <p>
+                      <strong>Проект:</strong> {bid.project.title || "Не указано"}
+                    </p>
+                    <p>
+                      <strong>Описание:</strong>{" "}
+                      {bid.project.description || "Нет описания"}
+                    </p>
+                    <p>
+                      <strong>Статус отклика:</strong>{" "}
+                      <span className={`${styles.status} ${styles[bid.status]}`}>
+                        {getStatusText(bid.status)}
+                      </span>
+                    </p>
+                    <p>
+                      <strong>Статус проекта:</strong>{" "}
+                      <span
+                        className={`${styles.projectStatus} ${projectStatusInfo.className}`}
+                      >
+                        {projectStatusInfo.text}
+                      </span>
+                    </p>
 
-                  <div className={styles.actionsRow}>
-                    <a
-                      href={bid.project.media || "#"}
-                      download={!!bid.project.media}
-                      className={`${styles.fileButton} ${
-                        !bid.project.media ? styles.disabledFileButton : ""
-                      }`}
-                    >
-                      {bid.project.media
-                        ? "Скачать файл"
-                        : "Файл не был загружен"}
-                    </a>
+                    <div className={styles.actionsRow}>
+                      <a
+                        href={bid.project.media || "#"}
+                        download={!!bid.project.media}
+                        className={`${styles.fileButton} ${
+                          !bid.project.media ? styles.disabledFileButton : ""
+                        }`}
+                      >
+                        {bid.project.media
+                          ? "Скачать файл"
+                          : "Файл не был загружен"}
+                      </a>
 
-                    <button
-                      className={styles.chatButton}
-                      onClick={() => {
-                        if (bid.status === "rejected") return;
-                        const clientId = bid.project.client_id;
-                        if (clientId) {
-                          handleMessage(clientId);
-                        } else {
-                          alert("Информация о владельце проекта отсутствует");
+                      <button
+                        className={styles.chatButton}
+                        onClick={() => {
+                          if (bid.status === "rejected") return;
+                          const clientId = bid.project.client_id;
+                          if (clientId) {
+                            handleMessage(clientId);
+                          } else {
+                            alert("Информация о владельце проекта отсутствует");
+                          }
+                        }}
+                        disabled={bid.status === "rejected"}
+                        title={
+                          bid.status === "rejected"
+                            ? "Связаться невозможно: отклик отклонён"
+                            : ""
                         }
-                      }}
-                      disabled={bid.status === "rejected"}
-                      title={
-                        bid.status === "rejected"
-                          ? "Связаться невозможно: отклик отклонён"
-                          : ""
-                      }
-                    >
-                      Связаться в чате
-                    </button>
+                      >
+                        Связаться в чате
+                      </button>
 
-                    <button
-                      className={styles.reviewButton}
-                      disabled={
-                        bid.project.status !== "completed" || bid.hasReview
-                      }
-                      title={
-                        bid.project.status !== "completed"
-                          ? "Отзыв можно оставить только после завершения проекта"
-                          : bid.hasReview
-                          ? "Вы уже оставили отзыв по этому клиенту"
-                          : ""
-                      }
-                      onClick={() =>
-                        openReviewForm(bid.project_id, bid.project.client_id)
-                      }
-                    >
-                      Оставить отзыв клиенту
-                    </button>
+                      <button
+                        className={styles.reviewButton}
+                        disabled={
+                          bid.project.status !== "completed" || bid.hasReview
+                        }
+                        title={
+                          bid.project.status !== "completed"
+                            ? "Отзыв можно оставить только после завершения проекта"
+                            : bid.hasReview
+                            ? "Вы уже оставили отзыв по этому клиенту"
+                            : ""
+                        }
+                        onClick={() =>
+                          openReviewForm(bid.project_id, bid.project.client_id)
+                        }
+                      >
+                        Оставить отзыв клиенту
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+
+            {/* Пагинация */}
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                  Назад
+                </button>
+                <span>
+                  Страница {currentPage} из {totalPages}
+                </span>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                >
+                  Вперед
+                </button>
+              </div>
+            )}
+          </>
         )}
       </main>
       <Footer />
@@ -335,15 +376,13 @@ const Responses = () => {
         />
       )}
       {toast.show && (
-  <Toast
-    message={toast.message}
-    type={toast.type}
-    onClose={() => setToast({ ...toast, show: false })}
-  />
-)}
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
     </div>
-
-    
   );
 };
 
