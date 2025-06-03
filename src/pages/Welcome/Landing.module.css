@@ -1,0 +1,162 @@
+.container {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.logo-wrapper {
+  display: inline-block;
+  animation:
+    sway 0.4s ease-in-out infinite,     
+    floatUpDown 6s ease-in-out infinite;
+  animation-delay: 1.8s, 1.8s;          
+  transform-origin: center bottom;
+  margin-bottom: 30px;
+}
+
+.logo-inner {
+  display: block;
+  width: 250px;
+  margin-bottom: 25px;
+  cursor: default;
+  animation:
+    introPulse 1.8s ease forwards,       
+    pulseGlowLight 3.5s ease-in-out infinite;
+  animation-delay: 0s, 1.8s;           
+  transition: filter 0.3s ease;
+}
+
+.logo-wrapper:hover .logo-inner {
+  filter: drop-shadow(0 0 30px rgb(0, 255, 64)) brightness(1.3);
+  transform: scale(1.15) translateY(-10px);
+}
+
+.buttonsWrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 540px; /* чтобы кнопки не растягивались сильно */
+}
+
+.actionButton {
+  background-color: #4caf50;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+  flex: 1; /* кнопки растягиваются равномерно */
+  max-width: 240px; /* ограничиваем максимальную ширину */
+}
+
+.actionButton:hover {
+  background-color: #45a049;
+}
+
+.title {
+  font-size: 2.4rem;
+  color: #2c3e50; /* красивый темно-синий цвет */
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #34495e; /* приглушённый синий-серый */
+  max-width: 480px;
+  margin: 0 auto 30px auto;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.textContent {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUpText 0.8s ease forwards;
+  animation-delay: 0.8s; /* задержка перед анимацией */
+}
+
+@keyframes fadeInUpText {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInText {
+  opacity: 0;
+  color: #34495e;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 1.5s; /* задержка перед появлением */
+  margin-top: -15px;
+  margin-bottom: 30px;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимации — оставил ваши без изменений */
+@keyframes introPulse {
+  0% {
+    transform: scale(0.8) translateY(0) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(0, 191, 255, 0));
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateY(-12px) rotate(180deg);
+    filter: drop-shadow(0 0 25px rgba(0, 191, 255, 1));
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.05) translateY(-8px) rotate(270deg);
+    filter: drop-shadow(0 0 18px rgba(0, 191, 255, 0.8));
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(360deg);
+    filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.7));
+    opacity: 1;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2deg);  
+  }
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlowLight {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.7));
+    brightness: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(0, 191, 255, 1));
+    brightness: 1.3;
+  }
+}

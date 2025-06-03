@@ -19,6 +19,7 @@ import UsersPage from "./pages/Admin/UsersPage";
 import ProjectsPage from "./pages/Admin/ProjectsPage";
 import AdminLogs from "./pages/Admin/AdminLogs";
 import StatsPage from "./pages/Admin/StatsPage";
+import Landing from "./pages/Welcome/Landing.jsx";
 import withAdminProtection from "./pages/Admin/withAdminProtection";
 
 import "./styles/global.css";
@@ -33,6 +34,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/home" element={<Home />} />
