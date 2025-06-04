@@ -195,7 +195,7 @@ const FreelancersList = () => {
                     <button
                       className={styles.iconButton}
                       onClick={() => handleOffer(freelancer)}
-                      title="Предложить заказ"
+                      title="Предложить проект"
                     >
                       <FaHandshake />
                     </button>

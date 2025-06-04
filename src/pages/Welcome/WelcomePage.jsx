@@ -79,7 +79,7 @@ const WelcomePage = ({ user }) => {
               Добро пожаловать,{" "}
               <span className={styles.highlight}>{user.name}</span>!<br />
               Вы можете начать работу на нашей бирже или найти исполнителя
-              вашего заказа.
+              вашего проекта.
             </h1>
             <div className={styles.buttonsWrapper}>
               <button
@@ -87,7 +87,7 @@ const WelcomePage = ({ user }) => {
                 className={styles.actionButton}
                 onClick={() => navigate("/add-order")}
               >
-                Добавить заказ
+                Добавить проект
               </button>
 
               <button

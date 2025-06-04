@@ -149,7 +149,7 @@ const Header = () => {
           </div>
         </div>
         <Link to="/chat">Чаты</Link>
-        <Link to="/orders">Мои заказы</Link>
+        <Link to="/orders">Мои проекты</Link>
       </>
     );
   } else if (role === "Freelancer") {

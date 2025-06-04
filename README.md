@@ -41,16 +41,18 @@ npm install
 ```
 
 ### 3. Настройка окружения
-Создайте файл ```.env``` в корне проекта и добавьте необходимые переменные окружения для вашего сервера. 
+Создайте файл ```.env``` в папке server и добавьте необходимые переменные окружения для сервера. 
 ```ini
+# .env
 VITE_API_URL=http://localhost:3000
-PORT=3000
-DATABASE_URL=postgres://username:password@localhost:5432/database_name
-SECRET_KEY=your_secret_key
+CLOUDINARY_CLOUD_NAME=your_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 
-· PORT — порт, на котором будет работать сервер.
-· DATABASE_URL — URL вашей базы данных PostgreSQL.
-· SECRET_KEY — секретный ключ для JWT (токены аутентификации).
+
+· CLOUD_NAME — Ваш ник на Cloudinary.
+· API_KEY — Ваш Cloudinary API ключ.
+· API_SECRET — Ваш Cloudinary API secret.
 ```
 ### 4. Запуск проекта
 ```bash

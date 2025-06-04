@@ -77,8 +77,8 @@ const MyOrders = () => {
       );
       setOrders(sorted);
     } catch (err) {
-      setError("Ошибка при загрузке заказов!");
-      showToast("Ошибка при загрузке заказов!", "error");
+      setError("Ошибка при загрузке проектов!");
+      showToast("Ошибка при загрузке проектов!", "error");
       console.error(err);
     } finally {
       setLoading(false);
@@ -308,7 +308,7 @@ const handleReviewSubmit = async ({ rating, content }) => {
     <div>
       <Header role={user?.role} />
       <main className={styles.mainContent}>
-        <h1 className={styles.ordersHeader}>Мои заказы</h1>
+        <h1 className={styles.ordersHeader}>Мои проекты</h1>
 
         {loading && <p>Загрузка...</p>}
         {error && <p>{error}</p>}

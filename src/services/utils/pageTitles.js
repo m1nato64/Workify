@@ -6,7 +6,7 @@ const pageTitles = {
     '/login': 'Авторизация | Workify',
     '/register': 'Регистрация | Workify',
     '/profile': 'Профиль | Workify',
-    '/orders': 'Мои заказы | Workify',
+    '/orders': 'Мои проекты | Workify',
     '/jobs': 'Проекты | Workify',
     '/responses': 'Мои отклики | Workify',
     '/chat': 'Чат | Workify',

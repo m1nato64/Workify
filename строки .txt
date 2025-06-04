@@ -2,3 +2,9 @@ Server: (controllers, models, routes, services, middlewares, config, .env, .serv
 Client: (pages, components, services, assets, App.jsx, main.jsx, vite.config.js) - 9.455 строк 
 
 Итого: 11.924 строк
+
+# .env
+VITE_API_URL=http://localhost:3000
+CLOUDINARY_CLOUD_NAME=dfvkwjizm
+CLOUDINARY_API_KEY=341683798776315
+CLOUDINARY_API_SECRET=p5AFaBeYnKCxv__xUD8oJjK641c
