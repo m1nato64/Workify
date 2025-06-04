@@ -68,25 +68,36 @@ const GeneralSettings = () => {
     formData.append("avatar", avatar);
 
     try {
-      const response = await fetch(`/api/profile/${user.id}/update-avatar`, {
-        method: "PUT",
-        body: formData,
-      });
+  const response = await fetch(`/api/profile/${user.id}/update-avatar`, {
+    method: "PUT",
+    body: formData,
+  });
 
-      if (response.ok) {
-        const data = await response.json();
-        updateUser({ ...user, avatar: data.avatar });
-        setSuccessMessage("Аватар успешно обновлен");
-        setError("");
-      } else {
-        const data = await response.json();
-        setError(data.error || "Ошибка при обновлении аватара");
-        setSuccessMessage("");
-      }
-    } catch {
-      setError("Произошла ошибка при обновлении аватара");
-      setSuccessMessage("");
+  const contentType = response.headers.get("content-type");
+
+  if (response.ok) {
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      updateUser({ ...user, avatar: data.avatar });
+      setSuccessMessage("Аватар успешно обновлен!");
+      setError("");
+    } else {
+      setError("Сервер вернул неожиданный ответ (не JSON)");
     }
+  } else {
+    let errorMessage = "Ошибка при обновлении аватара";
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      errorMessage = data.error || errorMessage;
+    }
+    setError(errorMessage);
+    setSuccessMessage("");
+  }
+} catch (err) {
+  console.error("Ошибка при отправке:", err);
+  setError("Произошла ошибка при обновлении аватара");
+  setSuccessMessage("");
+}
   };
 
   return (

@@ -98,9 +98,10 @@ export const updateUserAvatarController = async (req, res) => {
       avatar: updatedUser.avatar,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message || "Внутренняя ошибка сервера" });
   }
 };
+
 export const changePasswordController = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const userId = req.params.id;

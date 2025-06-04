@@ -66,7 +66,7 @@ const AddOrderCard = () => {
     <>
       <Header />
       <div className={styles.addOrderCard}>
-        <h2 className={styles.title}>Добавить заказ</h2>
+        <h2 className={styles.title}>Добавить проект</h2>
         <form
           className={styles.form}
           onSubmit={handleSubmit}
